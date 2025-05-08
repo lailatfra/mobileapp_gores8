@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
+import 'splash_screen.dart'; // pastikan path-nya benar
+import 'main_screen.dart';   // pastikan file ini ada, dan MainScreen tidak error
 
 void main() {
   runApp(const MyApp());
@@ -17,24 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
-    );
-  }
-}
-
-// Ini halaman setelah splash
-class MyHomePage extends StatelessWidget {
-  final String title;
-
-  const MyHomePage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const Center(
-        child: Text("Ini halaman setelah splash screen"),
-      ),
+      home: const SplashScreen(), // SplashScreen akan navigasi ke MainScreen
     );
   }
 }
