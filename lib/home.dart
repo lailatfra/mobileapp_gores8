@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'event.dart';
-
+import 'notification.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -63,16 +63,29 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     const SizedBox(width: 10),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF1D3250)),
-                        shape: BoxShape.circle,
+
+                    // Tombol Notifikasi dengan Navigasi
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const NotificationPage()),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xFF1D3250)),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.notifications_none, color: Color(0xFF1D3250)),
                       ),
-                      child: const Icon(Icons.notifications_none, color: Color(0xFF1D3250)),
                     ),
+
                     const SizedBox(width: 10),
+
                     CircleAvatar(
                       radius: 20,
                       backgroundImage: AssetImage('assets/images/lenoraannie.png'),
