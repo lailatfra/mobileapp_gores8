@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'event.dart';
 import 'notification.dart';
+import 'profil_exa.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -201,7 +202,17 @@ class HomeScreen extends StatelessWidget {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      anggotaCard('assets/images/exawinandya.png', 'Exa Winandya', 'VIII A'),
+                      anggotaCard(
+                        'assets/images/exawinandya.png',
+                        'Exa Winandya',
+                        'VIII A',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ProfilePageExa()),
+                          );
+                        },
+                      ),
                       anggotaCard('assets/images/dinatalastie.png', 'Dinata Lastie', 'VII E'),
                       anggotaCard('assets/images/sialatifarahmawati.png', 'Sia Latifa Rahmawati', 'IX B'),
                       anggotaCard('assets/images/gavinsantana.png', 'Gavin Santana', 'VIII C'),
@@ -209,6 +220,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
 
 
 
@@ -375,40 +387,43 @@ class HomeScreen extends StatelessWidget {
   }
 
 
-  static Widget anggotaCard(String imagePath, String name, String kelas) {
-    return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF1D3250)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(imagePath),
-            radius: 40,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            name,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+  static Widget anggotaCard(String imagePath, String name, String kelas, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 140,
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFF1D3250)),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(imagePath),
+              radius: 40,
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            kelas,
-            style: const TextStyle(color: Colors.grey),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Text(
+              name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              kelas,
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
       ),
     );
-
   }
+
 
   static Widget rekomendasiCard({
     required String profileImage,
