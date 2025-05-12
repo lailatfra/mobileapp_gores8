@@ -35,7 +35,7 @@ class PoemDetailPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 12,
+                  top: 16,
                   left: 8,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),

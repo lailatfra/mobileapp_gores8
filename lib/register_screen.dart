@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -134,7 +135,10 @@ class RegisterScreen extends StatelessWidget {
                       const Text("Sudah memiliki akun? "),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pop(context); // balik ke login
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          );
                         },
                         child: const Text(
                           "Login",

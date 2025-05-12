@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'register_screen.dart'; // Import halaman register (pastikan path sesuai)
-import 'package:get/get.dart';
-import 'home.dart';
 import 'main_screen.dart';
 
 
@@ -18,19 +16,9 @@ class LoginScreen extends StatelessWidget {
     final double waveHeight = isKeyboardVisible ? 180 : 300;
 
     return Scaffold(
+      
       body: Stack(
         children: [
-          // Wave background
-          // Positioned(
-          //   top: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Image.asset(
-          //     'assets/images/wave.jpg',
-          //     fit: BoxFit.fitWidth,
-          //     height: waveHeight,
-          //   ),
-          // ),
 
           Positioned(
             top: 0,
@@ -111,10 +99,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MainScreen()),
-                      );
+                      Navigator.pushReplacementNamed(context, '/main');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1D3250),

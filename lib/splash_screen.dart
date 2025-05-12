@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // pastikan file login kamu sesuai
-import 'main_screen.dart'; // file tujuan
 
 
 class SplashScreen extends StatefulWidget {
@@ -11,20 +9,19 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+
+
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
-    // Setelah 3 detik, navigasi ke halaman login
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+    Future.delayed(Duration(seconds: 3), () {
+      // Ganti dengan logika untuk cek apakah user sudah login atau belum
+      Navigator.pushReplacementNamed(context, '/login');
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {

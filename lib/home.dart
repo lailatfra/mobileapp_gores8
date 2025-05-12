@@ -366,13 +366,6 @@ class HomeScreen extends StatelessWidget {
                 
                 const SizedBox(height: 100),
 
-
-
-
-
-
-
-
               ],
             ),
           ),
@@ -380,6 +373,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 
   static Widget anggotaCard(String imagePath, String name, String kelas) {
     return Container(
