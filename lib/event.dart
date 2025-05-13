@@ -23,20 +23,6 @@ class PuisiEventPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: const Color(0xFF1D3250),
-      //   selectedItemColor: Colors.white,
-      //   unselectedItemColor: Colors.white,
-      //   showSelectedLabels: false,
-      //   showUnselectedLabels: false,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Users'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-      //   ],
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

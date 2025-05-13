@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/add.dart';
 import 'event.dart';
 import 'notification.dart';
 import 'profil_exa.dart';
+import 'add.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -134,9 +136,8 @@ class HomeScreen extends StatelessWidget {
                             const SizedBox(height: 12),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => PuisiEventPage()), // Ganti dengan nama class halaman event kamu
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => PuisiEventPage()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
@@ -282,7 +283,12 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           const Text('Duniawi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AddScreen()),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                               backgroundColor: Color(0xFF1D3250),
