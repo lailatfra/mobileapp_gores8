@@ -30,20 +30,21 @@ class PuisiEventPage extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  // Gambar full width dan tidak gepeng
-                  SizedBox(
-                    width: double.infinity,
+                  // Gunakan AspectRatio agar gambar tidak gepeng dan responsif
+                  AspectRatio(
+                    aspectRatio: 16 / 9, // Sesuaikan rasio aspek gambar
                     child: Image.asset(
                       'assets/images/banner_puisi.jpg',
                       fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
                   ),
 
-                  // Overlay gelap agar teks terlihat menonjol
-                  Container(
-                    width: double.infinity,
-                    height: 200, // samakan dengan tinggi gambar
-                    color: Colors.black.withOpacity(0.4),
+                  // Overlay mengikuti ukuran gambar dengan Positioned.fill
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withOpacity(0.4),
+                    ),
                   ),
 
                   // Tombol back
@@ -68,7 +69,7 @@ class PuisiEventPage extends StatelessWidget {
                     child: Text(
                       'Buatlah Puisi Versimu!',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -82,8 +83,8 @@ class PuisiEventPage extends StatelessWidget {
                 child: Text(
                   'Sudah saatnya kamu unjuk bakat dan menunjukkan karya terbaikmu. Ini adalah tempat di mana kreativitasmu bisa bersinar.',
                   style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey,
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 133, 133, 133),
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -93,8 +94,8 @@ class PuisiEventPage extends StatelessWidget {
                 child: Text(
                   'Pilih mana karya yang paling kamu sukai. Kamu hanya bisa memilih 1 karya setiap harinya. Menangkan Event untuk mendapatkan lencana di profilmu',
                   style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey,
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 133, 133, 133),
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -105,7 +106,7 @@ class PuisiEventPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.calendar_month,
-                      size: 18,
+                      size: 15,
                       color: Color(0xFF1D3250),
                     ),
                     const SizedBox(width: 8),
@@ -114,7 +115,7 @@ class PuisiEventPage extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w300,
-                        fontSize: 10,
+                        fontSize: 12,
                       ),
                     ),
                     const Spacer(),
@@ -129,7 +130,7 @@ class PuisiEventPage extends StatelessWidget {
                       ),
                       child: const Text(
                         'Ikuti Event ini',
-                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300, color: Colors.white),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
                       ),
                     )
                   ],
@@ -157,8 +158,8 @@ class PuisiEventPage extends StatelessWidget {
                   title: 'Duniawi',
                   name: 'Exa Winandya',
                   className: 'VIII A',
-                  likeCount: 40,
-                  isLiked: true,
+                  initialLikeCount: 40,
+                  initiallyLiked: true,
                   voteCount: 400,
                   imageAsset: 'assets/images/duniawi.jpg',
                 ),
@@ -169,8 +170,8 @@ class PuisiEventPage extends StatelessWidget {
                 title: 'Cahaya Kehidupan',
                 name: 'Alleric Ernier',
                 className: 'IX F',
-                likeCount: 35,
-                isLiked: true,
+                initialLikeCount: 35,
+                initiallyLiked: true,
                 voteCount: 380,
                 imageAsset: 'assets/images/banner_puisi.jpg',
               ),
@@ -179,8 +180,8 @@ class PuisiEventPage extends StatelessWidget {
                 title: 'Letupan Harapan',
                 name: 'Gavin Santana',
                 className: 'VIII C',
-                likeCount: 30,
-                isLiked: true,
+                initialLikeCount: 30,
+                initiallyLiked: true,
                 voteCount: 300,
                 imageAsset: 'assets/images/tari_menjeng.jpg',
               ),
@@ -189,8 +190,8 @@ class PuisiEventPage extends StatelessWidget {
                 title: 'Pendidikan dan Harapan',
                 name: 'Bhaskara Hadrian Athala',
                 className: 'VII C',
-                likeCount: 35,
-                isLiked: false,
+                initialLikeCount: 27,
+                initiallyLiked: false,
                 voteCount: 380,
                 imageAsset: 'assets/images/logo_smpn8.png',
               ),
@@ -203,12 +204,12 @@ class PuisiEventPage extends StatelessWidget {
   }
 }
 
-class PuisiCard extends StatelessWidget {
+class PuisiCard extends StatefulWidget {
   final int rank;
   final String title, name, className, imageAsset;
-  final int likeCount, voteCount;
-  final bool isLiked;
-  
+  final int voteCount;
+  final int initialLikeCount;
+  final bool initiallyLiked;
 
   const PuisiCard({
     super.key,
@@ -216,11 +217,41 @@ class PuisiCard extends StatelessWidget {
     required this.title,
     required this.name,
     required this.className,
-    required this.likeCount,
-    required this.isLiked,
+    required this.initialLikeCount,
+    required this.initiallyLiked,
     required this.voteCount,
     required this.imageAsset,
   });
+
+  @override
+  State<PuisiCard> createState() => _PuisiCardState();
+}
+
+class _PuisiCardState extends State<PuisiCard> {
+  late bool isLiked;
+  late int likeCount;
+
+  @override
+  void initState() {
+    super.initState();
+    isLiked = widget.initiallyLiked;
+    likeCount = widget.initialLikeCount;
+  }
+
+  void toggleLike() {
+    setState(() {
+      if (isLiked) {
+        likeCount--;
+      } else {
+        likeCount++;
+      }
+      isLiked = !isLiked;
+    });
+
+    // API call
+    // await ApiService.likePuisi(widget.title, isLiked);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +268,7 @@ class PuisiCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              imageAsset,
+              widget.imageAsset,
               width: 64,
               height: 80,
               fit: BoxFit.cover,
@@ -248,28 +279,34 @@ class PuisiCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                Text(name, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w300)),
-                Text(className, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w300)),
+                Text(widget.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                Text(widget.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300)),
+                Text(widget.className, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300)),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(
-                      isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                      size: 14,
-                      color: Color(0xFF1D3250),
-                    ),
-                    const SizedBox(width: 4),
-                    if (isLiked)
-                      Text(
-                        '$likeCount',
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    GestureDetector(
+                      onTap: toggleLike,
+                      child: Row(
+                        children: [
+                          Text(
+                            '$likeCount',
+                            style: const TextStyle(fontSize: 12, color: Color.fromARGB(255, 0, 0, 0)),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                            size: 16,
+                            color: const Color(0xFF1D3250),
+                          ),
+                        ],
                       ),
+                    ),
                     const SizedBox(width: 12),
-                    const Icon(Icons.local_fire_department, size: 14, color: Colors.blueGrey),
+                    const Icon(Icons.local_fire_department, size: 16, color: const Color(0xFF1D3250)),
                     const SizedBox(width: 4),
                     Text(
-                      '$voteCount Votes',
+                      '${widget.voteCount} Votes',
                       style: const TextStyle(fontSize: 12),
                     ),
                   ],
@@ -277,11 +314,11 @@ class PuisiCard extends StatelessWidget {
               ],
             ),
           ),
-          if (rank > 0)
+          if (widget.rank > 0)
             Column(
               children: [
                 Icon(Icons.emoji_events, color: const Color(0xFF1D3250)),
-                Text('$rank', style: const TextStyle(fontSize: 10)),
+                Text('${widget.rank}', style: const TextStyle(fontSize: 13)),
               ],
             )
         ],
@@ -289,3 +326,4 @@ class PuisiCard extends StatelessWidget {
     );
   }
 }
+

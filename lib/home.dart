@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gores8_app/add.dart';
+import 'package:gores8_app/profile.dart';
 import 'event.dart';
 import 'notification.dart';
 import 'profil_exa.dart';
-import 'add.dart';
+import 'profile.dart';
+import 'users.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -57,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                                   border: InputBorder.none,
                                 ),
                                 style: TextStyle(
-                                  fontSize: 14, // Atur ukuran font di sini
+                                  fontSize: 13, // Atur ukuran font di sini
                                 ),
                               ),
                             ),
@@ -89,9 +90,22 @@ class HomeScreen extends StatelessWidget {
 
                     const SizedBox(width: 10),
 
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/images/lenoraannie.png'),
+                    Material(
+                      color: Colors.transparent, // agar transparan
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: () {
+                          print('Avatar ditekan!');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ProfileScreen()),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: AssetImage('assets/images/lenoraannie.png'),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -115,11 +129,11 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: const [
-                                Icon(Icons.calendar_month, size: 16, color: Colors.blueGrey),
+                                Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
                                 SizedBox(width: 5),
                                 Text(
                                   "20-30 Mei 2025",
-                                  style: TextStyle(fontSize: 10, color: Colors.blueGrey),
+                                  style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                                 ),
                               ],
                             ),
@@ -130,8 +144,8 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             const Text(
-                              "Sudah saatnya kamu unjuk bakat dan menunjukkan karya terbaikmu. Ini adalah tempat di mana kreativitasmu...",
-                              style: TextStyle(fontSize: 11, color: Colors.blueGrey),
+                              "Sudah saatnya kamu unjuk bakat dan menunjukkan karya terbaikmu. Ini adalah tempat...",
+                              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                             ),
                             const SizedBox(height: 12),
                             ElevatedButton(
@@ -151,6 +165,7 @@ class HomeScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w300,
                                   color: Colors.white,
+                                  fontSize: 12,
                                 )
                               ),
                             ),
@@ -166,7 +181,7 @@ class HomeScreen extends StatelessWidget {
                         child: Image.asset(
                           'assets/images/banner_puisi.jpg', // <- ini ganti dengan file yang tadi kamu upload
                           width: 100,
-                          height: 140,
+                          height: 160,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -179,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                 // Bagian Anggota
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
                       "ANGGOTA",
                       style: TextStyle(
@@ -187,11 +202,20 @@ class HomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "Lihat Semua",
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Color.fromRGBO(29, 50, 80, 1),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => UsersScreen()),
+                        );
+                      },
+                      child: Text(
+                        "Lihat Semua",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color.fromRGBO(29, 50, 80, 1),
+                          decoration: TextDecoration.underline, // Opsional agar tampak seperti link
+                        ),
                       ),
                     ),
                   ],
@@ -257,8 +281,8 @@ class HomeScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
-                              Text('Exa Winandya', style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text('VIII A', style: TextStyle(color: Colors.grey, fontSize: 11)),
+                              Text('Exa Winandya', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                              Text('VIII A', style: TextStyle(color: Colors.grey, fontSize: 12)),
                             ],
                           ),
                         ],
@@ -286,7 +310,7 @@ class HomeScreen extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => AddScreen()),
+                                MaterialPageRoute(builder: (context) => PuisiEventPage()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -300,7 +324,7 @@ class HomeScreen extends StatelessWidget {
                             child: const Text(
                               'Buatlah Puisi Versimu!',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w300,
                                 color: Color.fromRGBO(255, 255, 255, 1),
                               ),
@@ -315,27 +339,28 @@ class HomeScreen extends StatelessWidget {
                         'Tangga itu menuntun manusia untuk mencapai tujuan.\n'
                         'Semua manusia berhak untuk menggunakan...',
                         style: TextStyle(
-                          color: Color.fromARGB(221, 148, 148, 148),
-                          fontSize: 11,
+                          color: Color.fromARGB(221, 124, 124, 124),
+                          fontSize: 12,
                         ),
                       ),
                       const SizedBox(height: 10),
                       const Divider(), // Garis pembatas
 
+
                       // Tanggal dan like
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('22-4-2025', style: TextStyle(color: Colors.grey, fontSize: 10)),
-                          Row(
-                            children: [
-                              Text('40', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                              SizedBox(width: 4),
-                              Icon(Icons.thumb_up_alt_outlined, size: 16, color: Color(0xFF1D3250)),
-                            ],
+                        children: [
+                          const Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
+                          const SizedBox(width: 5),
+                          Text(
+                            "20-30 Mei 2025",
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
+                          const LikeButton(initialCount: 40), // <- Tambahkan ini
                         ],
                       ),
+
 
 
                     ],
@@ -357,30 +382,31 @@ class HomeScreen extends StatelessWidget {
                 // List Rekomendasi
                 Column(
                   children: [
-                    rekomendasiCard(
+                    RekomendasiCard(
                       profileImage: 'assets/images/dinatalastie.png',
                       name: 'Dinata Lastie',
                       kelas: 'VII E',
                       postImage: 'assets/images/cermin_hias.jpg',
                       caption: 'Cermin Hias',
+                      subcaption: 'Kerajinan dari kaca bekas',
                       tanggal: '27-4-2025',
-                      likeCount: 15,
-                      isLiked: false,
+                      initialLikeCount: 15,
+                      initiallyLiked: false,
                     ),
                     const SizedBox(height: 20),
-                    rekomendasiCard(
+                    RekomendasiCard(
                       profileImage: 'assets/images/sialatifarahmawati.png',
                       name: 'Sia Latifa Rahmawati',
                       kelas: 'VIII F',
                       postImage: 'assets/images/tari_menjeng.jpg',
                       caption: 'Tari Menjeng',
+                      subcaption: '', 
                       tanggal: '27-4-2025',
-                      likeCount: 8,
-                      isLiked: true,
+                      initialLikeCount: 8,
+                      initiallyLiked: true,
                     ),
                   ],
                 ),
-
                 
                 const SizedBox(height: 100),
 
@@ -417,12 +443,13 @@ class HomeScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               kelas,
-              style: const TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey, fontSize: 12,),
             ),
           ],
         ),
@@ -461,7 +488,7 @@ class HomeScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                   Text(kelas, style: TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
@@ -484,20 +511,28 @@ class HomeScreen extends StatelessWidget {
           // Caption
           Text(
             caption,
-            style: TextStyle(fontWeight: FontWeight.w300),
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
           ),
 
           const SizedBox(height: 8),
-          const Divider(), // Garis pembatas
+          const Divider(),
 
           // Tanggal dan like
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                tanggal,
-                style: TextStyle(color: Colors.grey, fontSize: 10),
+              // Gabung icon dan tanggal dalam Row agar sejajar
+              Row(
+                children: [
+                  const Icon(Icons.calendar_month, size: 14, color: Colors.blueGrey),
+                  const SizedBox(width: 4),
+                  Text(
+                    tanggal,
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                ],
               ),
+              // Like section
               Row(
                 children: [
                   Text(
@@ -520,5 +555,193 @@ class HomeScreen extends StatelessWidget {
   }
 
 
+}
+
+
+
+class LikeButton extends StatefulWidget {
+  final int initialCount;
+
+  const LikeButton({super.key, this.initialCount = 0});
+
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  late int likeCount;
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    likeCount = widget.initialCount;
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          '$likeCount',
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
+        ),
+        const SizedBox(width: 4),
+        GestureDetector(
+          onTap: toggleLike,
+          child: Icon(
+            isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+            size: 16,
+            color: const Color(0xFF1D3250),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+class RekomendasiCard extends StatefulWidget {
+  final String profileImage;
+  final String name;
+  final String kelas;
+  final String postImage;
+  final String caption;
+  final String tanggal;
+  final String subcaption;
+  final int initialLikeCount;
+  final bool initiallyLiked;
+
+  const RekomendasiCard({
+    super.key,
+    required this.profileImage,
+    required this.name,
+    required this.kelas,
+    required this.postImage,
+    required this.caption,
+    required this.subcaption, // Tambahkan ini
+    required this.tanggal,
+    required this.initialLikeCount,
+    required this.initiallyLiked,
+  });
+
+
+  @override
+  _RekomendasiCardState createState() => _RekomendasiCardState();
+}
+
+class _RekomendasiCardState extends State<RekomendasiCard> {
+  late int likeCount;
+  late bool isLiked;
+
+  @override
+  void initState() {
+    super.initState();
+    likeCount = widget.initialLikeCount;
+    isLiked = widget.initiallyLiked;
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF1D3250)),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Profil
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(widget.profileImage),
+                radius: 20,
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(widget.kelas, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          // Gambar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              widget.postImage,
+              height: 150,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          // Caption
+          Text(widget.caption, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 15)),
+
+          const SizedBox(height: 4),
+
+          // Subcaption
+          Text(
+            widget.subcaption,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black54,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+          const Divider(),
+
+          // Tanggal dan tombol like
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(widget.tanggal, style: const TextStyle(color: Colors.grey, fontSize: 10)),
+              Row(
+                children: [
+                  Text(likeCount.toString(), style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    onPressed: toggleLike,
+                    icon: Icon(
+                      isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                      color: const Color(0xFF1D3250),
+                      size: 18,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 

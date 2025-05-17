@@ -45,23 +45,23 @@ class _UploadKaryaPageState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const double fontSize = 13;
+    const double fontSize = 14;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(90),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF142C57),
           flexibleSpace: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top: 22, left: 8),
+              padding: const EdgeInsets.only(top: 16, left: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Padding(
-                    padding: EdgeInsets.only(left: 16),
+                    padding: EdgeInsets.only(left: 8),
                     child: Text(
                       'Upload Karya',
                       style: TextStyle(
@@ -188,6 +188,7 @@ class _UploadKaryaPageState extends State<AddScreen> {
               ),
               child: const Text('Kirim', style: TextStyle(fontSize: fontSize, color: Colors.white)),
             ),
+            const SizedBox(height: 100),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'exapengikut.dart';
 
 class ProfilePageExa extends StatefulWidget {
   const ProfilePageExa({super.key});
@@ -133,7 +134,20 @@ class _ProfilePageState extends State<ProfilePageExa> {
                         child: SizedBox(
                           height: 30,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation, secondaryAnimation) => const MengikutiPengikutPage(),
+                                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Color(0xFF1F3556)),
                               backgroundColor: Colors.white,
@@ -143,7 +157,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
                               ),
                             ),
                             child: const Text(
-                              '1 Pengikut',
+                              '5 Pengikut',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 color: Color(0xFF1F3556),
@@ -289,11 +303,12 @@ class _ProfilePageState extends State<ProfilePageExa> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(lencana.imageAsset, height: 60),
+              const SizedBox(height: 3),
+              Image.asset(lencana.imageAsset, height: 55),
               const SizedBox(height: 8),
               Text(
                 lencana.title,
-                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 11),
+                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -306,7 +321,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
                   const SizedBox(width: 5),
                   Text(
                     lencana.tanggal,
-                    style: const TextStyle(fontSize: 11, color: Colors.blueGrey),
+                    style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
                   ),
                 ],
               ),
@@ -350,7 +365,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
                   ),
                 ),
                 onPressed: () {},
-                child: const Text("Lihat Karya", style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w300)),
+                child: const Text("Lihat Karya", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300)),
               ),
             ],
           ),

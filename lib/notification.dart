@@ -67,46 +67,45 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(120), // Tinggi AppBar
+        preferredSize: const Size.fromHeight(110),
         child: AppBar(
-          automaticallyImplyLeading: false, // Jangan pakai leading default
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF142C57),
+          elevation: 0,
           flexibleSpace: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Tombol back
+                  const SizedBox(height: 16), // ini setara dengan `top: 16`
                   IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const SizedBox(height: 10),
-                  // Judul
+                  const SizedBox(height: 4),
                   const Padding(
-                    padding: EdgeInsets.only(left: 16), // Tambah padding kiri
+                    padding: EdgeInsets.only(left: 12),
                     child: Text(
                       'Notifikasi',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25),
                 ],
               ),
             ),
           ),
         ),
       ),
-      
+
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 12),
         itemCount: notifications.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
+        separatorBuilder: (context, index) => const SizedBox(height: 4), // Lebih rapat
         itemBuilder: (context, index) {
           final notif = notifications[index];
           final String name = notif['name'].toString();
@@ -118,7 +117,7 @@ class NotificationPage extends StatelessWidget {
 
           return ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(avatar),
+              backgroundImage: AssetImage(avatar),
               radius: 24,
             ),
             title: RichText(
@@ -127,23 +126,23 @@ class NotificationPage extends StatelessWidget {
                   TextSpan(
                     text: name,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
+                        fontWeight: FontWeight.bold, color: Colors.black, fontSize: 14),
                   ),
                   TextSpan(
                     text: ' $message ',
-                    style: const TextStyle(color: Color.fromARGB(255, 78, 78, 78), fontWeight: FontWeight.w300, fontSize: 13),
+                    style: const TextStyle(color: Color.fromARGB(255, 78, 78, 78), fontWeight: FontWeight.w300, fontSize: 14),
                   ),
                   if (!isFriendRequest)
                     const TextSpan(
                       text: 'Lihat Karya',
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w300, fontSize: 13),
+                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w300, fontSize: 14),
                     ),
                 ],
               ),
             ),
             subtitle: Text(
               date,
-              style: const TextStyle(fontSize: 10),
+              style: const TextStyle(fontSize: 11),
             ),
             trailing: action.isNotEmpty
                 ? TextButton(
@@ -156,14 +155,14 @@ class NotificationPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     ),
                     onPressed: () {},
                     child: Text(
                       action,
                       style: TextStyle(
                         color: action == 'Ikuti' ? Colors.white : Colors.black,
-                        fontSize: 13, 
+                        fontSize: 12, 
                       ),
                     ),
                   )
