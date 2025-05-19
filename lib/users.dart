@@ -9,15 +9,15 @@ class UsersScreen extends StatefulWidget {
 
 class _AnggotaPageState extends State<UsersScreen> {
   final List<Map<String, dynamic>> anggotaList = [
-    {'nama': 'Exa Winandya', 'kelas': 'VIII A'},
-    {'nama': 'Dinata Lastie', 'kelas': 'VII E'},
-    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E'},
-    {'nama': 'Gavin Santana', 'kelas': 'VIII I'},
-    {'nama': 'Lidya Esandry', 'kelas': 'VIII E'},
-    {'nama': 'Cassius Renno', 'kelas': 'VII F'},
-    {'nama': 'Alleric Emier', 'kelas': 'IX F'},
-    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C'},
-    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G'},
+    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
   ];
 
   List<int> statusList = List.generate(9, (_) => 0);
@@ -81,7 +81,7 @@ class _AnggotaPageState extends State<UsersScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(110),
+        preferredSize: const Size.fromHeight(115),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF142C57),
@@ -109,47 +109,56 @@ class _AnggotaPageState extends State<UsersScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: visibleItems.length,
-        itemBuilder: (context, index) {
-          final anggota = visibleItems[index];
-          int globalIndex = startIndex + index;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
-              children: [
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.grey, // Placeholder jika belum ada gambar
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          const SizedBox(height: 10), // Tambahkan jarak di sini
+          Expanded(
+            child: ListView.builder(
+              itemCount: visibleItems.length,
+              itemBuilder: (context, index) {
+                final anggota = visibleItems[index];
+                int globalIndex = startIndex + index;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Row(
                     children: [
-                      Text(
-                        anggota['nama'],
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage(anggota['foto']),
                       ),
-                      Text(
-                        anggota['kelas'],
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              anggota['nama'],
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              anggota['kelas'],
+                              style: const TextStyle(fontSize: 12, color: Colors.grey),
+                            ),
+                          ],
+                        ),
                       ),
+                      buildStatusButton(statusList[globalIndex], index),
                     ],
                   ),
-                ),
-                buildStatusButton(statusList[globalIndex], index),
-              ],
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
+
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(

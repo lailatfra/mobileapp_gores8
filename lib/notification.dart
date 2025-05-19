@@ -67,7 +67,7 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(110),
+        preferredSize: const Size.fromHeight(115),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF142C57),
@@ -95,6 +95,7 @@ class NotificationPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),

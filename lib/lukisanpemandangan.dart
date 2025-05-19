@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class PoemDetailPage extends StatefulWidget {
-  const PoemDetailPage({super.key});
+class KetenanganJiwa extends StatefulWidget {
+  const KetenanganJiwa({super.key});
 
   @override
-  State<PoemDetailPage> createState() => _PoemDetailPageState();
+  State<KetenanganJiwa> createState() => _KetenanganJiwaState();
 }
 
-class _PoemDetailPageState extends State<PoemDetailPage> {
+class _KetenanganJiwaState extends State<KetenanganJiwa> {
   bool isMainLiked = false;
-  int mainLikeCount = 40;
+  int mainLikeCount = 104;
 
   void toggleMainLike() {
     setState(() {
@@ -40,7 +40,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                     alignment: Alignment.center,
                     child: ClipRRect(
                       child: Image.asset(
-                        'assets/images/duniawi.jpg',
+                        'assets/images/ketenanganjiwa.jpg',
                         width: 140,
                         height: 140,
                         fit: BoxFit.cover,
@@ -71,7 +71,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                       Icon(Icons.calendar_month, size: 15, color: Color(0xFF1D3250)),
                       SizedBox(width: 6),
                       Text(
-                        '22 Mei 2025',
+                        '25 April 2025',
                         style: TextStyle(
                           fontSize: 12,
                           color: Color.fromARGB(255, 92, 92, 92),
@@ -80,35 +80,6 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1D3250),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                        ),
-                        child: const Text(
-                          'Buat Puisi Versimu!',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Icon(
-                        Icons.local_fire_department,
-                        size: 24,
-                        color: Color(0xFF1D3250),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
@@ -118,7 +89,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Duniawi',
+                  'Ketenangan Jiwa',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal),
                 ),
               ),
@@ -132,7 +103,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                     style: TextStyle(fontSize: 13, color: Colors.black),
                     children: [
                       TextSpan(text: 'Karya ', style: TextStyle(fontWeight: FontWeight.w300)),
-                      TextSpan(text: 'Exa Winandya VIII A', style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: 'Lenora Annie VIII A', style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -143,22 +114,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Pendidikan adalah tangga harapan\n'
-                  'Tangga itu menuntun manusia untuk mencapai tujuan\n'
-                  'Semua manusia berhak untuk menggunakan\n'
-                  'Untuk mengubah mimpi menjadi kenyataan\n\n'
-                  'Tangga itu tidak boleh disembunyikan\n'
-                  'Dari semua insan yang ingin perubahan\n'
-                  'Tangga tersebut tidak boleh disalahgunakan\n'
-                  'Hanya untuk meraih keuntungan\n\n'
-                  'Tangga itu harus benar-benar kuat\n'
-                  'Agar mampu merubah manusia menjadi bermartabat\n'
-                  'Tangga tersebut harus selalu dirawat\n'
-                  'Agar bisa membimbing kita meraih akal sehat\n\n'
-                  'Tangga itu harus bisa beradaptasi\n'
-                  'Dari zaman yang begitu kencang berlari\n'
-                  'Tangga itu tidak boleh dinodai\n'
-                  'Agar bisa mengantar kita menjadi manusia bermoral yang hakiki\n',
+                  'Lukisan Pemandangan Alam\n',
                   style: TextStyle(
                     height: 1.5,
                     fontSize: 13,
@@ -174,24 +130,49 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GestureDetector(
-                onTap: toggleMainLike,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('$mainLikeCount', style: const TextStyle(fontSize: 15)),
-                    const SizedBox(width: 4),
-                    Icon(
-                      isMainLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                      size: 20,
-                      color: const Color(0xFF1D3250),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Tombol Edit dan Hapus
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit, size: 20),
+                        color: const Color(0xFF1D3250),
+                        onPressed: () {
+                          // aksi edit
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                        onPressed: () {
+                          // aksi hapus
+                        },
+                      ),
+                    ],
+                  ),
+
+                  // Like Button
+                  GestureDetector(
+                    onTap: toggleMainLike,
+                    child: Row(
+                      children: [
+                        Text('$mainLikeCount', style: const TextStyle(fontSize: 15)),
+                        const SizedBox(width: 4),
+                        Icon(
+                          isMainLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                          size: 20,
+                          color: const Color(0xFF1D3250),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
-            const SizedBox(height: 12),
+
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Align(
@@ -207,12 +188,12 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
             Column(
               children: const [
                 OtherPoemCard(
-                  title: 'Ketenangan Jiwa',
-                  subtitle: 'Lukisan Pemandangan Alam',
-                  date: '25 April 2025',
-                  likeCount: 30,
+                  title: 'Duniawi',
+                  subtitle: 'Pendidikan adalah tangga harapan',
+                  date: '22 Mei 2025',
+                  likeCount: 40,
                   isLiked: true,
-                  imagePath: 'assets/images/pemandangan.jpg',
+                  imagePath: 'assets/images/duniawi.jpg',
                 ),
                 OtherPoemCard(
                   title: 'Ilmu Pedoman Hidup',

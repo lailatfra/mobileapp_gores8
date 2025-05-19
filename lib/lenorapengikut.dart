@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MengikutiPengikutPage extends StatefulWidget {
+class MengikutiPengikutLenoraPage extends StatefulWidget {
   final int selectedTab;
 
-  const MengikutiPengikutPage({super.key, this.selectedTab = 0});
+  const MengikutiPengikutLenoraPage({super.key, this.selectedTab = 0});
 
   @override
-  State<MengikutiPengikutPage> createState() => _MengikutiPengikutPageState();
+  State<MengikutiPengikutLenoraPage> createState() => _MengikutiPengikutLenoraPageState();
 }
 
-class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
+class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPage> {
   int selectedTab = 0;
 
   @override
@@ -55,7 +55,7 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
                   const Padding(
                     padding: EdgeInsets.only(left: 12),
                     child: Text(
-                      'Exa Winandya',
+                      'Lenora Annie',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,

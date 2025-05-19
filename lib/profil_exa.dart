@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'exapengikut.dart';
+import 'duniawi.dart';
 
 class ProfilePageExa extends StatefulWidget {
   const ProfilePageExa({super.key});
@@ -79,29 +80,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 30,
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFF1F3556)),
-                        backgroundColor: Colors.white,
-                        foregroundColor: const Color(0xFF1F3556),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        'Berteman',
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: Color(0xFF1F3556),
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
+                  const BertemanButton(),
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -109,7 +88,14 @@ class _ProfilePageState extends State<ProfilePageExa> {
                         child: SizedBox(
                           height: 30,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MengikutiPengikutPage(selectedTab: 0),
+                                ),
+                              );
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Color(0xFF1F3556)),
                               backgroundColor: Colors.white,
@@ -137,14 +123,8 @@ class _ProfilePageState extends State<ProfilePageExa> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation, secondaryAnimation) => const MengikutiPengikutPage(),
-                                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
+                                MaterialPageRoute(
+                                  builder: (context) => const MengikutiPengikutPage(selectedTab: 1),
                                 ),
                               );
                             },
@@ -248,6 +228,16 @@ class _ProfilePageState extends State<ProfilePageExa> {
       'assets/images/tari_menjeng.jpg',
     ];
 
+    List<Widget> pages = [
+      PoemDetailPage(),
+      // PedomanHidupPage(),
+      // CerminHiasPage(),
+      // BannerPuisiPage(),
+      // ExaWinandyaPage(),
+      // TariMenjengPage(),
+    ];
+
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: MasonryGridView.count(
@@ -258,11 +248,19 @@ class _ProfilePageState extends State<ProfilePageExa> {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: imagePaths.length,
         itemBuilder: (context, index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(0),
-            child: Image.asset(
-              imagePaths[index],
-              fit: BoxFit.cover,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => pages[index]),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(0),
+              child: Image.asset(
+                imagePaths[index],
+                fit: BoxFit.cover,
+              ),
             ),
           );
         },
@@ -308,7 +306,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
               const SizedBox(height: 8),
               Text(
                 lencana.title,
-                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
+                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -389,6 +387,49 @@ class _ProfilePageState extends State<ProfilePageExa> {
           ),
         ),
         child: Text(text),
+      ),
+    );
+  }
+}
+
+
+
+class BertemanButton extends StatefulWidget {
+  const BertemanButton({super.key});
+
+  @override
+  State<BertemanButton> createState() => _BertemanButtonState();
+}
+
+class _BertemanButtonState extends State<BertemanButton> {
+  bool isBerteman = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () {
+          setState(() {
+            isBerteman = !isBerteman;
+          });
+        },
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Color(0xFF1F3556)),
+          backgroundColor: isBerteman ? Colors.white : const Color(0xFF1F3556),
+          foregroundColor: isBerteman ? const Color(0xFF1F3556) : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(
+          isBerteman ? 'Berteman' : 'Ikuti',
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 13,
+          ),
+        ),
       ),
     );
   }
