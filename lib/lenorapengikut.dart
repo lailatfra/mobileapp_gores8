@@ -18,14 +18,14 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
     selectedTab = widget.selectedTab;
   }
 
-  List<Map<String, dynamic>> _mengikutiData = [
+  final List<Map<String, dynamic>> _mengikutiData = [
     {"nama": "Lenora Annie", "kelas": "VIII A", "status": ""},
     {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman"},
     {"nama": "Exa Winandya", "kelas": "VIII E", "status": "Berteman"},
   ];
 
 
-  List<Map<String, dynamic>> _pengikutData = [
+  final List<Map<String, dynamic>> _pengikutData = [
     {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti"},
     {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti"},
   ];

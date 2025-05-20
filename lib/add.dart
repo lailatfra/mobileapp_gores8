@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
 class AddScreen extends StatefulWidget {
+  const AddScreen({super.key});
+
+
   @override
-  _UploadKaryaPageState createState() => _UploadKaryaPageState();
+  UploadKaryaPageState createState() => UploadKaryaPageState();
 }
 
-class _UploadKaryaPageState extends State<AddScreen> {
+class UploadKaryaPageState extends State<AddScreen> {
   final TextEditingController _judulController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
   DateTime? selectedDate;
@@ -50,28 +53,35 @@ class _UploadKaryaPageState extends State<AddScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(115),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF142C57),
+          elevation: 0,
           flexibleSpace: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(left: 8),
+                children: [
+                  const SizedBox(height: 16), // ini setara dengan `top: 16`
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const SizedBox(height: 4),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
                     child: Text(
-                      'Upload Karya',
+                      'Notifikasi',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),
@@ -157,8 +167,8 @@ class _UploadKaryaPageState extends State<AddScreen> {
               style: TextStyle(fontSize: fontSize, color: Colors.black),
               items: events
                   .map((event) => DropdownMenuItem(
-                        child: Text(event, style: TextStyle(fontSize: fontSize)),
                         value: event,
+                        child: Text(event, style: TextStyle(fontSize: fontSize)),
                       ))
                   .toList(),
               onChanged: (value) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'register_screen.dart'; // Import halaman register (pastikan path sesuai)
-import 'main_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {

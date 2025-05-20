@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfilPage extends StatefulWidget {
-  const EditProfilPage({Key? key}) : super(key: key);
+  const EditProfilPage({super.key});
 
   @override
   State<EditProfilPage> createState() => _EditProfilPageState();
@@ -88,7 +88,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     borderRadius: BorderRadius.circular(8),
                     child: _imageFile != null
                         ? Image.file(_imageFile!, width: 110, height: 110, fit: BoxFit.cover)
-                        : Image.asset('assets/profil.png', width: 110, height: 110),
+                        : Image.asset('assets/profil/lenoraannie.png', width: 110, height: 110),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(

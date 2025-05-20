@@ -2,19 +2,6 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'duniawi.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const PuisiEventPage(),
-    );
-  }
-}
 
 class PuisiEventPage extends StatelessWidget {
   const PuisiEventPage({super.key});
@@ -43,7 +30,7 @@ class PuisiEventPage extends StatelessWidget {
                   // Overlay mengikuti ukuran gambar dengan Positioned.fill
                   Positioned.fill(
                     child: Container(
-                      color: Colors.black.withOpacity(0.4),
+                      color: Colors.black.withAlpha((0.4 * 255).toInt()),
                     ),
                   ),
 
@@ -303,7 +290,7 @@ class _PuisiCardState extends State<PuisiCard> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Icon(Icons.local_fire_department, size: 16, color: const Color(0xFF1D3250)),
+                    const Icon(Icons.local_fire_department, size: 16, color: Color(0xFF1D3250)),
                     const SizedBox(width: 4),
                     Text(
                       '${widget.voteCount} Votes',

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/notification.dart';
+import 'eventnav.dart';
+import 'karyadisukai.dart';
+import 'profile.dart';
+import 'editprofile.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,6 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25),
                 ],
               ),
             ),
@@ -49,10 +54,25 @@ class SettingsScreen extends StatelessWidget {
           _buildMenuItem(
             context,
             Icons.person,
+            'Lihat Profil',
+            
+            () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+          ),
+          const Divider(height: 1),
+          
+          _buildMenuItem(
+            context,
+            Icons.person,
             'Edit Profil',
             
             () {
-              // Navigate to edit profile page
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const EditProfilPage()),
+              );
             },
           ),
           const Divider(height: 1),
@@ -62,7 +82,9 @@ class SettingsScreen extends StatelessWidget {
             Icons.notifications,
             'Notifikasi',
             () {
-              // Navigate to notifications page
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const NotificationPage()),
+              );
             },
           ),
           const Divider(height: 1),
@@ -72,7 +94,9 @@ class SettingsScreen extends StatelessWidget {
             Icons.thumb_up,
             'Karya yang Kamu sukai',
             () {
-              // Navigate to liked works page
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FavoriteWorksPage()),
+              );
             },
           ),
           const Divider(height: 1),
@@ -82,7 +106,9 @@ class SettingsScreen extends StatelessWidget {
             Icons.event,
             'Event',
             () {
-              // Navigate to events page
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EventPage()),
+              );
             },
           ),
           const Divider(height: 1),

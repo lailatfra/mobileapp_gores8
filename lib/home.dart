@@ -3,9 +3,9 @@ import 'package:gores8_app/profile.dart';
 import 'event.dart';
 import 'notification.dart';
 import 'profil_exa.dart';
-import 'profile.dart';
-import 'users.dart';
+import 'users.dart';import 'package:logger/logger.dart';
 
+final Logger _logger = Logger();
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                       child: InkWell(
                         customBorder: const CircleBorder(),
                         onTap: () {
-                          print('Avatar ditekan!');
+                          _logger.i("Avatar ditekan!");
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => ProfileScreen()),
                           );
@@ -636,10 +636,10 @@ class RekomendasiCard extends StatefulWidget {
 
 
   @override
-  _RekomendasiCardState createState() => _RekomendasiCardState();
+  RekomendasiCardState createState() => RekomendasiCardState();
 }
 
-class _RekomendasiCardState extends State<RekomendasiCard> {
+class RekomendasiCardState extends State<RekomendasiCard> {
   late int likeCount;
   late bool isLiked;
 
