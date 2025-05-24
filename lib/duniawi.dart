@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class PoemDetailPage extends StatefulWidget {
   const PoemDetailPage({super.key});
 
+
   @override
   State<PoemDetailPage> createState() => _PoemDetailPageState();
 }
@@ -10,6 +11,7 @@ class PoemDetailPage extends StatefulWidget {
 class _PoemDetailPageState extends State<PoemDetailPage> {
   bool isMainLiked = false;
   int mainLikeCount = 40;
+  bool isVoted = false;
 
   void toggleMainLike() {
     setState(() {
@@ -17,6 +19,36 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
       mainLikeCount += isMainLiked ? 1 : -1;
     });
   }
+
+  void _showVotePopup() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.6),
+      builder: (context) => _buildFirePopup(
+        context: context,
+        onJoinEvent: () {
+          Navigator.pop(context);
+          // Navigasi ke halaman Event kamu, misalnya:
+          // Navigator.pushNamed(context, '/event');
+        },
+      ),
+    );
+  }
+
+
+  void _showCancelMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Anda batal memilih. Anda bisa memilih karya ini kembali dengan klik tombol vote atau memilih karya lain.',
+        ),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+  TextEditingController komentarController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +134,24 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      const Icon(
-                        Icons.local_fire_department,
-                        size: 24,
-                        color: Color(0xFF1D3250),
+                      GestureDetector(
+                        onTap: () {
+                          if (!isVoted) {
+                            _showVotePopup();
+                          } else {
+                            setState(() {
+                              isVoted = false;
+                            });
+                            _showCancelMessage();
+                          }
+                        },
+                        child: Icon(
+                          isVoted
+                              ? Icons.local_fire_department
+                              : Icons.local_fire_department_outlined,
+                          size: 24,
+                          color: Colors.orange,
+                        ),
                       ),
                     ],
                   )
@@ -173,25 +219,155 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
             const Divider(),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GestureDetector(
-                onTap: toggleMainLike,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('$mainLikeCount', style: const TextStyle(fontSize: 15)),
-                    const SizedBox(width: 4),
-                    Icon(
-                      isMainLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                      size: 20,
-                      color: const Color(0xFF1D3250),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Tombol Lihat Ulasan
+                  ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) {
+                          return DraggableScrollableSheet(
+                            initialChildSize: 0.65,
+                            minChildSize: 0.3,
+                            maxChildSize: 0.9,
+                            builder: (context, scrollController) {
+                              return Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Ulasan',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const Divider(thickness: 1, height: 20),
+                                    Expanded(
+                                      child: ListView(
+                                        controller: scrollController,
+                                        children: [
+                                          ulasanTile(
+                                            nama: 'Exa Winandya',
+                                            komentar: 'Bagus banget',
+                                            imageUrl: 'assets/profil/exawinandya.png',
+                                            liked: false,
+                                            likeCount: 1,
+                                          ),
+                                          ulasanTile(
+                                            nama: 'Dinata Lastie',
+                                            komentar: 'Bagus',
+                                            imageUrl: 'assets/profil/dinatalastie.png',
+                                            liked: true,
+                                            likeCount: 3,
+                                          ),
+                                          ulasanTile(
+                                            nama: 'Sia Latifa Rahmawati',
+                                            komentar: 'Kalimatnya indah',
+                                            imageUrl: 'assets/profil/sialatifarahmawati.png',
+                                            liked: false,
+                                            likeCount: 1,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    // Tambahkan input komentar
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            controller: komentarController,
+                                            decoration: InputDecoration(
+                                              hintText: 'Ketik Ulasan',
+                                              fillColor: Colors.grey[200],
+                                              filled: true,
+                                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        CircleAvatar(
+                                          backgroundColor: Color(0xFF1D3250),
+                                          child: IconButton(
+                                            icon: const Icon(Icons.send, color: Colors.white),
+                                            onPressed: () {
+                                              String komentar = komentarController.text;
+                                              if (komentar.isNotEmpty) {
+                                                // TODO: Tambahkan logika untuk mengirim ulasan ke server atau state
+                                                print('Komentar dikirim: $komentar');
+                                                komentarController.clear(); // Reset input
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(29, 50, 80, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
-                  ],
-                ),
+                    child: const Text(
+                      'Lihat Ulasan',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+
+
+
+                  // Spacer untuk memisahkan tombol dan icon
+                  Row(
+                    children: [
+                      Text('$mainLikeCount', style: const TextStyle(fontSize: 12)),
+                      const SizedBox(width: 4),
+                      GestureDetector(
+                        onTap: toggleMainLike,
+                        child: Icon(
+                          isMainLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                          size: 16,
+                          color: const Color(0xFF1D3250),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
 
-            const SizedBox(height: 12),
+
+            const SizedBox(height: 24),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Align(
@@ -280,6 +456,7 @@ class _OtherPoemCardState extends State<OtherPoemCard> {
       likeCount += isLiked ? 1 : -1;
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -375,3 +552,138 @@ class _OtherPoemCardState extends State<OtherPoemCard> {
     );
   }
 }
+
+
+Widget _buildFirePopup({
+  required BuildContext context,
+  required VoidCallback onJoinEvent,
+}) {
+  return Center(
+    child: Stack(
+      children: [
+        // Black semi-transparent overlay
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context), // tutup saat klik luar
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+            ),
+          ),
+        ),
+        // Popup content
+        Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Gambar GIF Api
+                SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: Image.asset(
+                    'assets/images/fire.gif', // Pastikan kamu pakai gif
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Pesan
+                const Text(
+                  'Anda berhasil memilih. Pilih kembali besok',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Tombol Ikuti Event
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: onJoinEvent,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1D3250),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    child: const Text(
+                      'Ikuti Event',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Widget ulasanTile({
+  required String nama,
+  required String komentar,
+  required String imageUrl,
+  required bool liked,
+  required int likeCount,
+}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        CircleAvatar(
+          radius: 20,
+          backgroundImage: NetworkImage(imageUrl),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nama,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                komentar,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Column(
+          children: [
+            Icon(
+              liked ? Icons.favorite : Icons.favorite_border,
+              color: liked ? Colors.indigo : Colors.grey,
+              size: 20,
+            ),
+            const SizedBox(height: 2),
+            Text(
+              likeCount.toString(),
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+

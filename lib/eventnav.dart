@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/add.dart';
 
 class EventBannerScroll extends StatelessWidget {
   const EventBannerScroll({super.key});
@@ -128,6 +129,7 @@ class _EventPageState extends State<EventPage> {
   String selectedMonth = 'Mei';
   String selectedYear = '2025';
 
+  String selectedItem = 'Buatlah Puisi Versimu!';
 
   @override
   Widget build(BuildContext context) {
@@ -176,38 +178,20 @@ class _EventPageState extends State<EventPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(115),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF142C57),
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16), // ini setara dengan `top: 16`
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Event',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF142C57),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
+        title: Text(
+          'Event',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -216,70 +200,74 @@ class _EventPageState extends State<EventPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-      // Dropdown Bulan dan Tahun
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            const Text(
-              'Tampilkan',
-              style: TextStyle(fontSize: 14),
+            // Dropdown Bulan dan Tahun
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  const Text(
+                    'Tampilkan',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  const Spacer(),
+                  // Dropdown Bulan
+                  Container(
+                    height: 36,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFF1D3250)),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedMonth,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        items: monthList.map((month) {
+                          return DropdownMenuItem(
+                            value: month,
+                            child: Text(month, style: const TextStyle(fontSize: 13)),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedMonth = value!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // Dropdown Tahun
+                  Container(
+                    height: 36,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFF1D3250)),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedYear,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        items: yearList.map((year) {
+                          return DropdownMenuItem(
+                            value: year,
+                            child: Text(year, style: const TextStyle(fontSize: 13)),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedYear = value!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 30),
-            // Dropdown Bulan
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF1D3250)),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedMonth, // ← pastikan kamu punya state ini
-                  items: monthList.map((month) {
-                    return DropdownMenuItem(
-                      value: month,
-                      child: Text(month),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedMonth = value!;
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            // Dropdown Tahun
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF1D3250)),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedYear, // ← pastikan kamu punya state ini juga
-                  items: yearList.map((year) {
-                    return DropdownMenuItem(
-                      value: year,
-                      child: Text(year),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedYear = value!;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
 
-      const SizedBox(height: 16),
+            const SizedBox(height: 16),
             const EventBannerScroll(),
 
             const SizedBox(height: 24),
@@ -288,19 +276,42 @@ class _EventPageState extends State<EventPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  // Tombol 🔥
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Color(0xFF1D3250), width: 1.5),
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.local_fire_department, size: 20, color: Color(0xFF1D3250)),
-                      onPressed: () {
-                        // Aksi tombol fire
-                      },
+                  // Dropdown
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xFF1D3250), width: 1.5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedItem,
+                          isExpanded: true,
+                          icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF1D3250)),
+                          style: const TextStyle(
+                            color: Color(0xFF1D3250),
+                            fontSize: 14,
+                          ),
+                          items: [
+                            'Buatlah Puisi Versimu!',
+                            'Festival Sains dan Teknologi',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                selectedItem = newValue;
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
 
@@ -317,13 +328,17 @@ class _EventPageState extends State<EventPage> {
                     child: IconButton(
                       icon: Icon(Icons.add, size: 20, color: Color(0xFF1D3250)),
                       onPressed: () {
-                        // Aksi tombol tambah
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddScreen()),
+                        );
                       },
                     ),
                   ),
                 ],
               ),
             ),
+
 
 
             const SizedBox(height: 12),
@@ -344,17 +359,18 @@ class _EventPageState extends State<EventPage> {
                     color: Colors.white,
                   ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Nomor / Icon Medali
                       isTopThree
                           ? Image.asset(
-                              'assets/images/medal${karya['rank']}.png', // Misal: rank1.png, rank2.png, dll
+                              'assets/images/medal${karya['rank']}.png',
                               width: 28,
                             )
                           : Text(
                               '${karya['rank']}',
                               style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -366,51 +382,67 @@ class _EventPageState extends State<EventPage> {
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
                           karya['image'],
-                          width: 50,
-                          height: 50,
+                          width: 60,
+                          height: 70,
                           fit: BoxFit.cover,
                         ),
                       ),
 
                       const SizedBox(width: 12),
 
-                      // Info Teks
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Title
                             Text(
                               karya['title'],
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            const SizedBox(height: 4),
+
+                            // Author
                             Text(
                               karya['author'],
                               style: const TextStyle(fontSize: 12),
                             ),
-                            Text(
-                              karya['class'],
-                              style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                            const SizedBox(height: 2),
+
+                            // Class & Votes in same row
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Class (left)
+                                Text(
+                                  karya['class'],
+                                  style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                ),
+
+                                // Votes + Icon (right)
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${karya['votes']} Votes',
+                                      style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    const Icon(Icons.local_fire_department, size: 18, color: Colors.orange),
+                                  ],
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
 
-                      // Votes
-                      Row(
-                        children: [
-                          Text(
-                            '${karya['votes']} Votes',
-                            style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
-                          ),
-                          const SizedBox(width: 4),
-                          const Icon(Icons.local_fire_department, size: 18, color: Colors.orange),
-                        ],
-                      ),
                     ],
                   ),
+
                 );
               },
             ),

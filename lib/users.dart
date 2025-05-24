@@ -18,12 +18,37 @@ class _AnggotaPageState extends State<UsersScreen> {
     {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
     {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
     {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
+    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
+    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
   ];
 
   List<int> statusList = List.generate(9, (_) => 0);
 
   int currentPage = 1;
-  final int itemsPerPage = 3;
+  final int itemsPerPage = 15;
+
+
+  @override
+  void initState() {
+    super.initState();
+    statusList = List.generate(anggotaList.length, (_) => 0);
+  }
 
   void toggleStatus(int index) {
     int globalIndex = (currentPage - 1) * itemsPerPage + index;
@@ -80,39 +105,20 @@ class _AnggotaPageState extends State<UsersScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(115),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF142C57),
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Anggota',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                ],
-              ),
-            ),
+      
+      appBar: AppBar(
+        backgroundColor: Color(0xFF142C57),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'Anggota',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -164,20 +170,46 @@ class _AnggotaPageState extends State<UsersScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            for (int i = 1; i <= totalPages; i++) paginationButton('$i', selected: currentPage == i, onTap: () {
-              setState(() {
-                currentPage = i;
-              });
-            }),
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: currentPage > 1
+                  ? () => setState(() => currentPage--)
+                  : null,
+            ),
+
+            // Tombol halaman pertama
+            if (currentPage > 2)
+              paginationButton('1', selected: currentPage == 1, onTap: () => setState(() => currentPage = 1)),
+
+            // Ellipsis setelah halaman 1
+            if (currentPage > 3)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Text('...'),
+              ),
+
+            // Tombol sebelum, saat ini, dan sesudahnya
+            for (int i = currentPage - 1; i <= currentPage + 1; i++)
+              if (i > 1 && i < totalPages)
+                paginationButton('$i', selected: currentPage == i, onTap: () => setState(() => currentPage = i)),
+
+            // Ellipsis sebelum halaman terakhir
+            if (currentPage < totalPages - 2)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Text('...'),
+              ),
+
+            // Tombol halaman terakhir
             if (currentPage < totalPages)
-              IconButton(
-                icon: const Icon(Icons.arrow_forward),
-                onPressed: () {
-                  setState(() {
-                    if (currentPage < totalPages) currentPage++;
-                  });
-                },
-              )
+              paginationButton('$totalPages', selected: currentPage == totalPages, onTap: () => setState(() => currentPage = totalPages)),
+
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: currentPage < totalPages
+                  ? () => setState(() => currentPage++)
+                  : null,
+            ),
           ],
         ),
       ),

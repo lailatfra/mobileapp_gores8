@@ -157,11 +157,11 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                     onTap: toggleMainLike,
                     child: Row(
                       children: [
-                        Text('$mainLikeCount', style: const TextStyle(fontSize: 15)),
+                        Text('$mainLikeCount', style: const TextStyle(fontSize: 12)),
                         const SizedBox(width: 4),
                         Icon(
                           isMainLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                          size: 20,
+                          size: 16,
                           color: const Color(0xFF1D3250),
                         ),
                       ],

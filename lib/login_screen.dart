@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'register_screen.dart'; // Import halaman register (pastikan path sesuai)
+import 'resetpw.dart';
 
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  final String? message; // tambahkan ini
+
+  const LoginScreen({super.key, this.message}); // tambahkan parameter ini
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _obscureText = true;
+
+  void _toggleVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Tampilkan snackbar jika ada pesan
+    if (widget.message != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.message!),
+            backgroundColor: Colors.black.withOpacity(0.9),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      });
+    }
+
     // Cek apakah keyboard muncul
     final bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
@@ -77,24 +112,69 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   TextField(
-                    obscureText: true,
+                    obscureText: _obscureText,
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.visibility),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText ? Icons.visibility_off : Icons.visibility,
+                        ),
+                        onPressed: _toggleVisibility,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     ),
                   ),
+
+                  // TextField(
+                  //   obscureText: true,
+                  //   decoration: InputDecoration(
+                  //     hintText: 'Password',
+                  //     suffixIcon: Icon(Icons.visibility),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(30),
+                  //     ),
+                  //     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  //   ),
+                  // ),
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'Lupa Password?',
-                      style: TextStyle(color: Colors.grey[600]),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
+                        );
+
+                        if (result != null && result is String) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(result),
+                              backgroundColor: Colors.black.withOpacity(0.9),
+                              behavior: SnackBarBehavior.floating,
+                              margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              duration: const Duration(seconds: 4),
+                            ),
+                          );
+                        }
+
+                      },
+                      child: Text(
+                        'Lupa Password?',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          // decoration: TextDecoration.underline, // opsional, supaya kelihatan clickable
+                        ),
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {

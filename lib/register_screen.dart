@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +29,6 @@ class RegisterScreen extends StatelessWidget {
               child: CustomPaint(
                 size: Size(MediaQuery.of(context).size.width, waveHeight),
                 painter: WavePainter(waveHeight),
-              ),
-            ),
-          ),
-
-
-          // Logo
-          Positioned(
-            top: isKeyboardVisible ? 50 : 100,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.white,
-                child: Image.asset(
-                  'assets/images/logo_splash.jpeg',
-                  width: 70,
-                ),
               ),
             ),
           ),
@@ -67,7 +54,7 @@ class RegisterScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(30, 250, 30, 30),
+              padding: const EdgeInsets.fromLTRB(30, 180, 30, 30), // Naikkan dari 250 → 180
               child: Column(
                 children: [
                   const Text(
@@ -100,10 +87,19 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   TextField(
-                    obscureText: true,
+                    obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.visibility),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -112,7 +108,18 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // Simulasikan proses registrasi berhasil
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+
+                      // Alternatif jika pakai pop (bisa dipilih juga)
+                      // Navigator.pop(context, 'Registrasi berhasil!');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1D3250),
                       minimumSize: const Size(double.infinity, 50),
@@ -125,9 +132,10 @@ class RegisterScreen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w300,
                         color: Colors.white,
-                      )
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -160,15 +168,13 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-
-// Tambahkan di luar class LoginScreen
 class WavePainter extends CustomPainter {
   final double waveHeight;
   WavePainter(this.waveHeight);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = const Color(0xFF1D3250); // warna biru tua
+    final paint = Paint()..color = const Color(0xFF1D3250);
 
     final path = Path();
     path.lineTo(0, waveHeight);
@@ -189,4 +195,3 @@ class WavePainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
-

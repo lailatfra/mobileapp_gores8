@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bottom Navigation Example',
       initialRoute: '/',
+      home: const SplashScreen(),
       routes: {
-        '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/main': (context) => MainScreen(),
       },

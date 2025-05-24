@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/statistik.dart';
 import 'home.dart';
-import 'users.dart';
+import 'eventnav.dart';
 import 'add.dart';
-import 'settings.dart';
 import 'profile.dart';
 // import 'package:flutter/widgets.dart'; 
 
@@ -57,9 +57,9 @@ class _MainScreenState extends State<MainScreen> {
         body: Stack(
           children: [
             _buildOffstageNavigator(0, HomeScreen()),
-            _buildOffstageNavigator(1, UsersScreen()),
+            _buildOffstageNavigator(1, EventPage()),
             _buildOffstageNavigator(2, AddScreen()),
-            _buildOffstageNavigator(3, SettingsScreen()),
+            _buildOffstageNavigator(3, StatistikPage()),
             _buildOffstageNavigator(4, ProfileScreen()),
           ],
         ),
@@ -73,9 +73,9 @@ class _MainScreenState extends State<MainScreen> {
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Users'),
+            BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Event'),
             BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+            BottomNavigationBarItem(icon: Icon(Icons.stacked_bar_chart), label: 'Statistik'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),

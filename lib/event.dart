@@ -141,7 +141,8 @@ class PuisiEventPage extends StatelessWidget {
                   );
                 },
                 child: const PuisiCard(
-                  rank: 1,
+                  rank: 0
+                  ,
                   title: 'Duniawi',
                   name: 'Exa Winandya',
                   className: 'VIII A',
@@ -151,9 +152,8 @@ class PuisiEventPage extends StatelessWidget {
                   imageAsset: 'assets/images/duniawi.jpg',
                 ),
               ),
-
               const PuisiCard(
-                rank: 2,
+                rank: 0,
                 title: 'Cahaya Kehidupan',
                 name: 'Alleric Ernier',
                 className: 'IX F',
@@ -163,7 +163,7 @@ class PuisiEventPage extends StatelessWidget {
                 imageAsset: 'assets/images/banner_puisi.jpg',
               ),
               const PuisiCard(
-                rank: 3,
+                rank: 0,
                 title: 'Letupan Harapan',
                 name: 'Gavin Santana',
                 className: 'VIII C',
@@ -190,6 +190,11 @@ class PuisiEventPage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
 
 class PuisiCard extends StatefulWidget {
   final int rank;
@@ -271,14 +276,28 @@ class _PuisiCardState extends State<PuisiCard> {
                 Text(widget.className, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300)),
                 const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Kiri: Tanggal dan ikon kalender
+                    Row(
+                      children: [
+                        const Icon(Icons.calendar_month, size: 14, color: Colors.blueGrey),
+                        const SizedBox(width: 4),
+                        Text(
+                          '20 Mei 2025', // atau pakai widget.date kalau kamu punya
+                          style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                        ),
+                      ],
+                    ),
+
+                    // Kanan: Like count dan ikon
                     GestureDetector(
                       onTap: toggleLike,
                       child: Row(
                         children: [
                           Text(
                             '$likeCount',
-                            style: const TextStyle(fontSize: 12, color: Color.fromARGB(255, 0, 0, 0)),
+                            style: const TextStyle(fontSize: 12, color: Color(0xFF1D3250)),
                           ),
                           const SizedBox(width: 4),
                           Icon(
@@ -288,13 +307,6 @@ class _PuisiCardState extends State<PuisiCard> {
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    const Icon(Icons.local_fire_department, size: 16, color: Color(0xFF1D3250)),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${widget.voteCount} Votes',
-                      style: const TextStyle(fontSize: 12),
                     ),
                   ],
                 ),

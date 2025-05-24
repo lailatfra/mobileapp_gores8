@@ -3,12 +3,48 @@ import 'package:gores8_app/profile.dart';
 import 'event.dart';
 import 'notification.dart';
 import 'profil_exa.dart';
-import 'users.dart';import 'package:logger/logger.dart';
+import 'users.dart';
+import 'package:logger/logger.dart';
+// import 'package:fl_chart/fl_chart.dart';
 
 final Logger _logger = Logger();
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+  
+
+  @override
+  State<HomeScreen> createState() =>_HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String selectedYear = '2025';
+  
+  int likeCount = 12;
+  bool isLiked = false;
+
+  void _toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
+    });
+  }
+
+  // Data untuk line chart (Jumlah Total Karya per Bulan)
+  // final List<FlSpot> lineChartData = [
+  //   FlSpot(0, 90),  // Jan
+  //   FlSpot(1, 85),  // Feb
+  //   FlSpot(2, 75),  // Mar
+  //   FlSpot(3, 80),  // Apr
+  //   FlSpot(4, 60),  // Mei
+  //   FlSpot(5, 0),  // Jun
+  //   FlSpot(6, 0),  // Jul
+  //   FlSpot(7, 0),  // Agu
+  //   FlSpot(8, 0),  // Sep
+  //   FlSpot(9, 0),  // Okt
+  //   FlSpot(10, 0), // Nov
+  //   FlSpot(11, 0), // Des
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +250,6 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13,
                           color: Color.fromRGBO(29, 50, 80, 1),
-                          decoration: TextDecoration.underline, // Opsional agar tampak seperti link
                         ),
                       ),
                     ),
@@ -347,19 +382,29 @@ class HomeScreen extends StatelessWidget {
                       const Divider(), // Garis pembatas
 
 
-                      // Tanggal dan like
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
-                          const SizedBox(width: 5),
-                          Text(
-                            "20-30 Mei 2025",
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          // Tanggal dan ikon
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
+                                SizedBox(width: 4),
+                                Text(
+                                  "20-30 Mei 2025",
+                                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                                ),
+                              ],
+                            ),
                           ),
-                          const LikeButton(initialCount: 40), // <- Tambahkan ini
+
+                          // Like button di kanan
+                          LikeButton(initialCount: 40),
                         ],
                       ),
+
 
 
 
@@ -370,43 +415,57 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 25),
 
                 // Bagian Rekomendasi
-                Text(
-                  "REKOMENDASI",
+                const Text(
+                  'REKOMENDASI',
                   style: TextStyle(
-                    fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
-                // List Rekomendasi
-                Column(
-                  children: [
-                    RekomendasiCard(
-                      profileImage: 'assets/images/dinatalastie.png',
-                      name: 'Dinata Lastie',
-                      kelas: 'VII E',
-                      postImage: 'assets/images/cermin_hias.jpg',
-                      caption: 'Cermin Hias',
-                      subcaption: 'Kerajinan dari kaca bekas',
-                      tanggal: '27-4-2025',
-                      initialLikeCount: 15,
-                      initiallyLiked: false,
-                    ),
-                    const SizedBox(height: 20),
-                    RekomendasiCard(
-                      profileImage: 'assets/images/sialatifarahmawati.png',
-                      name: 'Sia Latifa Rahmawati',
-                      kelas: 'VIII F',
-                      postImage: 'assets/images/tari_menjeng.jpg',
-                      caption: 'Tari Menjeng',
-                      subcaption: '', 
-                      tanggal: '27-4-2025',
-                      initialLikeCount: 8,
-                      initiallyLiked: true,
-                    ),
-                  ],
+                _buildImageCard(
+                  context,
+                  profileImage: 'assets/profil/dinatalastie.png',
+                  name: 'Dinata Lastie',
+                  kelas: 'VIII E',
+                  image: 'assets/images/cermin_hias.jpg',
+                  title: 'Cermin Hias',
+                  date: '27 April 2025',
+                  likes: 15,
+                  isLiked: isLiked,
+                  onLikeToggle: _toggleLike,
                 ),
+                _buildVideoCard(
+                  context,
+                  profileImage: 'assets/profil/sialatifarahmawati.png',
+                  name: 'Sia Latifa Ratmawati',
+                  kelas: 'VIII F',
+                  image: 'assets/images/tari_menjeng.jpg',
+                  title: 'Tari Menjeng',
+                  anggota: ['Sia/22', 'Lidya/18', 'Diva/10', 'Binara/2', 'Oliv/21'],
+                  date: '30 April 2025',
+                  likes: 33,
+                  isLiked: isLiked,
+                  onLikeToggle: _toggleLike,
+                ),
+                const SizedBox(height: 16),
+                _buildImageCard(
+                  context,
+                  profileImage: 'assets/profil/cassiusreno.png',
+                  name: 'Cassius Reno',
+                  kelas: 'VIII F',
+                  image: 'assets/images/hujandiujungdesember.jpg',
+                  title: 'Hujan di Ujung Desember',
+                  description:
+                      'Cerpen ini bercerita tentang seorang perempuan bernama Laira yang kembali ke kampung halamannya setelah tujuh tahun merantau di kota. Di tengah hujan yang tak kunjung reda di ujung Desember, ia bertemu kembali dengan masa lalu yang belum selesai: rumah kayu tua, secangkir teh jahe, dan seorang lelaki yang pernah ia tinggalkan tanpa pamit...',
+                  date: '30 April 2025',
+                  likes: 40,
+                  isLiked: isLiked,
+                  onLikeToggle: _toggleLike,
+                  showButton: true,
+                ),
+
                 
                 const SizedBox(height: 100),
 
@@ -457,106 +516,245 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-
-  static Widget rekomendasiCard({
+  Widget _buildImageCard(
+    BuildContext context, {
     required String profileImage,
     required String name,
     required String kelas,
-    required String postImage,
-    required String caption,
-    required String tanggal,
-    required int likeCount,
-    required bool isLiked,
+    required String image,
+    required String title,
+    String? tag,
+    String? description,
+    required String date,
+    required int likes,
+    bool? isLiked,
+    VoidCallback? onLikeToggle,
+    bool showButton = false,
   }) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF1D3250)),
+        color: Colors.white,
+        border: Border.all(color: Colors.blue.shade900),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Profil user
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(profileImage),
-                radius: 20,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                  Text(kelas, style: TextStyle(color: Colors.grey, fontSize: 12)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Gambar postingan
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              postImage,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildUserInfo(name, kelas, profileImage),
+            const SizedBox(height: 16),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: image.startsWith("http")
+                  ? Image.network(image)
+                  : Image.asset(image),
             ),
-          ),
-          const SizedBox(height: 10),
-
-          // Caption
-          Text(
-            caption,
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
-          ),
-
-          const SizedBox(height: 8),
-          const Divider(),
-
-          // Tanggal dan like
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Gabung icon dan tanggal dalam Row agar sejajar
-              Row(
-                children: [
-                  const Icon(Icons.calendar_month, size: 14, color: Colors.blueGrey),
-                  const SizedBox(width: 4),
-                  Text(
-                    tanggal,
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+            const SizedBox(height: 18),
+            if (showButton)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PuisiEventPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    backgroundColor: const Color(0xFF1D3250),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Cerpen Akhir Tahun',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
+            else
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+            ),
+
+            const SizedBox(height: 8),
+            if (tag != null)
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(tag, style: const TextStyle(fontSize: 12)),
               ),
-              // Like section
-              Row(
-                children: [
-                  Text(
-                    likeCount.toString(),
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                    size: 16,
-                    color: Color(0xFF1D3250),
-                  ),
-                ],
+            if (description != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: const TextStyle(fontSize: 12, color: Color.fromARGB(221, 124, 124, 124)),
               ),
             ],
-          ),
-        ],
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            _buildFooter(
+              date: date,
+              likes: likes,
+              isLiked: isLiked,
+              onLikeToggle: onLikeToggle,
+            ),
+          ],
+        ),
       ),
     );
   }
 
 
-}
+  Widget _buildVideoCard(
+    BuildContext context, {
+    required String profileImage,
+    required String name,
+    required String kelas,
+    required String image,
+    required String title,
+    required List<String> anggota,
+    required String date,
+    required int likes,
+    bool? isLiked,
+    VoidCallback? onLikeToggle,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.blue.shade900),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildUserInfo(name, kelas, profileImage),
+            const SizedBox(height: 16),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(image),
+                ),
+                const Icon(Icons.play_circle_fill, size: 64, color: Colors.white),
+              ],
+            ),
+            const SizedBox(height: 18),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 15)),
+            const SizedBox(height: 8),
+            ...anggota.map((e) => Text(
+                  '• $e',
+                  style: const TextStyle(fontSize: 12, color: Color.fromARGB(221, 124, 124, 124)),
+                )),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            _buildFooter(
+              date: date,
+              likes: likes,
+              isLiked: isLiked,
+              onLikeToggle: onLikeToggle,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
+
+   Widget _buildUserInfo(String name, String kelas, String profileImage) {
+    return Row(
+      children: [
+        const SizedBox(height: 8),
+        CircleAvatar(
+          backgroundImage: profileImage.startsWith('http')
+          ? NetworkImage(profileImage)
+          : AssetImage(profileImage) as ImageProvider,
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(kelas, style: const TextStyle(fontSize: 12)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooter({
+    required String date,
+    required int likes,
+    bool? isLiked,
+    VoidCallback? onLikeToggle,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            const Icon(Icons.calendar_month, size: 16),
+            const SizedBox(width: 8),
+            Text(date, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+          ],
+        ),
+        if (onLikeToggle != null && isLiked != null)
+          InkWell(
+            onTap: onLikeToggle,
+            child: Row(
+              children: [
+                Text('$likes', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                const SizedBox(width: 8),
+                Icon(
+                  isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                  size: 16,
+                  color: isLiked ? Color(0xFF1D3250) : null,
+                ),
+              ],
+            ),
+          )
+        else
+          Row(
+            children: [
+              Text('$likes', style: const TextStyle(fontSize: 12)),
+              const SizedBox(width: 8),
+              const Icon(Icons.thumb_up_alt_outlined, size: 16),
+            ],
+          ),
+      ],
+    );
+  }
+
+
+}
 
 
 class LikeButton extends StatefulWidget {
@@ -606,142 +804,3 @@ class _LikeButtonState extends State<LikeButton> {
     );
   }
 }
-
-
-
-
-class RekomendasiCard extends StatefulWidget {
-  final String profileImage;
-  final String name;
-  final String kelas;
-  final String postImage;
-  final String caption;
-  final String tanggal;
-  final String subcaption;
-  final int initialLikeCount;
-  final bool initiallyLiked;
-
-  const RekomendasiCard({
-    super.key,
-    required this.profileImage,
-    required this.name,
-    required this.kelas,
-    required this.postImage,
-    required this.caption,
-    required this.subcaption, // Tambahkan ini
-    required this.tanggal,
-    required this.initialLikeCount,
-    required this.initiallyLiked,
-  });
-
-
-  @override
-  RekomendasiCardState createState() => RekomendasiCardState();
-}
-
-class RekomendasiCardState extends State<RekomendasiCard> {
-  late int likeCount;
-  late bool isLiked;
-
-  @override
-  void initState() {
-    super.initState();
-    likeCount = widget.initialLikeCount;
-    isLiked = widget.initiallyLiked;
-  }
-
-  void toggleLike() {
-    setState(() {
-      isLiked = !isLiked;
-      likeCount += isLiked ? 1 : -1;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF1D3250)),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Profil
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(widget.profileImage),
-                radius: 20,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.kelas, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Gambar
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              widget.postImage,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Caption
-          Text(widget.caption, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 15)),
-
-          const SizedBox(height: 4),
-
-          // Subcaption
-          Text(
-            widget.subcaption,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.black54,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-          const Divider(),
-
-          // Tanggal dan tombol like
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(widget.tanggal, style: const TextStyle(color: Colors.grey, fontSize: 10)),
-              Row(
-                children: [
-                  Text(likeCount.toString(), style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                  const SizedBox(width: 4),
-                  IconButton(
-                    onPressed: toggleLike,
-                    icon: Icon(
-                      isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                      color: const Color(0xFF1D3250),
-                      size: 18,
-                    ),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-

@@ -238,33 +238,36 @@ class _ProfilePageState extends State<ProfilePageExa> {
     ];
 
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: imagePaths.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => pages[index]),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(0),
-              child: Image.asset(
-                imagePaths[index],
-                fit: BoxFit.cover,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount = constraints.maxWidth < 600 ? 2 : 3;
+
+        return MasonryGridView.count(
+          crossAxisCount: crossAxisCount,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: imagePaths.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => pages[index]),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  imagePaths[index],
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        );
+      },
     );
   }
 
@@ -273,19 +276,23 @@ class _ProfilePageState extends State<ProfilePageExa> {
 
 
   Widget buildLencanaContent() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        childAspectRatio: 0.75,
-        children: lencanaList.map((lencana) => buildLencanaCard(lencana)).toList(),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount = constraints.maxWidth < 600 ? 2 : 3;
+
+        return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: crossAxisCount,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 0.75,
+          children: lencanaList.map((lencana) => buildLencanaCard(lencana)).toList(),
+        );
+      },
     );
   }
+
 
 
   Widget buildLencanaCard(Lencana lencana) {

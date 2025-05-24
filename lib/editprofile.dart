@@ -1,31 +1,70 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EditProfilPage extends StatefulWidget {
   const EditProfilPage({super.key});
 
+
   @override
-  State<EditProfilPage> createState() => _EditProfilPageState();
+  EditProfilPageState createState() => EditProfilPageState();
 }
 
-class _EditProfilPageState extends State<EditProfilPage> {
+class EditProfilPageState extends State<EditProfilPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _classController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
+  
   File? _imageFile;
-  final picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
 
-  final TextEditingController _usernameController =
-      TextEditingController(text: 'Lenora Annie');
-  final TextEditingController _kelasController = TextEditingController(text: 'VIII A');
-  final TextEditingController _catatanController =
-      TextEditingController(text: 'https://www.instagram.com/lenora_anniee/');
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with default values
+    _usernameController.text = "Lenora Annie";
+    _classController.text = "VIII A";
+    _noteController.text = "https://www.instagram.com/lenoraannie_/";
+  }
 
   Future<void> _pickImage() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Pilih dari Galeri'),
+                  onTap: () {
+                    _getImage(ImageSource.gallery);
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text('Ambil Foto'),
+                  onTap: () {
+                    _getImage(ImageSource.camera);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-    if (pickedFile != null) {
+  Future<void> _getImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(source: source);
+    
+    if (image != null) {
       setState(() {
-        _imageFile = File(pickedFile.path);
+        _imageFile = File(image.path);
       });
     }
   }
@@ -34,93 +73,196 @@ class _EditProfilPageState extends State<EditProfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(115),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF142C57),
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  IconButton(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 160,
+                  color: const Color(0xFF1F3556),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 8,
+                  child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Edit Profilmu',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildLabel("Username"),
-            _buildTextField(_usernameController),
-            const SizedBox(height: 16),
-            _buildLabel("Kelas/Role"),
-            _buildTextField(_kelasController),
-            const SizedBox(height: 20),
-            Center(
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: _imageFile != null
-                        ? Image.file(_imageFile!, width: 110, height: 110, fit: BoxFit.cover)
-                        : Image.asset('assets/profil/lenoraannie.png', width: 110, height: 110),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _pickImage,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF142C57),
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text("Ganti Profil"),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildLabel("Catatan"),
-            _buildTextField(_catatanController, maxLines: 4),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {
-                // Simpan perubahan
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF142C57),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
                 ),
+                Positioned(
+                  top: 100,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 56,
+                            backgroundImage: _imageFile != null
+                                ? FileImage(_imageFile!)
+                                : AssetImage('assets/profil/lenoraannie.png') as ImageProvider,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: _pickImage,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                Icons.change_circle,
+                                color: Color(0xFF1F3556),
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Username Field
+                  Text(
+                    'Username',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  
+                  // Class Field
+                  Text(
+                    'Kelas',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextField(
+                      controller: _classController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  
+                  // Notes Field
+                  Text(
+                    'Catatan',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextField(
+                      controller: _noteController,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  
+                  // Save Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle save functionality
+                        _saveProfile();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF1F3556),
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        'Ubah',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                ],
               ),
-              child: const Text("Ubah"),
             ),
           ],
         ),
@@ -128,28 +270,31 @@ class _EditProfilPageState extends State<EditProfilPage> {
     );
   }
 
-  Widget _buildLabel(String text) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 13, color: Colors.black),
-    );
-  }
-
-  Widget _buildTextField(TextEditingController controller, {int maxLines = 1}) {
-    return TextField(
-      controller: controller,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF142C57)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF142C57), width: 1.5),
-        ),
+  void _saveProfile() {
+    // You can implement your save logic here
+    // For example, save to local storage, send to API, etc.
+    
+    // String username = _usernameController.text;
+    // String className = _classController.text;
+    // String notes = _noteController.text;
+    
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Profil berhasil diubah!'),
+        backgroundColor: Colors.green,
       ),
     );
+    
+    // Navigate back or perform other actions
+    Navigator.pop(context);
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _classController.dispose();
+    _noteController.dispose();
+    super.dispose();
   }
 }
