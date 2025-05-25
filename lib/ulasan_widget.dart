@@ -36,7 +36,7 @@ Widget ulasanTile({
           children: [
             Icon(
               liked ? Icons.favorite : Icons.favorite_border,
-              color: liked ? Colors.indigo : Colors.grey,
+              color: liked ? Color(0xFF142C57) : Colors.grey,
               size: 20,
             ),
             const SizedBox(height: 2),

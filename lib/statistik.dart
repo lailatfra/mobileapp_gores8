@@ -57,7 +57,7 @@ class _StatistikPageState extends State<StatistikPage> {
           toY: y,
           color: Color(0xFF142C57),
           width: 20,
-          borderRadius: BorderRadius.circular(2),
+          borderRadius: BorderRadius.circular(5),
         ),
       ],
     );
@@ -74,7 +74,7 @@ class _StatistikPageState extends State<StatistikPage> {
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
+        titleSpacing: 0,
         title: Text(
           'Statistik Data',
           style: TextStyle(
@@ -85,11 +85,10 @@ class _StatistikPageState extends State<StatistikPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 16),
             // Line Chart Section
             Text(
               'Jumlah Total Karya per Bulan',
@@ -99,7 +98,7 @@ class _StatistikPageState extends State<StatistikPage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 12),
             Container(
               height: 200,
               padding: EdgeInsets.all(16),
@@ -195,15 +194,14 @@ class _StatistikPageState extends State<StatistikPage> {
               ),
             ),
             
-            SizedBox(height: 24),
+            SizedBox(height: 20),
             
             // Menu Buttons
             _buildMenuButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
-            SizedBox(height: 12),
+            SizedBox(height: 8),
             _buildMenuButton(context, 'Pengaturan', Icons.settings, SettingsScreen()),
 
-
-            SizedBox(height: 24),
+            SizedBox(height: 20),
             
             Text(
               'Lencana Terbanyak',
@@ -213,10 +211,9 @@ class _StatistikPageState extends State<StatistikPage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-
-            SizedBox(height: 16),
+            SizedBox(height: 12),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -233,15 +230,15 @@ class _StatistikPageState extends State<StatistikPage> {
                       letterSpacing: 1.0,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 16),
                   _buildLeaderboardItem(1, 'assets/profil/exawinandya.png', 'Exa Winandya', 49.8),
-                  SizedBox(height: 12),
+                  SizedBox(height: 16),
                   _buildLeaderboardItem(2, 'assets/profil/dinatalastie.png', 'Dinata Lastie', 40.0),
-                  SizedBox(height: 12),
+                  SizedBox(height: 16),
                   _buildLeaderboardItem(3, 'assets/profil/sialatifarahmawati.png', 'Sia Latifa Rahmawati', 29.1),
-                  SizedBox(height: 12),
+                  SizedBox(height: 16),
                   _buildLeaderboardItem(4, 'assets/profil/gavinsantana.png', 'Gavin Santana', 26.8),
-                  SizedBox(height: 12),
+                  SizedBox(height: 16),
                   _buildLeaderboardItem(5, 'assets/profil/lidyaesandry.png', 'Lidya Esandry', 26.7),
                   SizedBox(height: 16),
                   GestureDetector(
@@ -270,25 +267,27 @@ class _StatistikPageState extends State<StatistikPage> {
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
             
-            SizedBox(height: 24),
+            SizedBox(height: 20),
             
             // Bar Chart Section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Jumlah Upload Karya Anda per Bulan',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    'Jumlah Upload Karya Anda per Bulan',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
+                SizedBox(width: 8),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
@@ -318,7 +317,7 @@ class _StatistikPageState extends State<StatistikPage> {
               ],
             ),
             
-            SizedBox(height: 16),
+            SizedBox(height: 12),
             
             Container(
               height: 250,
@@ -354,7 +353,6 @@ class _StatistikPageState extends State<StatistikPage> {
                           },
                         ),
                       ),
-
                       titlesData: FlTitlesData(
                         bottomTitles: AxisTitles(
                           sideTitles: SideTitles(
@@ -396,99 +394,103 @@ class _StatistikPageState extends State<StatistikPage> {
     );
   }
 
-
-
   Widget _buildLeaderboardItem(int rank, String image, String name, double percentage) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          // Rank number
-          Container(
-            width: 25,
-            child: Text(
-              rank.toString(),
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                color: const Color.fromARGB(221, 83, 83, 83),
-              ),
+    return Row(
+      children: [
+        // Rank number
+        Container(
+          width: 24,
+          alignment: Alignment.center,
+          child: Text(
+            rank.toString(),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
             ),
           ),
-          SizedBox(width: 4),
+        ),
+        SizedBox(width: 12),
 
-          // Avatar image
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey[300]!, width: 1),
-            ),
-            child: ClipOval(
-              child: Image.asset(
-                image,
-                fit: BoxFit.cover,
-              ),
-            ),
+        // Avatar
+        ClipOval(
+          child: Image.asset(
+            image,
+            width: 36,
+            height: 36,
+            fit: BoxFit.cover,
           ),
+        ),
+        SizedBox(width: 12),
 
-          SizedBox(width: 12),
-
-          // Name and progress bar
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black87,
-                  ),
+        // Name + progress bar
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
                 ),
-                SizedBox(height: 6),
-
-                // Progress bar
-                Container(
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(4),
+              ),
+              SizedBox(height: 4),
+              Stack(
+                children: [
+                  Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
-                  child: FractionallySizedBox(
+                  FractionallySizedBox(
                     alignment: Alignment.centerLeft,
                     widthFactor: percentage / 100,
                     child: Container(
+                      height: 8,
                       decoration: BoxDecoration(
                         color: Color(0xFF142C57),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(width: 12),
+
+        // Percentage
+        Container(
+          width: 45,
+          alignment: Alignment.centerRight,
+          child: Text(
+            '${percentage.toStringAsFixed(1)} %',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.green,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-
-
-
   Widget _buildMenuButton(BuildContext context, String label, IconData icon, Widget page) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 0),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Color(0xFF142C57)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
         leading: Icon(icon, color: Color(0xFF142C57), size: 16),
         title: Text(
           label,

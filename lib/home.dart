@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gores8_app/duniawi.dart';
 import 'package:gores8_app/profile.dart';
 import 'event.dart';
 import 'notification.dart';
@@ -7,20 +9,22 @@ import 'users.dart';
 import 'package:logger/logger.dart';
 import 'fullscreenvid.dart';
 import 'search_page.dart';
+import 'zoomduniawi.dart';
+import 'profil_exa.dart';
 // import 'package:fl_chart/fl_chart.dart';
 
 TextEditingController searchController = TextEditingController();
 final Logger _logger = Logger();
 
 class HomeScreen extends StatefulWidget {
-  final void Function(int)? onTabChange;
+  final Function(int)? onTabChange; // ← tambahkan ini
 
   const HomeScreen({Key? key, this.onTabChange}) : super(key: key);
-  
 
   @override
-  State<HomeScreen> createState() =>_HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
+
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedYear = '2025';
@@ -311,42 +315,77 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Profil user mengikuti
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage('assets/images/exawinandya.png'),
-                            radius: 20,
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('Exa Winandya', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                              Text('VIII A', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                            ],
-                          ),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProfilePageExa()),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/exawinandya.png'),
+                              radius: 20,
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text('Exa Winandya', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                Text('VIII A', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
+
+
                       const SizedBox(height: 10),
 
                       // Gambar postingan
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/duniawi.jpg', // boleh ganti sama gambar puisi lain
-                          height: 150,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ZoomDuniawiPage(imagePath: 'assets/images/banner_puisi.jpg'),
+                            ),
+                          );
+
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            'assets/images/banner_puisi.jpg',
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+
                       const SizedBox(height: 10),
 
                       // Judul puisi + button kecil
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Duniawi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => const PoemDetailPage()),
+                              );
+                            },
+                            child: const Text(
+                              'Duniawi', 
+                              style: TextStyle(
+                                fontSize: 15, 
+                                fontWeight: FontWeight.w300
+                              ),
+                            ),
+                          ),
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(

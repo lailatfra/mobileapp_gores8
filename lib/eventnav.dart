@@ -183,19 +183,18 @@ class _EventPageState extends State<EventPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF142C57),
+        backgroundColor: const Color(0xFF142C57),
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
-        title: Text(
-          'Event',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+        automaticallyImplyLeading: false, // ❌ Hilangkan tombol back
+        title: const Padding(
+          padding: EdgeInsets.only(left: 16), // ✅ Tambahkan padding kiri manual
+          child: Text(
+            'Event',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

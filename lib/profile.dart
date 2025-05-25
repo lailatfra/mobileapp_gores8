@@ -6,7 +6,10 @@ import 'editprofile.dart';
 import 'settings.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final Function(int)? onTabChange;
+
+  const ProfileScreen({Key? key, this.onTabChange}) : super(key: key);
+
   @override
   State<ProfileScreen> createState() => _ProfilePageState();
 }
@@ -432,7 +435,12 @@ class _ProfilePageState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => KetenanganJiwa()),
+                  );
+                },
                 child: const Text("Lihat Karya", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300)),
               ),
             ],
@@ -484,19 +492,19 @@ class Lencana {
 final List<Lencana> lencanaList = [
   Lencana(
     imageAsset: 'assets/images/medal1.png',
-    title: 'Buatlah Puisi Versimu!',
+    title: 'Lukisan Pemandangan',
     tanggal: '20-30 Mei 2025',
     likes: 40,
   ),
   Lencana(
     imageAsset: 'assets/images/medal2.png',
-    title: 'Menangkan Lomba Cerpen!',
+    title: 'Puisi Kemenangan',
     tanggal: '3-10 April 2025',
     likes: 22,
   ),
   Lencana(
     imageAsset: 'assets/images/medal1.png',
-    title: 'Lukisan Kubisme',
+    title: 'Kerajinan Bahan Campuran',
     tanggal: '1-30 April 2025',
     likes: 67,
   ),

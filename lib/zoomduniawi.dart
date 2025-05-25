@@ -1,49 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
 import 'ulasan_widget.dart';
 
+class ZoomDuniawiPage extends StatefulWidget {
+  final String imagePath;
 
-class FullscreenVideoPlayer extends StatefulWidget {
-  final String videoPath;
-
-  const FullscreenVideoPlayer({Key? key, required this.videoPath}) : super(key: key);
+  const ZoomDuniawiPage({super.key, required this.imagePath});
 
   @override
-  State<FullscreenVideoPlayer> createState() => _FullscreenVideoPlayerState();
+  State<ZoomDuniawiPage> createState() => _ZoomDuniawiPageState();
 }
 
-class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
-  late VideoPlayerController _videoPlayerController;
-  ChewieController? _chewieController;
+class _ZoomDuniawiPageState extends State<ZoomDuniawiPage> {
   bool isLiked = false;
-
-
-  @override
-  void initState() {
-    super.initState();
-    _videoPlayerController = VideoPlayerController.asset(widget.videoPath)
-      ..initialize().then((_) {
-        setState(() {
-          _chewieController = ChewieController(
-            videoPlayerController: _videoPlayerController,
-            autoPlay: true,
-            looping: false,
-            fullScreenByDefault: false,
-          );
-        });
-      });
-  }
-
-
-
-  @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    _chewieController?.dispose();
-    super.dispose();
-  }
-
   final komentarController = TextEditingController();
 
   void _showReviewBottomSheet() {
@@ -75,39 +43,21 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
                   ),
                   const Divider(thickness: 1, height: 20),
                   Expanded(
-                    child: ListView(
+                    child: ListView.builder(
                       controller: scrollController,
-                      children: [
-                        ulasanTile(
-                          nama: 'Exa Winandya',
-                          komentar: 'Bagus',
-                          imageUrl: 'assets/profil/exawinandya.png',
-                          liked: false,
-                          likeCount: 2,
-                        ),
-                        ulasanTile(
-                          nama: 'Gavin Santana',
-                          komentar: 'Kompak',
-                          imageUrl: 'assets/profil/gavinsantana.png',
-                          liked: true,
-                          likeCount: 4,
-                        ),
-                        ulasanTile(
-                          nama: 'Sia Latifa Rahmawati',
-                          komentar: 'Sesuai Irama',
-                          imageUrl: 'assets/profil/sialatifarahmawati.png',
-                          liked: false,
-                          likeCount: 1,
-                        ),
-                        ulasanTile(
-                          nama: 'Sia Latifa Rahmawati',
-                          komentar: 'Pantas Dipandang',
-                          imageUrl: 'assets/profil/sialatifarahmawati.png',
-                          liked: true,
-                          likeCount: 1,
-                        ),
-                      ],
+                      itemCount: ulasanList.length,
+                      itemBuilder: (context, index) {
+                        final ulasan = ulasanList[index];
+                        return ulasanTile(
+                          nama: ulasan['nama'],
+                          komentar: ulasan['komentar'],
+                          imageUrl: ulasan['imageUrl'],
+                          liked: ulasan['liked'],
+                          likeCount: ulasan['likeCount'],
+                        );
+                      },
                     ),
+
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -153,6 +103,44 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
     );
   }
 
+  final List<Map<String, dynamic>> ulasanList = [
+    {
+      'nama': 'Lenora Annie',
+      'komentar': 'Kalimatnya mudah dibaca',
+      'imageUrl': 'assets/profil/exawinandya.png',
+      'liked': false,
+      'likeCount': 3,
+    },
+    {
+      'nama': 'Dinata Lastie',
+      'komentar': 'Bagus',
+      'imageUrl': 'assets/profil/dinatalastie.png',
+      'liked': true,
+      'likeCount': 2,
+    },
+    {
+      'nama': 'Sia Latifa Rahmawati',
+      'komentar': 'Pola Kalimatnya indah',
+      'imageUrl': 'assets/profil/sialatifarahmawati.png',
+      'liked': true,
+      'likeCount': 4,
+    },
+    {
+      'nama': 'Ahmad Hafizh',
+      'komentar': 'Keren banget fotonya!',
+      'imageUrl': 'assets/profil/ahmadhafizh.png',
+      'liked': true,
+      'likeCount': 5,
+    },
+    {
+      'nama': 'Ayu Lestari',
+      'komentar': 'Bikin tenang liatnya',
+      'imageUrl': 'assets/profil/ayulestari.png',
+      'liked': false,
+      'likeCount': 2,
+    },
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,14 +148,14 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // Video player
           Positioned.fill(
-            child: _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
-                ? Chewie(controller: _chewieController!)
-                : const Center(child: CircularProgressIndicator()),
+            child: InteractiveViewer(
+              child: Image.asset(
+                widget.imagePath,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
-
-          // Overlay buttons (back, like, ulasan)
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 10,
@@ -175,23 +163,19 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Back Button
                 IconButton(
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
-
-                // Like + Ulasan
                 Row(
                   children: [
-                    // Like Button
                     IconButton(
                       iconSize: 18,
                       icon: Icon(
                         isLiked ? Icons.thumb_up : Icons.thumb_up_outlined,
-                        color: isLiked ? Color(0xFF1D3250) : Colors.white,
+                        color: isLiked ? Color(0xFF142C57) : Colors.white,
                       ),
                       onPressed: () {
                         setState(() {
@@ -199,8 +183,6 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
                         });
                       },
                     ),
-
-                    // Lihat Ulasan Button
                     TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,

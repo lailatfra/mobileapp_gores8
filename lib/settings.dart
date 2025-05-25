@@ -90,7 +90,7 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 8),
             _buildButton(context, 'Notifikasi', Icons.notifications, const NotificationPage()),
             _buildButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
-            _buildButton(context, 'Leaderboard', Icons.comment, LihatSemuaLeaderboardPage()),
+            _buildButton(context, 'Leaderboard', Icons.leaderboard, LihatSemuaLeaderboardPage()),
             _buildButton(context, 'Event', Icons.local_fire_department, const EventPage()),
             _buildTabButton(context, 'Statistik Data', Icons.bar_chart, 3, onTabChange),
             _buildTabButton(context, 'Upload Karya', Icons.cloud_upload, 2, onTabChange),

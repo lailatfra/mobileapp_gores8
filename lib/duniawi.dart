@@ -40,6 +40,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
     );
   }
 
+  TextEditingController komentarController = TextEditingController();
 
   void _showCancelMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -52,7 +53,45 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
     );
   }
 
-  TextEditingController komentarController = TextEditingController();
+
+  final List<Map<String, dynamic>> ulasanList = [
+    {
+      'nama': 'Lenora Annie',
+      'komentar': 'Kalimatnya mudah dibaca',
+      'imageUrl': 'assets/profil/exawinandya.png',
+      'liked': false,
+      'likeCount': 3,
+    },
+    {
+      'nama': 'Dinata Lastie',
+      'komentar': 'Bagus',
+      'imageUrl': 'assets/profil/dinatalastie.png',
+      'liked': true,
+      'likeCount': 2,
+    },
+    {
+      'nama': 'Sia Latifa Rahmawati',
+      'komentar': 'Pola Kalimatnya indah',
+      'imageUrl': 'assets/profil/sialatifarahmawati.png',
+      'liked': true,
+      'likeCount': 4,
+    },
+    {
+      'nama': 'Ahmad Hafizh',
+      'komentar': 'Keren banget fotonya!',
+      'imageUrl': 'assets/profil/ahmadhafizh.png',
+      'liked': true,
+      'likeCount': 5,
+    },
+    {
+      'nama': 'Ayu Lestari',
+      'komentar': 'Bikin tenang liatnya',
+      'imageUrl': 'assets/profil/ayulestari.png',
+      'liked': false,
+      'likeCount': 2,
+    },
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,12 +182,15 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                       GestureDetector(
                         onTap: () {
                           if (!isVoted) {
-                            _showVotePopup();
+                            setState(() {
+                              isVoted = true;
+                            });
+                            _showVotePopup(); // tampilkan popup setelah vote
                           } else {
                             setState(() {
                               isVoted = false;
                             });
-                            _showCancelMessage();
+                            _showCancelMessage(); // misalnya snackbar bahwa vote dibatalkan
                           }
                         },
                         child: Icon(
@@ -261,31 +303,19 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                                     ),
                                     const Divider(thickness: 1, height: 20),
                                     Expanded(
-                                      child: ListView(
+                                      child: ListView.builder(
                                         controller: scrollController,
-                                        children: [
-                                          ulasanTile(
-                                            nama: 'Exa Winandya',
-                                            komentar: 'Bagus banget',
-                                            imageUrl: 'assets/profil/exawinandya.png',
-                                            liked: false,
-                                            likeCount: 1,
-                                          ),
-                                          ulasanTile(
-                                            nama: 'Dinata Lastie',
-                                            komentar: 'Bagus',
-                                            imageUrl: 'assets/profil/dinatalastie.png',
-                                            liked: true,
-                                            likeCount: 3,
-                                          ),
-                                          ulasanTile(
-                                            nama: 'Sia Latifa Rahmawati',
-                                            komentar: 'Kalimatnya indah',
-                                            imageUrl: 'assets/profil/sialatifarahmawati.png',
-                                            liked: false,
-                                            likeCount: 1,
-                                          ),
-                                        ],
+                                        itemCount: ulasanList.length,
+                                        itemBuilder: (context, index) {
+                                          final ulasan = ulasanList[index];
+                                          return ulasanTile(
+                                            nama: ulasan['nama'],
+                                            komentar: ulasan['komentar'],
+                                            imageUrl: ulasan['imageUrl'],
+                                            liked: ulasan['liked'],
+                                            likeCount: ulasan['likeCount'],
+                                          );
+                                        },
                                       ),
                                     ),
 
@@ -394,7 +424,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                   date: '25 April 2025',
                   likeCount: 30,
                   isLiked: true,
-                  imagePath: 'assets/images/pemandangan.jpg',
+                  imagePath: 'assets/images/ketenanganjiwa.jpg',
                 ),
                 OtherPoemCard(
                   title: 'Ilmu Pedoman Hidup',
@@ -462,6 +492,8 @@ class _OtherPoemCardState extends State<OtherPoemCard> {
       likeCount += isLiked ? 1 : -1;
     });
   }
+  
+
   
 
   @override
@@ -582,7 +614,7 @@ Widget _buildFirePopup({
             width: MediaQuery.of(context).size.width * 0.8,
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFFF4FAFC),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(

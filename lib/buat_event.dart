@@ -50,16 +50,43 @@ class _BuatEventScreenState extends State<BuatEventScreen> {
         '${date.year}';
   }
 
+  void _submitForm() {
+    
+    if (_judulController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Judul tidak boleh kosong')),
+      );
+      return;
+    }
+
+    // Proses upload data
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Karya berhasil diupload!')),
+    );
+    
+    // Kembali ke halaman sebelumnya
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFF142C57),
-        title: Text('Buat Event'),
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
+        ),
+        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
+        title: Text(
+          'Buat Event',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -67,7 +94,14 @@ class _BuatEventScreenState extends State<BuatEventScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pilih Gambar'),
+            Text(
+              'Pilih Gambar', 
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Color.fromARGB(221, 71, 71, 71),
+              ),
+            ),
             SizedBox(height: 8),
             GestureDetector(
               onTap: _pickImage,
@@ -98,25 +132,70 @@ class _BuatEventScreenState extends State<BuatEventScreen> {
               ),
             ),
             SizedBox(height: 24),
-            Text('Judul Event'),
-            SizedBox(height: 6),
+            Text(
+              'Judul Event',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 8),
             TextField(
               controller: _judulController,
+              style: TextStyle(fontSize: 14, color: const Color.fromARGB(255, 92, 92, 92)),
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                hintText: 'Masukkan judul Event',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey[400]!),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey[400]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Color(0xFF2E3A59)),
+                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
             SizedBox(height: 24),
-            Text('Ketentuan/Deskripsi'),
-            SizedBox(height: 6),
+
+            Text(
+              'Konten/Deskripsi',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 8),
             TextField(
               controller: _deskripsiController,
-              maxLines: 6,
+              style: TextStyle(fontSize: 14, color: const Color.fromARGB(255, 92, 92, 92)),
+              maxLines: 10,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                hintText: 'Masukkan konten/deskripsi',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey[400]!),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey[400]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Color(0xFF2E3A59)),
+                ),
+                contentPadding: EdgeInsets.all(16),
               ),
             ),
+
             SizedBox(height: 24),
+
             Row(
               children: [
                 Expanded(
@@ -173,20 +252,26 @@ class _BuatEventScreenState extends State<BuatEventScreen> {
               ],
             ),
             SizedBox(height: 32),
+
             SizedBox(
               width: double.infinity,
-              height: 46,
               child: ElevatedButton(
-                onPressed: () {
-                  // logic simpan event
-                },
+                onPressed: _submitForm,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF142C57),
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text('Buat Event'),
+                child: Text(
+                  'Buat Event',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
           ],

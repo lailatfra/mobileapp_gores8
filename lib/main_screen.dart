@@ -79,10 +79,17 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
             )),
-            _buildOffstageNavigator(2, AddScreen()),
+            _buildOffstageNavigator(2, AddScreen(
+              onTabChange: (index) {
+                print('Navigating to tab $index');
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            )),
             _buildOffstageNavigator(3, StatistikPage()),
             _buildOffstageNavigator(4, ProfileScreen(
-              
+              onTabChange: _onTabChange,
             )),
           ],
         ),

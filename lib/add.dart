@@ -5,6 +5,10 @@ import 'dart:io';
 // import 'package:permission_handler/permission_handler.dart';
 
 class AddScreen extends StatefulWidget {
+  final void Function(int)? onTabChange;
+
+  const AddScreen({Key? key, this.onTabChange}) : super(key: key);
+
   @override
   _AddScreen createState() => _AddScreen();
 }
@@ -17,7 +21,7 @@ class _AddScreen extends State<AddScreen> {
   File? _selectedFile;
   bool _isVideo = false;
   VideoPlayerController? _videoController;
-  
+  bool _tanpaFile = false;
   String _selectedEvent = 'Pilih Event';
   List<String> _eventOptions = [
     'Pilih Event',
@@ -149,24 +153,24 @@ class _AddScreen extends State<AddScreen> {
     Navigator.pop(context);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF142C57),
+        backgroundColor: const Color(0xFF142C57),
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
-        title: Text(
-          'Upload Karyamu',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+        automaticallyImplyLeading: false, // ❌ Hilangkan tombol back
+        title: const Padding(
+          padding: EdgeInsets.only(left: 14), // ✅ Tambahkan padding kiri manual
+          child: Text(
+            'Upload Karyamu',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
@@ -175,8 +179,26 @@ class _AddScreen extends State<AddScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 16),
             // File Upload Section
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _selectedFile == null ? 'Pilih File' : 'Ubah File',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: const Color.fromARGB(221, 71, 71, 71),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                
+                
+              ],
+            ),
+
+            const SizedBox(height: 8),
+
             GestureDetector(
               onTap: _pickFile,
               child: Container(
@@ -190,27 +212,18 @@ class _AddScreen extends State<AddScreen> {
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.image,
-                            size: 60,
-                            color: Colors.grey[600],
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Pilih File',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 16,
-                            ),
-                          ),
+                          Icon(Icons.cloud_upload_outlined,
+                              size: 60, color: const Color.fromARGB(255, 94, 94, 94)),
                         ],
                       )
                     : _isVideo
-                        ? _videoController != null && _videoController!.value.isInitialized
+                        ? _videoController != null &&
+                                _videoController!.value.isInitialized
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: AspectRatio(
-                                  aspectRatio: _videoController!.value.aspectRatio,
+                                  aspectRatio:
+                                      _videoController!.value.aspectRatio,
                                   child: VideoPlayer(_videoController!),
                                 ),
                               )
@@ -226,32 +239,7 @@ class _AddScreen extends State<AddScreen> {
                           ),
               ),
             ),
-            
-            SizedBox(height: 16),
-            
-            // File Status
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Pilih File',
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                ),
-                if (_selectedFile != null)
-                  Row(
-                    children: [
-                      Text(
-                        'Unggah Karya tanpa File',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.check_circle, color: Colors.green, size: 20),
-                    ],
-                  ),
-              ],
-            ),
-            
+
             SizedBox(height: 24),
             
             // Judul Field
@@ -426,7 +414,7 @@ class _AddScreen extends State<AddScreen> {
                 onPressed: _submitForm,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF2E3A59),
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

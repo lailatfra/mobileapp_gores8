@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/edit_ketenanganjiwa.dart';
+import 'ulasan_widget.dart';
 
 class KetenanganJiwa extends StatefulWidget {
   const KetenanganJiwa({super.key});
@@ -17,6 +19,58 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
       mainLikeCount += isMainLiked ? 1 : -1;
     });
   }
+
+  TextEditingController komentarController = TextEditingController();
+
+  void _showCancelMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Anda batal memilih. Anda bisa memilih karya ini kembali dengan klik tombol vote atau memilih karya lain.',
+        ),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+
+  final List<Map<String, dynamic>> ulasanList = [
+    {
+      'nama': 'Lenora Annie',
+      'komentar': 'Kalimatnya mudah dibaca',
+      'imageUrl': 'assets/profil/exawinandya.png',
+      'liked': false,
+      'likeCount': 3,
+    },
+    {
+      'nama': 'Dinata Lastie',
+      'komentar': 'Bagus',
+      'imageUrl': 'assets/profil/dinatalastie.png',
+      'liked': true,
+      'likeCount': 2,
+    },
+    {
+      'nama': 'Sia Latifa Rahmawati',
+      'komentar': 'Pola Kalimatnya indah',
+      'imageUrl': 'assets/profil/sialatifarahmawati.png',
+      'liked': true,
+      'likeCount': 4,
+    },
+    {
+      'nama': 'Ahmad Hafizh',
+      'komentar': 'Keren banget fotonya!',
+      'imageUrl': 'assets/profil/ahmadhafizh.png',
+      'liked': true,
+      'likeCount': 5,
+    },
+    {
+      'nama': 'Ayu Lestari',
+      'komentar': 'Bikin tenang liatnya',
+      'imageUrl': 'assets/profil/ayulestari.png',
+      'liked': false,
+      'likeCount': 2,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -133,14 +187,17 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Tombol Edit dan Hapus
+                  // Kiri: Edit, Hapus, dan Lihat Ulasan
                   Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit, size: 20),
                         color: const Color(0xFF1D3250),
                         onPressed: () {
-                          // aksi edit
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditKetenanganJiwa()),
+                          );
                         },
                       ),
                       IconButton(
@@ -149,10 +206,114 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                           // aksi hapus
                         },
                       ),
+                      
+                      const SizedBox(width: 18),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) {
+                              return DraggableScrollableSheet(
+                                initialChildSize: 0.65,
+                                minChildSize: 0.3,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Ulasan',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const Divider(thickness: 1, height: 20),
+                                        Expanded(
+                                          child: ListView.builder(
+                                            controller: scrollController,
+                                            itemCount: ulasanList.length,
+                                            itemBuilder: (context, index) {
+                                              final ulasan = ulasanList[index];
+                                              return ulasanTile(
+                                                nama: ulasan['nama'],
+                                                komentar: ulasan['komentar'],
+                                                imageUrl: ulasan['imageUrl'],
+                                                liked: ulasan['liked'],
+                                                likeCount: ulasan['likeCount'],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        // Input komentar
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextField(
+                                                controller: komentarController,
+                                                decoration: InputDecoration(
+                                                  hintText: 'Ketik Ulasan',
+                                                  fillColor: Colors.grey[200],
+                                                  filled: true,
+                                                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide.none,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            CircleAvatar(
+                                              backgroundColor: const Color(0xFF1D3250),
+                                              child: IconButton(
+                                                icon: const Icon(Icons.send, color: Colors.white),
+                                                onPressed: () {
+                                                  String komentar = komentarController.text;
+                                                  if (komentar.isNotEmpty) {
+                                                    // TODO: Tambahkan logika untuk menyimpan ulasan ke database / list
+                                                    print('Komentar dikirim: $komentar');
+                                                    komentarController.clear();
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1D3250),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        ),
+                        child: const Text(
+                          'Lihat Ulasan',
+                          style: TextStyle(fontWeight: FontWeight.w300, color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ],
                   ),
 
-                  // Like Button
+                  // Kanan: Like
                   GestureDetector(
                     onTap: toggleMainLike,
                     child: Row(
@@ -170,6 +331,7 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                 ],
               ),
             ),
+
 
 
             const SizedBox(height: 20),
