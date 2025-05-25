@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gores8_app/add.dart';
+// import 'package:gores8_app/add.dart';
+import 'main_screen.dart';
+import 'buat_event.dart';
 
 class EventBannerScroll extends StatelessWidget {
   const EventBannerScroll({super.key});
@@ -110,7 +112,9 @@ class EventBannerScroll extends StatelessWidget {
 
 
 class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+  final void Function(int)? onTabChange;
+
+  const EventPage({Key? key, this.onTabChange}) : super(key: key);
 
   @override
   State<EventPage> createState() => _EventPageState();
@@ -282,7 +286,7 @@ class _EventPageState extends State<EventPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       height: 40,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF1D3250), width: 1.5),
+                        border: Border.all(color: Color(0xFF1D3250), width: 1.0),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: DropdownButtonHideUnderline(
@@ -330,7 +334,7 @@ class _EventPageState extends State<EventPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AddScreen()),
+                          MaterialPageRoute(builder: (context) => BuatEventScreen()),
                         );
                       },
                     ),
@@ -349,103 +353,109 @@ class _EventPageState extends State<EventPage> {
               itemCount: karyaList.length,
               itemBuilder: (context, index) {
                 final karya = karyaList[index];
-                final isTopThree = karya['rank'] <= 3;
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF1D3250)),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Nomor / Icon Medali
-                      isTopThree
-                          ? Image.asset(
-                              'assets/images/medal${karya['rank']}.png',
-                              width: 28,
-                            )
-                          : Text(
-                              '${karya['rank']}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                      const SizedBox(width: 10),
-
-                      // Gambar
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          karya['image'],
-                          width: 60,
-                          height: 70,
-                          fit: BoxFit.cover,
+                      // Nomor di luar card
+                      Container(
+                        width: 24,
+                        alignment: Alignment.topCenter,
+                        margin: const EdgeInsets.only(right: 8),
+                        child: Text(
+                          '${index + 1}', // Otomatis sesuai urutan
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
 
-                      const SizedBox(width: 12),
-
+                      // Card
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Title
-                            Text(
-                              karya['title'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-
-                            // Author
-                            Text(
-                              karya['author'],
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                            const SizedBox(height: 2),
-
-                            // Class & Votes in same row
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Class (left)
-                                Text(
-                                  karya['class'],
-                                  style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color.fromARGB(255, 136, 136, 136)),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Gambar
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  karya['image'],
+                                  width: 60,
+                                  height: 70,
+                                  fit: BoxFit.cover,
                                 ),
+                              ),
+                              const SizedBox(width: 12),
 
-                                // Votes + Icon (right)
-                                Row(
+                              // Konten text
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // Title
                                     Text(
-                                      '${karya['votes']} Votes',
-                                      style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                      karya['title'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(width: 4),
-                                    const Icon(Icons.local_fire_department, size: 18, color: Colors.orange),
+                                    const SizedBox(height: 4),
+
+                                    // Author
+                                    Text(
+                                      karya['author'],
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 2),
+
+                                    // Class & Votes
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          karya['class'],
+                                          style: const TextStyle(
+                                              fontSize: 12, color: Colors.blueGrey),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '${karya['votes']} Votes',
+                                              style: const TextStyle(
+                                                  fontSize: 12, color: Colors.blueGrey),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            const Icon(Icons.local_fire_department,
+                                                size: 18, color: Colors.orange),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-
                     ],
                   ),
-
                 );
               },
             ),
+
           ],
         ),
       ),

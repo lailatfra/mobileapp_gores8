@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'main_screen.dart';
+import 'ulasan_widget.dart';
 
 class PoemDetailPage extends StatefulWidget {
-  const PoemDetailPage({super.key});
+  final void Function(int)? onTabChange;
+
+  const PoemDetailPage({super.key, this.onTabChange});
 
 
   @override
@@ -81,7 +85,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                   ),
                 ),
                 Positioned(
-                  top: 16,
+                  top: MediaQuery.of(context).padding.top,
                   left: 8,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -116,7 +120,9 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.onTabChange?.call(2); // pindah ke tab Upload Karya (index ke-2)
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF1D3250),
                           shape: RoundedRectangleBorder(
@@ -125,7 +131,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                         ),
                         child: const Text(
-                          'Buat Puisi Versimu!',
+                          'Buatlah Puisi Versimu!',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white,
@@ -400,7 +406,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                 ),
                 OtherPoemCard(
                   title: 'Cermin Kehidupan',
-                  subtitle: '',
+                  subtitle: ' ', 
                   date: '20 April 2025',
                   likeCount: 22,
                   isLiked: false,
@@ -632,58 +638,58 @@ Widget _buildFirePopup({
 }
 
 
-Widget ulasanTile({
-  required String nama,
-  required String komentar,
-  required String imageUrl,
-  required bool liked,
-  required int likeCount,
-}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Row(
-      children: [
-        CircleAvatar(
-          radius: 20,
-          backgroundImage: NetworkImage(imageUrl),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                nama,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                komentar,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Column(
-          children: [
-            Icon(
-              liked ? Icons.favorite : Icons.favorite_border,
-              color: liked ? Colors.indigo : Colors.grey,
-              size: 20,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              likeCount.toString(),
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
+// Widget ulasanTile({
+//   required String nama,
+//   required String komentar,
+//   required String imageUrl,
+//   required bool liked,
+//   required int likeCount,
+// }) {
+//   return Padding(
+//     padding: const EdgeInsets.symmetric(vertical: 8.0),
+//     child: Row(
+//       children: [
+//         CircleAvatar(
+//           radius: 20,
+//           backgroundImage: NetworkImage(imageUrl),
+//         ),
+//         const SizedBox(width: 12),
+//         Expanded(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(
+//                 nama,
+//                 style: const TextStyle(
+//                   fontWeight: FontWeight.w500,
+//                 ),
+//               ),
+//               const SizedBox(height: 4),
+//               Text(
+//                 komentar,
+//                 style: const TextStyle(
+//                   fontWeight: FontWeight.w400,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Column(
+//           children: [
+//             Icon(
+//               liked ? Icons.favorite : Icons.favorite_border,
+//               color: liked ? Colors.indigo : Colors.grey,
+//               size: 20,
+//             ),
+//             const SizedBox(height: 2),
+//             Text(
+//               likeCount.toString(),
+//               style: const TextStyle(fontSize: 12),
+//             ),
+//           ],
+//         ),
+//       ],
+//     ),
+//   );
+// }
 

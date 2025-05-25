@@ -19,15 +19,23 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
   }
 
   final List<Map<String, dynamic>> _mengikutiData = [
-    {"nama": "Lenora Annie", "kelas": "VIII A", "status": ""},
-    {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman"},
-    {"nama": "Exa Winandya", "kelas": "VIII E", "status": "Berteman"},
+    {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/dinatalastie.png"},
+    {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
+    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Alleric Emier", "kelas": "IX C", "status": "Berteman", "image": "assets/profil/allericemier.png"},
   ];
 
 
   final List<Map<String, dynamic>> _pengikutData = [
-    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti"},
-    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti"},
+    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/bhaskarahadrianathala"},
+    {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
   ];
 
   @override
@@ -67,8 +75,8 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildTabButton("2 Diikuti", 0),
-                      buildTabButton("1 Pengikut", 1),
+                      buildTabButton("7 Diikuti", 0),
+                      buildTabButton("6 Pengikut", 1),
                     ],
                   ),
                 ],
@@ -79,7 +87,7 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -136,9 +144,9 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
           item["nama"]!,
           item["kelas"]!,
           item["status"]!,
+          item["image"]!, // tambahkan image path di sini
           () {
             setState(() {
-              // Toggle status
               data[index]["status"] =
                   data[index]["status"] == "Berteman" ? "Ikuti" : "Berteman";
             });
@@ -149,10 +157,14 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
   }
 
   Widget buildUserTile(
-      String nama, String kelas, String status, VoidCallback onPressed) {
+      String nama, String kelas, String status, String imagePath, VoidCallback onPressed) {
     return Row(
       children: [
-        const CircleAvatar(radius: 24, backgroundColor: Colors.grey),
+        CircleAvatar(
+          radius: 24, 
+          backgroundImage: AssetImage(imagePath),
+          backgroundColor: Colors.grey
+        ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(

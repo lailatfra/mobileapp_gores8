@@ -163,6 +163,10 @@ class EditProfilPageState extends State<EditProfilPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextField(
+                      style: TextStyle( // 👈 ini untuk ukuran font dalam form
+                        fontSize: 13,   // ubah ukuran sesuai keinginan
+                        color: const Color.fromARGB(221, 48, 48, 48),
+                      ),
                       controller: _usernameController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
@@ -192,6 +196,10 @@ class EditProfilPageState extends State<EditProfilPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextField(
+                      style: TextStyle( // 👈 ini untuk ukuran font dalam form
+                        fontSize: 13,   // ubah ukuran sesuai keinginan
+                        color: const Color.fromARGB(221, 48, 48, 48),
+                      ),
                       controller: _classController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
@@ -221,6 +229,10 @@ class EditProfilPageState extends State<EditProfilPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextField(
+                      style: TextStyle( // 👈 ini untuk ukuran font dalam form
+                        fontSize: 13,   // ubah ukuran sesuai keinginan
+                        color: const Color.fromARGB(221, 48, 48, 48),
+                      ),
                       controller: _noteController,
                       maxLines: 4,
                       decoration: InputDecoration(

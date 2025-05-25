@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/leaderboard.dart';
 import 'package:gores8_app/login_screen.dart';
 import 'add.dart';
 import 'eventnav.dart';
@@ -11,7 +12,9 @@ import 'users.dart';
 import 'statistik.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final void Function(int)? onTabChange;
+
+  const SettingsScreen({Key? key, this.onTabChange}) : super(key: key);
 
   void navigate(BuildContext context, Widget page) {
     Navigator.push(
@@ -55,14 +58,14 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF142C57),
+        backgroundColor: Color(0xFF142C57),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        titleSpacing: 0,
-        title: const Text(
+        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
+        title: Text(
           'Pengaturan',
           style: TextStyle(
             color: Colors.white,
@@ -76,21 +79,21 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 18),
+            const SizedBox(height: 14),
             const Text('Profil dan Member', style: TextStyle(fontWeight: FontWeight.normal, color: Color.fromARGB(255, 65, 65, 65))),
             const SizedBox(height: 8),
-            _buildButton(context, 'Lihat Profil', Icons.person, const ProfileScreen()),
+            _buildTabButton(context, 'Lihat Profil', Icons.person, 4, onTabChange),
             _buildButton(context, 'Edit Profil', Icons.edit, const EditProfilPage()),
             _buildButton(context, 'Anggota', Icons.group, const UsersScreen()),
-            const SizedBox(height: 18),
-            const Text('Aktivitas', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            const Text('Aktivitas', style: TextStyle(fontWeight: FontWeight.normal, color: Color.fromARGB(255, 65, 65, 65))),
             const SizedBox(height: 8),
             _buildButton(context, 'Notifikasi', Icons.notifications, const NotificationPage()),
             _buildButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
-            _buildButton(context, 'Riwayat Komentar', Icons.comment, RiwayatKomentarPage()),
+            _buildButton(context, 'Leaderboard', Icons.comment, LihatSemuaLeaderboardPage()),
             _buildButton(context, 'Event', Icons.local_fire_department, const EventPage()),
-            _buildButton(context, 'Statistik Data', Icons.bar_chart, StatistikPage()),
-            _buildButton(context, 'Upload Karya', Icons.cloud_upload, AddScreen()),
+            _buildTabButton(context, 'Statistik Data', Icons.bar_chart, 3, onTabChange),
+            _buildTabButton(context, 'Upload Karya', Icons.cloud_upload, 2, onTabChange),
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
@@ -120,7 +123,8 @@ class SettingsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
-        leading: Icon(icon, color: Color(0xFF142C57), size: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        leading: Icon(icon, color: Color(0xFF142C57), size: 20),
         title: Text(
           label,
           style: const TextStyle(
@@ -137,6 +141,37 @@ class SettingsScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _buildTabButton(
+    BuildContext context,
+    String label,
+    IconData icon,
+    int targetTabIndex,
+    void Function(int)? onTabChange, // ✅ Nullable
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Color.fromARGB(255, 71, 71, 71)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        leading: Icon(icon, color: Color(0xFF142C57), size: 20),
+        title: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Color(0xFF142C57),
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: Color(0xFF142C57)),
+        onTap: () => onTabChange?.call(targetTabIndex), // ✅ Aman untuk null
+      ),
+    );
+  
   }
 }
 

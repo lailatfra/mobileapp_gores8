@@ -19,67 +19,64 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
   }
 
   final List<Map<String, dynamic>> _mengikutiData = [
-    {"nama": "Lenora Annie", "kelas": "VIII A", "status": ""},
-    {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman"},
-    {"nama": "Exa Winandya", "kelas": "VIII E", "status": "Berteman"},
+    {"nama": "Lenora Annie", "kelas": "VIII A", "status": "", "image": "assets/profil/lenoraannie.png"},
+    {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/dinatalastie.png"},
+    {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
+    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Alleric Emier", "kelas": "IX C", "status": "Berteman", "image": "assets/profil/allericemier.png"},
   ];
 
 
   final List<Map<String, dynamic>> _pengikutData = [
-    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti"},
-    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti"},
+    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/bhaskarahadrianathala"},
+    {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150), // lebih tinggi karena ada tab
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF142C57),
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Exa Winandya',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildTabButton("2 Diikuti", 0),
-                      buildTabButton("1 Pengikut", 1),
-                    ],
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF142C57),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+        titleSpacing: 0,
+        title: const Text(
+          'Exa Winandya',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48),
+          child: Container(
+            color: const Color(0xFF142C57),
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildTabButton("8 Diikuti", 0),
+                buildTabButton("6 Pengikut", 1),
+              ],
             ),
           ),
         ),
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 18),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -136,9 +133,9 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
           item["nama"]!,
           item["kelas"]!,
           item["status"]!,
+          item["image"]!, // tambahkan image path di sini
           () {
             setState(() {
-              // Toggle status
               data[index]["status"] =
                   data[index]["status"] == "Berteman" ? "Ikuti" : "Berteman";
             });
@@ -149,10 +146,14 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
   }
 
   Widget buildUserTile(
-      String nama, String kelas, String status, VoidCallback onPressed) {
+      String nama, String kelas, String status, String imagePath, VoidCallback onPressed) {
     return Row(
       children: [
-        const CircleAvatar(radius: 24, backgroundColor: Colors.grey),
+        CircleAvatar(
+          radius: 24, 
+          backgroundImage: AssetImage(imagePath),
+          backgroundColor: Colors.grey,
+        ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(

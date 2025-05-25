@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
                   color: const Color(0xFF1F3556),
                 ),
                 Positioned(
-                  top: 16,
+                  top: 12,
                   left: 8,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -258,7 +258,7 @@ class _ProfilePageState extends State<ProfilePageExa> {
                 );
               },
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(0),
                 child: Image.asset(
                   imagePaths[index],
                   fit: BoxFit.cover,

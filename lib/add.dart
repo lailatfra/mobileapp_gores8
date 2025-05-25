@@ -21,7 +21,7 @@ class _AddScreen extends State<AddScreen> {
   String _selectedEvent = 'Pilih Event';
   List<String> _eventOptions = [
     'Pilih Event',
-    'Buatlah Puisi Versmu!',
+    'Buatlah Puisi Versimu!',
     'Festival Sains dan Teknologi'
   ];
 
@@ -154,16 +154,21 @@ class _AddScreen extends State<AddScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Color(0xFF142C57),
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
+        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
         title: Text(
           'Upload Karyamu',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-        backgroundColor: Color(0xFF1D3250),
-        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -386,6 +391,7 @@ class _AddScreen extends State<AddScreen> {
                 child: DropdownButton<String>(
                   value: _selectedEvent,
                   isExpanded: true,
+                  style: const TextStyle(fontSize: 13, color: Color.fromARGB(255, 43, 43, 43)),
                   items: _eventOptions.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -404,7 +410,7 @@ class _AddScreen extends State<AddScreen> {
             SizedBox(height: 16),
             
             Text(
-              '* Jika Event Tidak ada di dalam pilihan, mungkin event telah selesai atau error dari kesalahan jaringan.',
+              '* Jika Event Tidak ada di dalam pilihan, mungkin event telah selesai atau error dan kesalahan jaringan.',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 12,

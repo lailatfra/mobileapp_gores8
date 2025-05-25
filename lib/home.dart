@@ -5,12 +5,17 @@ import 'notification.dart';
 import 'profil_exa.dart';
 import 'users.dart';
 import 'package:logger/logger.dart';
+import 'fullscreenvid.dart';
+import 'search_page.dart';
 // import 'package:fl_chart/fl_chart.dart';
 
+TextEditingController searchController = TextEditingController();
 final Logger _logger = Logger();
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  final void Function(int)? onTabChange;
+
+  const HomeScreen({Key? key, this.onTabChange}) : super(key: key);
   
 
   @override
@@ -19,7 +24,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedYear = '2025';
-  
   int likeCount = 12;
   bool isLiked = false;
 
@@ -29,22 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
       likeCount += isLiked ? 1 : -1;
     });
   }
-
-  // Data untuk line chart (Jumlah Total Karya per Bulan)
-  // final List<FlSpot> lineChartData = [
-  //   FlSpot(0, 90),  // Jan
-  //   FlSpot(1, 85),  // Feb
-  //   FlSpot(2, 75),  // Mar
-  //   FlSpot(3, 80),  // Apr
-  //   FlSpot(4, 60),  // Mei
-  //   FlSpot(5, 0),  // Jun
-  //   FlSpot(6, 0),  // Jul
-  //   FlSpot(7, 0),  // Agu
-  //   FlSpot(8, 0),  // Sep
-  //   FlSpot(9, 0),  // Okt
-  //   FlSpot(10, 0), // Nov
-  //   FlSpot(11, 0), // Des
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,28 +66,48 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF1D3250)),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Row(
-                          children: const [
-                            Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Search',
-                                  border: InputBorder.none,
-                                ),
-                                style: TextStyle(
-                                  fontSize: 13, // Atur ukuran font di sini
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) => const SearchPage(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(0, 1),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF1D3250)),
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Search',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Icon(Icons.search, color: Color(0xFF1D3250)),
-                          ],
+                              Icon(Icons.search, color: Color(0xFF1D3250)),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -133,9 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         customBorder: const CircleBorder(),
                         onTap: () {
                           _logger.i("Avatar ditekan!");
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => ProfileScreen()),
-                          );
+                          widget.onTabChange?.call(4);
                         },
                         child: CircleAvatar(
                           radius: 20,
@@ -463,12 +469,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   likes: 40,
                   isLiked: isLiked,
                   onLikeToggle: _toggleLike,
-                  showButton: true,
                 ),
-
-                
                 const SizedBox(height: 100),
-
               ],
             ),
           ),
@@ -535,7 +537,7 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.blue.shade900),
+        border: Border.all(color: Color(0xFF1D3250)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -646,7 +648,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.blue.shade900),
+        border: Border.all(color: Color(0xFF1D3250)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -659,13 +661,24 @@ class _HomeScreenState extends State<HomeScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(image),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FullscreenVideoPlayer(videoPath: 'assets/videos/tarimenjeng.mp4'),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(image), // tetap bisa pakai gambar thumbnail dulu
+                  ),
                 ),
                 const Icon(Icons.play_circle_fill, size: 64, color: Colors.white),
               ],
             ),
+
             const SizedBox(height: 18),
             Text(title, style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 15)),
             const SizedBox(height: 8),
@@ -739,6 +752,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: isLiked ? Color(0xFF1D3250) : null,
                 ),
               ],
+              
             ),
           )
         else

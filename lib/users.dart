@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'anggota_data.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -8,35 +9,35 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _AnggotaPageState extends State<UsersScreen> {
-  final List<Map<String, dynamic>> anggotaList = [
-    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-    {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-    {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-    {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-    {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-    {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-    {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-    {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-    {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-    {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-  ];
+  // final List<Map<String, dynamic>> anggotaList = [
+  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
+  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
+  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
+  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
+  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
+  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
+  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
+  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
+  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
+  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
+  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
+  // ];
 
   List<int> statusList = List.generate(9, (_) => 0);
 
@@ -105,19 +106,19 @@ class _AnggotaPageState extends State<UsersScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      
       appBar: AppBar(
         backgroundColor: Color(0xFF142C57),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
+        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
         title: Text(
           'Anggota',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
         ),

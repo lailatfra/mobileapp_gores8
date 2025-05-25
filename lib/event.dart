@@ -4,7 +4,9 @@ import 'duniawi.dart';
 
 
 class PuisiEventPage extends StatelessWidget {
-  const PuisiEventPage({super.key});
+  final void Function(int)? onTabChange;
+
+  const PuisiEventPage({super.key, this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class PuisiEventPage extends StatelessWidget {
 
                   // Tombol back
                   Positioned(
-                    top: 16,
+                  top: MediaQuery.of(context).padding.top,
                     left: 8,
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -107,7 +109,9 @@ class PuisiEventPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        onTabChange?.call(2); // pindah ke tab Upload Karya (index ke-2)
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D3250),
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
@@ -117,9 +121,14 @@ class PuisiEventPage extends StatelessWidget {
                       ),
                       child: const Text(
                         'Ikuti Event ini',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
                       ),
-                    )
+                    ),
+
                   ],
                 ),
               ),
@@ -190,11 +199,6 @@ class PuisiEventPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class PuisiCard extends StatefulWidget {
   final int rank;

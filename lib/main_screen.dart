@@ -4,17 +4,18 @@ import 'home.dart';
 import 'eventnav.dart';
 import 'add.dart';
 import 'profile.dart';
-// import 'package:flutter/widgets.dart'; 
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialIndex;
+
+  const MainScreen({super.key, this.initialIndex = 0}); // ✅ Tambahkan parameter default
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex; // ✅ Ubah ke late agar bisa diinisialisasi nanti
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -24,9 +25,20 @@ class _MainScreenState extends State<MainScreen> {
     GlobalKey<NavigatorState>(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex; 
+  }
+
+  void _onTabChange(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   void _onItemTapped(int index) {
     if (_selectedIndex == index) {
-      // Balik ke halaman utama dari tab itu
       _navigatorKeys[index].currentState!.popUntil((route) => route.isFirst);
     } else {
       setState(() => _selectedIndex = index);
@@ -56,11 +68,22 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            _buildOffstageNavigator(0, HomeScreen()),
-            _buildOffstageNavigator(1, EventPage()),
+            _buildOffstageNavigator(0, HomeScreen(
+              onTabChange: _onTabChange,
+            )),
+            _buildOffstageNavigator(1, EventPage(
+              onTabChange: (index) {
+                print('Navigating to tab $index');
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            )),
             _buildOffstageNavigator(2, AddScreen()),
             _buildOffstageNavigator(3, StatistikPage()),
-            _buildOffstageNavigator(4, ProfileScreen()),
+            _buildOffstageNavigator(4, ProfileScreen(
+              
+            )),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

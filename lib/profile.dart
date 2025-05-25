@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfileScreen> {
                   color: const Color(0xFF1F3556),
                 ),
                 Positioned(
-                  top: 16,
+                  top: MediaQuery.of(context).padding.top,
                   left: 8,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfileScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SettingsScreen(),
+                                builder: (context) => SettingsScreen(),
                               ),
                             );
                           },

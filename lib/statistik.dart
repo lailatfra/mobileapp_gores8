@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gores8_app/settings.dart';
 import 'karyadisukai.dart';
+import 'leaderboard.dart';
 
 class StatistikPage extends StatefulWidget {
   @override
@@ -83,7 +84,6 @@ class _StatistikPageState extends State<StatistikPage> {
           ),
         ),
       ),
-      
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -198,20 +198,82 @@ class _StatistikPageState extends State<StatistikPage> {
             SizedBox(height: 24),
             
             // Menu Buttons
-            _buildMenuButton(
-              'Karya yang disukai', () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => FavoriteWorksPage(),
-              ));
-            }),
-            
+            _buildMenuButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
             SizedBox(height: 12),
+            _buildMenuButton(context, 'Pengaturan', Icons.settings, SettingsScreen()),
+
+
+            SizedBox(height: 24),
             
-            _buildMenuButton('Riwayat Komentar', () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => RiwayatKomentarPage(),
-              ));
-            }),
+            Text(
+              'Lencana Terbanyak',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+
+            SizedBox(height: 16),
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Color(0xFF142C57)),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'LEADERBOARD',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: const Color.fromARGB(221, 83, 83, 83),
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  _buildLeaderboardItem(1, 'assets/profil/exawinandya.png', 'Exa Winandya', 49.8),
+                  SizedBox(height: 12),
+                  _buildLeaderboardItem(2, 'assets/profil/dinatalastie.png', 'Dinata Lastie', 40.0),
+                  SizedBox(height: 12),
+                  _buildLeaderboardItem(3, 'assets/profil/sialatifarahmawati.png', 'Sia Latifa Rahmawati', 29.1),
+                  SizedBox(height: 12),
+                  _buildLeaderboardItem(4, 'assets/profil/gavinsantana.png', 'Gavin Santana', 26.8),
+                  SizedBox(height: 12),
+                  _buildLeaderboardItem(5, 'assets/profil/lidyaesandry.png', 'Lidya Esandry', 26.7),
+                  SizedBox(height: 16),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LihatSemuaLeaderboardPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Lihat Semua',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(width: 4),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Colors.grey[600],
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
             
             SizedBox(height: 24),
             
@@ -228,7 +290,7 @@ class _StatistikPageState extends State<StatistikPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
                     border: Border.all(color: Color(0xFF142C57)),
                     borderRadius: BorderRadius.circular(6),
@@ -264,7 +326,7 @@ class _StatistikPageState extends State<StatistikPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey[300]!),
+                border: Border.all(color: Color(0xFF142C57)),
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -274,7 +336,25 @@ class _StatistikPageState extends State<StatistikPage> {
                     BarChartData(
                       alignment: BarChartAlignment.spaceAround,
                       maxY: 5,
-                      barTouchData: BarTouchData(enabled: false),
+                      barTouchData: BarTouchData(
+                        enabled: true,
+                        touchTooltipData: BarTouchTooltipData(
+                          tooltipBgColor: Colors.blueGrey.shade50,
+                          tooltipPadding: const EdgeInsets.all(8),
+                          tooltipMargin: 8,
+                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                            return BarTooltipItem(
+                              rod.toY.toString(),
+                              const TextStyle(
+                                color: Color(0xFF142C57),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
                       titlesData: FlTitlesData(
                         bottomTitles: AxisTitles(
                           sideTitles: SideTitles(
@@ -308,63 +388,127 @@ class _StatistikPageState extends State<StatistikPage> {
                 ),
               ),
             ),
-            
-            SizedBox(height: 24),
-            
-            _buildMenuButton('Pengaturan', () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => SettingsScreen(),
-              ));
-            }),
+
+            SizedBox(height: 60),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMenuButton(String title, VoidCallback onTap) {
+
+
+  Widget _buildLeaderboardItem(int rank, String image, String name, double percentage) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          // Rank number
+          Container(
+            width: 25,
+            child: Text(
+              rank.toString(),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: const Color.fromARGB(221, 83, 83, 83),
+              ),
+            ),
+          ),
+          SizedBox(width: 4),
+
+          // Avatar image
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey[300]!, width: 1),
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          SizedBox(width: 12),
+
+          // Name and progress bar
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 6),
+
+                // Progress bar
+                Container(
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: percentage / 100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFF142C57),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+
+  Widget _buildMenuButton(BuildContext context, String label, IconData icon, Widget page) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 0),
       decoration: BoxDecoration(
         color: Colors.white,
+        border: Border.all(color: Color(0xFF142C57)),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF142C57)),
       ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        leading: Icon(icon, color: Color(0xFF142C57), size: 16),
         title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
+          label,
+          style: const TextStyle(
+            fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Colors.black87,
           ),
         ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey[600],
-        ),
-        onTap: onTap,
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
       ),
     );
   }
 }
-
-// Dummy pages for navigation
-// class KaryaDisukaiPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Karya yang disukai'),
-//         backgroundColor: Color.fromARGB(255, 255, 255, 255),
-//         foregroundColor: Colors.white,
-//       ),
-//       body: Center(
-//         child: Text('Halaman Karya yang disukai'),
-//       ),
-//     );
-//   }
-// }
 
 class RiwayatKomentarPage extends StatelessWidget {
   @override
@@ -381,19 +525,3 @@ class RiwayatKomentarPage extends StatelessWidget {
     );
   }
 }
-
-// class PengaturanPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Pengaturan'),
-//         backgroundColor: Color(0xFF3E5C76),
-//         foregroundColor: Colors.white,
-//       ),
-//       body: Center(
-//         child: Text('Halaman Pengaturan'),
-//       ),
-//     );
-//   }
-// }
