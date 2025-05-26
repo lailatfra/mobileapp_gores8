@@ -191,7 +191,7 @@ class _FullscreenVideoPlayerState extends State<FullscreenVideoPlayer> {
                       iconSize: 18,
                       icon: Icon(
                         isLiked ? Icons.thumb_up : Icons.thumb_up_outlined,
-                        color: isLiked ? Color(0xFF1D3250) : Colors.white,
+                        color: isLiked ? Color.fromARGB(255, 255, 255, 255) : Colors.white,
                       ),
                       onPressed: () {
                         setState(() {

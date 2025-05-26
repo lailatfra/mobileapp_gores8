@@ -221,11 +221,15 @@ class _ProfilePageState extends State<ProfilePageExa> {
   Widget buildKaryaContent() {
     List<String> imagePaths = [
       'assets/images/duniawi.jpg',
-      'assets/images/pedomanhidup.jpg',
-      'assets/images/cermin_hias.jpg',
-      'assets/images/banner_puisi.jpg',
-      'assets/images/exawinandya.png',
-      'assets/images/tari_menjeng.jpg',
+      'assets/images/tari.jpg',
+      'assets/images/lukisan2.jpg',
+      'assets/images/kerajinan2.jpg',
+      'assets/images/kerajinan.jpg',
+      'assets/images/tari2.jpg',
+      'assets/images/kerajinan3.jpg',
+      'assets/images/tari3.jpg',
+      'assets/images/lukisan2.jpg',
+      'assets/images/lukisan3.jpg',
     ];
 
     List<Widget> pages = [
@@ -369,7 +373,12 @@ class _ProfilePageState extends State<ProfilePageExa> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PoemDetailPage()),
+                  );
+                },
                 child: const Text("Lihat Karya", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300)),
               ),
             ],

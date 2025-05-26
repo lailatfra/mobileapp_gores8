@@ -43,11 +43,8 @@ class PuisiEventPage extends StatelessWidget {
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
-                      },
+                        onTabChange?.call(0); // ✅ Pindah ke tab Home
+                      }
                     ),
                   ),
 
@@ -110,7 +107,7 @@ class PuisiEventPage extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        onTabChange?.call(2); // pindah ke tab Upload Karya (index ke-2)
+                        onTabChange?.call(2); // ✅ langsung gunakan nama parameter
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D3250),

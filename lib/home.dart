@@ -10,16 +10,16 @@ import 'package:logger/logger.dart';
 import 'fullscreenvid.dart';
 import 'search_page.dart';
 import 'zoomduniawi.dart';
-import 'profil_exa.dart';
+// import 'profil_exa.dart';
 // import 'package:fl_chart/fl_chart.dart';
 
 TextEditingController searchController = TextEditingController();
 final Logger _logger = Logger();
 
 class HomeScreen extends StatefulWidget {
-  final Function(int)? onTabChange; // ← tambahkan ini
+  final Function(int) onTabChange;
 
-  const HomeScreen({Key? key, this.onTabChange}) : super(key: key);
+  const HomeScreen({super.key, required this.onTabChange});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const NotificationPage()),
+                          MaterialPageRoute(builder: (context) => NotificationPage()),
                         );
                       },
                       child: Container(

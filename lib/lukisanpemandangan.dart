@@ -157,7 +157,7 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                     style: TextStyle(fontSize: 13, color: Colors.black),
                     children: [
                       TextSpan(text: 'Karya ', style: TextStyle(fontWeight: FontWeight.w300)),
-                      TextSpan(text: 'Lenora Annie VIII A', style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: 'Lenora Annie Guru Seni', style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),

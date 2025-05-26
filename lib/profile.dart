@@ -6,9 +6,14 @@ import 'editprofile.dart';
 import 'settings.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final bool showSuccessMessage;
   final Function(int)? onTabChange;
 
-  const ProfileScreen({Key? key, this.onTabChange}) : super(key: key);
+  const ProfileScreen({
+    Key? key, 
+    this.showSuccessMessage = false,
+    this.onTabChange
+  }) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfilePageState();
@@ -16,6 +21,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfileScreen> {
   int selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Show success message if needed
+    if (widget.showSuccessMessage) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showSuccessMessage();
+      });
+    }
+  }
 
  @override
   Widget build(BuildContext context) {
@@ -61,24 +78,61 @@ class _ProfilePageState extends State<ProfileScreen> {
 
             const SizedBox(height: 75), 
 
-            const Text(
-              'Lenora Annie',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Lenora Annie',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF4CAF50),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          'Guru',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Guru Seni',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'https://www.instagram.com/lenoannieee_/',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 2, 143, 224),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                ],
               ),
             ),
-            const Text(
-              'VIII A',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 13,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            const SizedBox(height: 25),
-          
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,7 +181,7 @@ class _ProfilePageState extends State<ProfileScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SettingsScreen(),
+                                builder: (context) => SettingsScreen(onTabChange: widget.onTabChange),
                               ),
                             );
                           },
@@ -224,11 +278,10 @@ class _ProfilePageState extends State<ProfileScreen> {
               ),
             ),
 
-
             const SizedBox(height: 50),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8), // jarak kiri-kanan 8
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -254,6 +307,33 @@ class _ProfilePageState extends State<ProfileScreen> {
     );
   }
 
+void _showSuccessMessage() {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
+        children: [
+          Icon(Icons.check_circle, color: Colors.white, size: 20),
+          SizedBox(width: 8),
+          Text(
+            'Status telah berhasil diperbarui',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      margin: EdgeInsets.all(16),
+    ),
+  );
+}
 
   Widget buildTabButton(String text, int index) {
     bool isSelected = selectedTab == index;
@@ -289,12 +369,15 @@ class _ProfilePageState extends State<ProfileScreen> {
     );
   }
 
-
   Widget buildKaryaContent() {
     List<String> imagePaths = [
       'assets/images/ketenanganjiwa.jpg',
       'assets/images/pedomanhidup.jpg',
       'assets/images/cermin_hias.jpg',
+      'assets/images/hujandiujungdesember.jpg',
+      'assets/images/letupanharapan.png',
+      'assets/images/pemandangan.jpg',
+      'assets/images/cahayakehidupan.png',
     ];
 
     List<Widget> pages = [
@@ -336,11 +419,6 @@ class _ProfilePageState extends State<ProfileScreen> {
     );
   }
 
-
-
-
-
-
   Widget buildLencanaContent() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -358,8 +436,6 @@ class _ProfilePageState extends State<ProfileScreen> {
       },
     );
   }
-
-
 
   Widget buildLencanaCard(Lencana lencana) {
     return StatefulBuilder(
@@ -450,8 +526,6 @@ class _ProfilePageState extends State<ProfileScreen> {
     );
   }
 
-
-
   Widget buildStatButton(String text) {
     return Expanded(
       child: ElevatedButton(
@@ -470,7 +544,6 @@ class _ProfilePageState extends State<ProfileScreen> {
   }
 }
 
-
 class Lencana {
   final String imageAsset;
   final String title;
@@ -486,8 +559,6 @@ class Lencana {
     this.isLiked = false,
   });
 }
-
-
 
 final List<Lencana> lencanaList = [
   Lencana(
@@ -508,6 +579,4 @@ final List<Lencana> lencanaList = [
     tanggal: '1-30 April 2025',
     likes: 67,
   ),
-  // Tambah data lagi kalau perlu
 ];
-

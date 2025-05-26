@@ -5,6 +5,9 @@ import 'karyadisukai.dart';
 import 'leaderboard.dart';
 
 class StatistikPage extends StatefulWidget {
+  final void Function(int)? onTabChange;
+  const StatistikPage({Key? key, this.onTabChange}) : super(key: key);
+
   @override
   _StatistikPageState createState() => _StatistikPageState();
 }
@@ -199,7 +202,13 @@ class _StatistikPageState extends State<StatistikPage> {
             // Menu Buttons
             _buildMenuButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
             SizedBox(height: 8),
-            _buildMenuButton(context, 'Pengaturan', Icons.settings, SettingsScreen()),
+            _buildMenuButton(
+              context,
+              'Pengaturan',
+              Icons.settings,
+              SettingsScreen(onTabChange: widget.onTabChange), // ✅ oper callback
+            ),
+
 
             SizedBox(height: 20),
             

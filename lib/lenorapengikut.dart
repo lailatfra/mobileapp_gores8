@@ -21,70 +21,62 @@ class _MengikutiPengikutLenoraPageState extends State<MengikutiPengikutLenoraPag
   final List<Map<String, dynamic>> _mengikutiData = [
     {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/dinatalastie.png"},
     {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
     {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
     {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
     {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
-    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
     {"nama": "Alleric Emier", "kelas": "IX C", "status": "Berteman", "image": "assets/profil/allericemier.png"},
   ];
 
 
   final List<Map<String, dynamic>> _pengikutData = [
-    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/cassiusreno.png"},
-    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/bhaskarahadrianathala"},
+    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/bhaskarahadrianathala.png"},
     {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
-    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
-    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
-    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Ikuti", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Ikuti", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/lidyaesandry.png"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150), // lebih tinggi karena ada tab
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF142C57),
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF142C57),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+        titleSpacing: 0,
+        title: const Text(
+          'Lenora Annie',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48), // cukup untuk title + tab
+          child: Column(
+            children: [
+              const SizedBox(height: 6), // jarak antara title dan tab, bisa disesuaikan
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 16),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Lenora Annie',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildTabButton("7 Diikuti", 0),
-                      buildTabButton("6 Pengikut", 1),
-                    ],
-                  ),
+                  buildTabButton("7 Diikuti", 0),
+                  buildTabButton("6 Pengikut", 1),
                 ],
               ),
-            ),
+              const SizedBox(height: 10), // jarak akhir bawah tab biar gak mepet ke konten
+            ],
           ),
         ),
       ),
+
+
       body: Column(
         children: [
           const SizedBox(height: 20),

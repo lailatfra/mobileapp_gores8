@@ -13,12 +13,23 @@ class _SearchPageState extends State<SearchPage> {
   List<Map<String, String>> filteredAnggota = [];
   List<int> statusList = [];
 
+  int currentPage = 1;
+  final int itemsPerPage = 15;
+
   @override
   void initState() {
     super.initState();
-    filteredAnggota = anggotaList;
-    statusList = List.generate(anggotaList.length, (_) => 0);
+
+    // Atur status default berdasarkan nama atau logika tertentu
+    statusList = anggotaList.map((anggota) {
+      if (anggota['nama']!.contains('a')) {
+        return 2; // Mengikuti (default putih)
+      } else {
+        return 0; // Ikuti (default biru)
+      }
+    }).toList();
   }
+
 
   void onSearch(String query) {
     setState(() {
@@ -36,32 +47,15 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void toggleStatus(int index) {
+    int globalIndex = (currentPage - 1) * itemsPerPage + index;
     setState(() {
-      if (statusList[index] == 0) {
-        statusList[index] = 1;
-      } else if (statusList[index] == 1) {
-        statusList[index] = 2;
-      } else {
-        statusList[index] = 1;
-      }
+      statusList[globalIndex] = (statusList[globalIndex] == 2) ? 0 : 2;
     });
   }
 
+
   Widget buildStatusButton(int status, int index) {
-    String label;
-    switch (status) {
-      case 0:
-        label = 'Ikuti';
-        break;
-      case 1:
-        label = 'Berteman';
-        break;
-      case 2:
-        label = 'Mengikuti';
-        break;
-      default:
-        label = 'Ikuti';
-    }
+    String label = status == 2 ? 'Mengikuti' : 'Ikuti';
 
     return OutlinedButton(
       onPressed: () => toggleStatus(index),
@@ -80,8 +74,13 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
+    int totalPages = (anggotaList.length / itemsPerPage).ceil();
+    int startIndex = (currentPage - 1) * itemsPerPage;
+    int endIndex = (startIndex + itemsPerPage).clamp(0, anggotaList.length);
+    List<Map<String, dynamic>> visibleItems = anggotaList.sublist(startIndex, endIndex);
     return Scaffold(
       backgroundColor: const Color(0xFF142C57),
       appBar: AppBar(

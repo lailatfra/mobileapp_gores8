@@ -175,7 +175,7 @@ class _ZoomDuniawiPageState extends State<ZoomDuniawiPage> {
                       iconSize: 18,
                       icon: Icon(
                         isLiked ? Icons.thumb_up : Icons.thumb_up_outlined,
-                        color: isLiked ? Color(0xFF142C57) : Colors.white,
+                        color: isLiked ? Color.fromARGB(255, 255, 255, 255) : Colors.white,
                       ),
                       onPressed: () {
                         setState(() {

@@ -46,12 +46,12 @@ class EventBannerScroll extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: const [
-                          Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
-                          SizedBox(width: 5),
+                        children: [
+                          const Icon(Icons.calendar_month, size: 15, color: Colors.blueGrey),
+                          const SizedBox(width: 5),
                           Text(
-                            "20-30 Mei 2025", // Ini akan diubah di bawah
-                            style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                            event['date']!,
+                            style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
                           ),
                         ],
                       ),
@@ -135,9 +135,21 @@ class _EventPageState extends State<EventPage> {
 
   String selectedItem = 'Buatlah Puisi Versimu!';
 
+  // State untuk tracking vote dan data
+  List<bool> isVotedList = [];
+  List<Map<String, dynamic>> puisiList = [];
+  List<Map<String, dynamic>> sainsList = [];
+
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> karyaList = [
+  void initState() {
+    super.initState();
+    // Initialize data dan vote state
+    _initializeData();
+    _initializeVoteState();
+  }
+
+  void _initializeData() {
+    puisiList = [
       {
         'rank': 1,
         'title': 'Duniawi',
@@ -178,7 +190,87 @@ class _EventPageState extends State<EventPage> {
         'votes': 250,
         'image': 'assets/images/ketenanganjiwa.jpg',
       },
+      {
+        'rank': 6,
+        'title': 'Sajak Seonggok Jagung',
+        'author': 'Nayla Ramadhani',
+        'class': 'VII G',
+        'votes': 245,
+        'image': 'assets/images/seonggokjagung.jpg',
+      },
     ];
+
+    sainsList = [
+      {
+        'rank': 1,
+        'title': 'Volcano Baking Soda',
+        'author': 'Intan Permata',
+        'class': 'IX B',
+        'votes': 420,
+        'image': 'assets/images/sains3.jpg',
+      },
+      {
+        'rank': 2,
+        'title': 'Balon Roket',
+        'author': 'Dimas Pradana',
+        'class': 'VIII D',
+        'votes': 339,
+        'image': 'assets/images/sains4.jpg',
+      },
+      {
+        'rank': 3,
+        'title': 'Filter Air Sederhana',
+        'author': 'Farel Nugraha',
+        'class': 'IX B',
+        'votes': 230,
+        'image': 'assets/images/filterair.jpg',
+      },
+      {
+        'rank': 4,
+        'title': 'Mobil Mini Tenaga Karet / Balon',
+        'author': 'Zahira Putri',
+        'class': 'IX D',
+        'votes': 102,
+        'image': 'assets/images/mobiltenagabalon.jpg',
+      },
+    ];
+  }
+
+  void _initializeVoteState() {
+    final currentList = selectedItem == 'Buatlah Puisi Versimu!' ? puisiList : sainsList;
+    setState(() {
+      isVotedList = List.generate(currentList.length, (_) => false);
+    });
+  }
+
+  void _showVotePopup() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.6),
+      builder: (context) => _buildFirePopup(
+        context: context,
+        onJoinEvent: () {
+          Navigator.pop(context);
+          // Arahkan ke halaman event jika perlu
+        },
+      ),
+    );
+  }
+
+  void _showCancelVoteSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Anda batal memilih'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> karyaList =
+        selectedItem == 'Buatlah Puisi Versimu!' ? puisiList : sainsList;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -310,6 +402,8 @@ class _EventPageState extends State<EventPage> {
                             if (newValue != null) {
                               setState(() {
                                 selectedItem = newValue;
+                                // Reset vote state ketika ganti event
+                                _initializeVoteState();
                               });
                             }
                           },
@@ -342,114 +436,125 @@ class _EventPageState extends State<EventPage> {
               ),
             ),
 
-
-
             const SizedBox(height: 12),
 
             ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
               itemCount: karyaList.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final karya = karyaList[index];
+                final isVoted = index < isVotedList.length ? isVotedList[index] : false;
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Nomor di luar card
-                      Container(
-                        width: 24,
-                        alignment: Alignment.topCenter,
-                        margin: const EdgeInsets.only(right: 8),
-                        child: Text(
-                          '${index + 1}', // Otomatis sesuai urutan
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFF1D3250)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Rank
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12, top: 6),
+                          child: Text(
+                            '#${karya['rank']}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(0xFF1D3250),
+                            ),
                           ),
                         ),
-                      ),
 
-                      // Card
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color.fromARGB(255, 136, 136, 136)),
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
+                        // Gambar
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            karya['image'],
+                            width: 60,
+                            height: 70,
+                            fit: BoxFit.cover,
                           ),
-                          child: Row(
+                        ),
+
+                        const SizedBox(width: 12),
+
+                        // Info
+                        Expanded(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Gambar
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.asset(
-                                  karya['image'],
-                                  width: 60,
-                                  height: 70,
-                                  fit: BoxFit.cover,
+                              Text(
+                                karya['title'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black87,
                                 ),
                               ),
-                              const SizedBox(width: 12),
-
-                              // Konten text
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Title
-                                    Text(
-                                      karya['title'],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-
-                                    // Author
-                                    Text(
-                                      karya['author'],
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                    const SizedBox(height: 2),
-
-                                    // Class & Votes
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              const SizedBox(height: 4),
+                              Text(
+                                karya['author'],
+                                style: TextStyle(color: Colors.black87, fontSize: 13),
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    karya['class'],
+                                    style: TextStyle(color: Colors.grey[700], fontSize: 13),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (!isVoted) {
+                                          // Vote: ubah icon ke filled, tambah vote, tampilkan popup
+                                          karya['votes'] += 1;
+                                          isVotedList[index] = true;
+                                          // Tampilkan popup setelah setState selesai
+                                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                                            _showVotePopup();
+                                          });
+                                        } else {
+                                          // Batal vote: ubah icon ke outlined, kurangi vote, tampilkan snackbar
+                                          karya['votes'] -= 1;
+                                          isVotedList[index] = false;
+                                          // Tampilkan snackbar setelah setState selesai
+                                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                                            _showCancelVoteSnackbar();
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          karya['class'],
-                                          style: const TextStyle(
-                                              fontSize: 12, color: Colors.blueGrey),
+                                        Icon(
+                                          isVoted
+                                              ? Icons.local_fire_department // Filled icon
+                                              : Icons.local_fire_department_outlined, // Outlined icon
+                                          size: 20,
+                                          color: Colors.orange,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '${karya['votes']} Votes',
-                                              style: const TextStyle(
-                                                  fontSize: 12, color: Colors.blueGrey),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            const Icon(Icons.local_fire_department,
-                                                size: 18, color: Colors.orange),
-                                          ],
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          karya['votes'].toString(),
+                                          style: TextStyle(color: Colors.grey[800], fontSize: 13),
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -457,6 +562,65 @@ class _EventPageState extends State<EventPage> {
 
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildFirePopup({
+    required BuildContext context,
+    required VoidCallback onJoinEvent,
+  }) {
+    return Center(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(color: Colors.black.withOpacity(0.5)),
+            ),
+          ),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Color(0xFFF4FAFC),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: Image.asset('assets/images/fire.gif'),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Anda berhasil memilih. Pilih kembali besok',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 13, color: Colors.black87),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: onJoinEvent,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF1D3250),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      child: const Text('Ikuti Event', style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

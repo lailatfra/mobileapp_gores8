@@ -23,7 +23,7 @@ class EditProfilPageState extends State<EditProfilPage> {
     super.initState();
     // Initialize with default values
     _usernameController.text = "Lenora Annie";
-    _classController.text = "VIII A";
+    _classController.text = "Guru Seni";
     _noteController.text = "https://www.instagram.com/lenoraannie_/";
   }
 
@@ -76,46 +76,38 @@ class EditProfilPageState extends State<EditProfilPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Header dengan gambar
             Stack(
               clipBehavior: Clip.none,
               children: [
                 Container(
                   height: 160,
-                  color: const Color(0xFF1F3556),
+                  color: const Color(0xFF1D3250),
                 ),
                 Positioned(
-                  top: 16,
-                  left: 8,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
-                Positioned(
-                  top: 100,
+                  top: 80,
                   left: 0,
                   right: 0,
                   child: Align(
                     alignment: Alignment.center,
                     child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 56,
-                            backgroundImage: _imageFile != null
-                                ? FileImage(_imageFile!)
-                                : AssetImage('assets/profil/lenoraannie.png') as ImageProvider,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(0),
+                          child: Image.asset(
+                            'assets/images/ketenanganjiwa.jpg',
+                            width: 140,
+                            height: 140,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Positioned(
                           bottom: 0,
                           right: 0,
                           child: GestureDetector(
-                            onTap: _pickImage,
+                            onTap: _pickImage, // Ganti ini dengan fungsi handler Anda
                             child: Container(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
@@ -127,7 +119,7 @@ class EditProfilPageState extends State<EditProfilPage> {
                                   ),
                                 ],
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.change_circle,
                                 color: Color(0xFF1F3556),
                                 size: 20,
@@ -137,6 +129,14 @@ class EditProfilPageState extends State<EditProfilPage> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 8,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ),
               ],
@@ -294,7 +294,7 @@ class EditProfilPageState extends State<EditProfilPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Profil berhasil diubah!'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 65, 65, 65),
       ),
     );
     

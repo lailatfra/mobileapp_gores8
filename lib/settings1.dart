@@ -86,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
             'Notifikasi',
             () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const NotificationPage()),
+                MaterialPageRoute(builder: (context) => NotificationPage()),
               );
             },
           ),

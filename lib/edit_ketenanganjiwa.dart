@@ -80,7 +80,7 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                     child: Stack(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(0),
                           child: Image.asset(
                             'assets/images/ketenanganjiwa.jpg',
                             width: 140,
@@ -155,7 +155,7 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                               color: Color(0xFF1D3250),
                             ),
                           ),
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 13),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -182,7 +182,7 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value, style: const TextStyle(fontSize: 14)),
+                              child: Text(value, style: const TextStyle(fontSize: 13)),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -201,9 +201,9 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                   const Text(
                     'Ubah Judul',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: Color.fromARGB(221, 39, 39, 39),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -220,7 +220,7 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     ),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: Color.fromARGB(255, 71, 71, 71)),
                   ),
 
                   const SizedBox(height: 24),
@@ -229,9 +229,9 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                   const Text(
                     'Ubah Konten/Deskripsi',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: Color.fromARGB(221, 39, 39, 39),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -249,7 +249,7 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     ),
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: Color.fromARGB(255, 71, 71, 71)),
                   ),
 
                   const SizedBox(height: 32),
@@ -258,7 +258,10 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _saveChanges,
+                      onPressed: () async {
+                        _saveChanges();
+                        Navigator.popUntil(context, (route) => route.isFirst); // atau pushReplacement
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D3250),
                         foregroundColor: Colors.white,
@@ -271,8 +274,8 @@ class _EditKetenanganJiwaState extends State<EditKetenanganJiwa> {
                       child: const Text(
                         'Selesai',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                     ),

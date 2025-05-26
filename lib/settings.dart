@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gores8_app/leaderboard.dart';
 import 'package:gores8_app/login_screen.dart';
+import 'package:gores8_app/statuskhusus.dart';
 import 'add.dart';
 import 'eventnav.dart';
 import 'karyadisukai.dart';
@@ -9,7 +10,6 @@ import 'profile.dart';
 import 'editprofile.dart';
 // import 'login_screen.dart';
 import 'users.dart';
-import 'statistik.dart';
 
 class SettingsScreen extends StatelessWidget {
   final void Function(int)? onTabChange;
@@ -88,12 +88,12 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const Text('Aktivitas', style: TextStyle(fontWeight: FontWeight.normal, color: Color.fromARGB(255, 65, 65, 65))),
             const SizedBox(height: 8),
-            _buildButton(context, 'Notifikasi', Icons.notifications, const NotificationPage()),
+            _buildButton(context, 'Notifikasi', Icons.notifications, NotificationPage()),
             _buildButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
             _buildButton(context, 'Leaderboard', Icons.leaderboard, LihatSemuaLeaderboardPage()),
             _buildButton(context, 'Event', Icons.local_fire_department, const EventPage()),
-            _buildTabButton(context, 'Statistik Data', Icons.bar_chart, 3, onTabChange),
             _buildTabButton(context, 'Upload Karya', Icons.cloud_upload, 2, onTabChange),
+            _buildButton(context, 'Tampilkan Status sebagai Guru', Icons.book, StatusKhususPage()),
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
@@ -168,7 +168,13 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         trailing: const Icon(Icons.chevron_right, color: Color(0xFF142C57)),
-        onTap: () => onTabChange?.call(targetTabIndex), // ✅ Aman untuk null
+        onTap: () {
+          Navigator.pop(context); // Tutup SettingsScreen
+          if (onTabChange != null) {
+            onTabChange!(targetTabIndex); // Ganti tab utama
+          }
+        },
+
       ),
     );
   
@@ -184,7 +190,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
-      body: Center(child: Text(message, style: const TextStyle(color: Colors.green))),
+      body: Center(child: Text(message, style: const TextStyle(color: Color.fromARGB(255, 83, 83, 83)))),
     );
   }
 }

@@ -19,24 +19,24 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
   }
 
   final List<Map<String, dynamic>> _mengikutiData = [
-    {"nama": "Lenora Annie", "kelas": "VIII A", "status": "", "image": "assets/profil/lenoraannie.png"},
+    {"nama": "Lenora Annie", "kelas": "Guru Seni", "status": "", "image": "assets/profil/lenoraannie.png"},
     {"nama": "Dinata Lastie", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/dinatalastie.png"},
     {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
+    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
     {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
     {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
     {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
-    {"nama": "Cassius Renno", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
     {"nama": "Alleric Emier", "kelas": "IX C", "status": "Berteman", "image": "assets/profil/allericemier.png"},
   ];
 
 
   final List<Map<String, dynamic>> _pengikutData = [
-    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/cassiusreno.png"},
-    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/bhaskarahadrianathala"},
+    {"nama": "Cassius Reno", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/cassiusreno.png"},
+    {"nama": "Bhaskara Hadrian Athala", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/bhaskarahadrianathala.png"},
     {"nama": "Sia Latifa Rahmawati", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/sialatifarahmawati.png"},
-    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Berteman", "image": "assets/profil/gavinsantana.png"},
-    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Berteman", "image": "assets/profil/agathaluisaarsyla.png"},
-    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Berteman", "image": "assets/profil/lidyaesandry.png"},
+    {"nama": "Gavin Santana", "kelas": "VIII I", "status": "Ikuti", "image": "assets/profil/gavinsantana.png"},
+    {"nama": "Agatha Luisa Arsyila", "kelas": "IX G", "status": "Ikuti", "image": "assets/profil/agathaluisaarsyla.png"},
+    {"nama": "Lidya Esandry", "kelas": "VIII E", "status": "Ikuti", "image": "assets/profil/lidyaesandry.png"},
   ];
 
   @override
@@ -60,23 +60,27 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Container(
-            color: const Color(0xFF142C57),
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildTabButton("8 Diikuti", 0),
-                buildTabButton("6 Pengikut", 1),
-              ],
-            ),
+          preferredSize: const Size.fromHeight(48), // cukup untuk title + tab
+          child: Column(
+            children: [
+              const SizedBox(height: 6), // jarak antara title dan tab, bisa disesuaikan
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildTabButton("8 Diikuti", 0),
+                  buildTabButton("6 Pengikut", 1),
+                ],
+              ),
+              const SizedBox(height: 10), // jarak akhir bawah tab biar gak mepet ke konten
+            ],
           ),
         ),
       ),
+
+
       body: Column(
         children: [
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -152,7 +156,7 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
         CircleAvatar(
           radius: 24, 
           backgroundImage: AssetImage(imagePath),
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.grey
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -196,4 +200,3 @@ class _MengikutiPengikutPageState extends State<MengikutiPengikutPage> {
     );
   }
 }
-

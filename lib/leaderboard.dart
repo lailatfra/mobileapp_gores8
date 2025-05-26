@@ -34,7 +34,7 @@ class _LihatSemuaLeaderboardPageState extends State<LihatSemuaLeaderboardPage> {
         'Gavin Santana',
         'Cassius Reno',
         'Bhaskara Hadrian Athala',
-        'Lenora Annie',
+        'Rahma Nadia',
         'Agatha Luisa Arsylia',
         'Gavin Santana',
         'Lidya Esandry'

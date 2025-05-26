@@ -9,76 +9,37 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _AnggotaPageState extends State<UsersScreen> {
-  // final List<Map<String, dynamic>> anggotaList = [
-  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-  //   {'nama': 'Exa Winandya', 'kelas': 'VIII A', 'foto': 'assets/profil/exawinandya.png'},
-  //   {'nama': 'Dinata Lastie', 'kelas': 'VII E', 'foto': 'assets/profil/dinatalastie.png'},
-  //   {'nama': 'Sia Latifa Rahmawati', 'kelas': 'VIII E', 'foto': 'assets/profil/sialatifarahmawati.png'},
-  //   {'nama': 'Gavin Santana', 'kelas': 'VIII I', 'foto': 'assets/profil/gavinsantana.png'},
-  //   {'nama': 'Lidya Esandry', 'kelas': 'VIII E', 'foto': 'assets/profil/lidyaesandry.png'},
-  //   {'nama': 'Cassius Renno', 'kelas': 'VII F', 'foto': 'assets/profil/cassiusreno.png'},
-  //   {'nama': 'Alleric Emier', 'kelas': 'IX F', 'foto': 'assets/allericemier.png'},
-  //   {'nama': 'Bhaskara Hadrian Athala', 'kelas': 'VII C', 'foto': 'assets/profil/bhaskarahadrianathala.png'},
-  //   {'nama': 'Agatha Luisa Arsyila', 'kelas': 'IX G', 'foto': 'assets/profil/agathaluisaarsyla.png'},
-  // ];
-
+  
   List<int> statusList = List.generate(9, (_) => 0);
 
   int currentPage = 1;
   final int itemsPerPage = 15;
 
-
   @override
   void initState() {
     super.initState();
-    statusList = List.generate(anggotaList.length, (_) => 0);
+
+    // Atur status default berdasarkan nama atau logika tertentu
+    statusList = anggotaList.map((anggota) {
+      if (anggota['nama']!.contains('a')) {
+        return 2; // Mengikuti (default putih)
+      } else {
+        return 0; // Ikuti (default biru)
+      }
+    }).toList();
   }
+
 
   void toggleStatus(int index) {
     int globalIndex = (currentPage - 1) * itemsPerPage + index;
     setState(() {
-      if (statusList[globalIndex] == 0) {
-        statusList[globalIndex] = 1;
-      } else if (statusList[globalIndex] == 1) {
-        statusList[globalIndex] = 2;
-      } else {
-        statusList[globalIndex] = 1;
-      }
+      statusList[globalIndex] = (statusList[globalIndex] == 2) ? 0 : 2;
     });
   }
 
+
   Widget buildStatusButton(int status, int index) {
-    String label;
-    switch (status) {
-      case 0:
-        label = 'Ikuti';
-        break;
-      case 1:
-        label = 'Berteman';
-        break;
-      case 2:
-        label = 'Mengikuti';
-        break;
-      default:
-        label = 'Ikuti';
-    }
+    String label = status == 2 ? 'Mengikuti' : 'Ikuti';
 
     return OutlinedButton(
       onPressed: () => toggleStatus(index),
@@ -96,6 +57,7 @@ class _AnggotaPageState extends State<UsersScreen> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

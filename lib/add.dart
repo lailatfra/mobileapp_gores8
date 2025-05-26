@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
+import 'home.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 class AddScreen extends StatefulWidget {
@@ -28,6 +29,8 @@ class _AddScreen extends State<AddScreen> {
     'Buatlah Puisi Versimu!',
     'Festival Sains dan Teknologi'
   ];
+  bool _uploadWithoutFile = false;
+
 
   final ImagePicker _picker = ImagePicker();
 
@@ -130,28 +133,38 @@ class _AddScreen extends State<AddScreen> {
   }
 
   void _submitForm() {
-    if (_selectedFile == null) {
+    if (!_uploadWithoutFile && _selectedFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Silakan pilih file terlebih dahulu')),
+        const SnackBar(content: Text('Silakan pilih file terlebih dahulu')),
       );
       return;
     }
     
+    widget.onTabChange?.call(0);
+
     if (_judulController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Judul tidak boleh kosong')),
+        const SnackBar(content: Text('Judul tidak boleh kosong')),
       );
       return;
     }
 
     // Proses upload data
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Karya berhasil diupload!')),
+      const SnackBar(content: Text('Karya berhasil diupload!')),
     );
-    
-    // Kembali ke halaman sebelumnya
-    Navigator.pop(context);
+
+    // Arahkan ke halaman Home dan hapus semua halaman sebelumnya
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => HomeScreen()),
+    //     (route) => false,
+    //   );
+    // });
   }
+
+
 
 
   @override
@@ -186,16 +199,29 @@ class _AddScreen extends State<AddScreen> {
               children: [
                 Text(
                   _selectedFile == null ? 'Pilih File' : 'Ubah File',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
-                    color: const Color.fromARGB(221, 71, 71, 71),
+                    color: Color.fromARGB(221, 71, 71, 71),
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                
-                
+                Row(
+                  children: [
+                    const Text('Unggah Karya tanpa File'),
+                    Checkbox(
+                      value: _uploadWithoutFile,
+                      activeColor: Colors.green,
+                      onChanged: (value) {
+                        setState(() {
+                          _uploadWithoutFile = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
+
 
             const SizedBox(height: 8),
 
