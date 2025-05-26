@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:gores8_app/event.dart';
 // import 'package:gores8_app/add.dart';
 import 'main_screen.dart';
 import 'buat_event.dart';
+import 'duniawi.dart';
+import 'sains.dart';
 
 class EventBannerScroll extends StatelessWidget {
   const EventBannerScroll({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> eventList = [
+    final List<Map<String, dynamic>> eventList = [
       {
         'date': '20-30 Mei 2025',
         'title': 'Buatlah Puisi Versimu!',
         'description': 'Sudah saatnya kamu unjuk bakat dan menunjukkan karya terbaikmu. Ini adalah tempat di mana kreativitasmu bisa bersinar.',
         'image': 'assets/images/banner_puisi.jpg',
+        'page': PuisiEventPage(),
       },
       {
         'date': '5-10 Juni 2025',
         'title': 'Festival Sains dan Teknologi',
         'description': 'Ikuti tantangan dan eksperimen ilmiah menarik, buat penemuan dan inovasi bersama teman-temanmu!',
         'image': 'assets/images/banner_sains.jpg',
+        'page': SainsEventPage(),
       },
     ];
     
@@ -70,7 +75,10 @@ class EventBannerScroll extends StatelessWidget {
                       const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () {
-                          // Tambahkan navigasi jika perlu
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => event['page']),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(29, 50, 80, 1),
@@ -157,6 +165,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VIII A',
         'votes': 400,
         'image': 'assets/images/duniawi.jpg',
+        'page': const PoemDetailPage(),
       },
       {
         'rank': 2,
@@ -279,7 +288,7 @@ class _EventPageState extends State<EventPage> {
         elevation: 0,
         automaticallyImplyLeading: false, // ❌ Hilangkan tombol back
         title: const Padding(
-          padding: EdgeInsets.only(left: 16), // ✅ Tambahkan padding kiri manual
+          padding: EdgeInsets.only(left: 0), // ✅ Tambahkan padding kiri manual
           child: Text(
             'Event',
             style: TextStyle(
@@ -448,112 +457,122 @@ class _EventPageState extends State<EventPage> {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF1D3250)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Rank
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12, top: 6),
-                          child: Text(
-                            '#${karya['rank']}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(0xFF1D3250),
+                  child: GestureDetector( // 👈 Bungkus dengan GestureDetector
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => karya['page'], // Pastikan 'page' sudah ditambahkan di list
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xFF1D3250)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Rank
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12, top: 6),
+                            child: Text(
+                              '#${karya['rank']}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(0xFF1D3250),
+                              ),
                             ),
                           ),
-                        ),
 
-                        // Gambar
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            karya['image'],
-                            width: 60,
-                            height: 70,
-                            fit: BoxFit.cover,
+                          // Gambar
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              karya['image'],
+                              width: 60,
+                              height: 70,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
 
-                        const SizedBox(width: 12),
+                          const SizedBox(width: 12),
 
-                        // Info
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                karya['title'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.black87,
+                          // Info
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  karya['title'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.black87,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                karya['author'],
-                                style: TextStyle(color: Colors.black87, fontSize: 13),
-                              ),
-                              const SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    karya['class'],
-                                    style: TextStyle(color: Colors.grey[700], fontSize: 13),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        if (!isVoted) {
-                                          // Vote: ubah icon ke filled, tambah vote, tampilkan popup
-                                          karya['votes'] += 1;
-                                          isVotedList[index] = true;
-                                          // Tampilkan popup setelah setState selesai
-                                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                                            _showVotePopup();
-                                          });
-                                        } else {
-                                          // Batal vote: ubah icon ke outlined, kurangi vote, tampilkan snackbar
-                                          karya['votes'] -= 1;
-                                          isVotedList[index] = false;
-                                          // Tampilkan snackbar setelah setState selesai
-                                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                                            _showCancelVoteSnackbar();
-                                          });
-                                        }
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          isVoted
-                                              ? Icons.local_fire_department // Filled icon
-                                              : Icons.local_fire_department_outlined, // Outlined icon
-                                          size: 20,
-                                          color: Colors.orange,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          karya['votes'].toString(),
-                                          style: TextStyle(color: Colors.grey[800], fontSize: 13),
-                                        ),
-                                      ],
+                                const SizedBox(height: 4),
+                                Text(
+                                  karya['author'],
+                                  style: TextStyle(color: Colors.black87, fontSize: 13),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      karya['class'],
+                                      style: TextStyle(color: Colors.grey[700], fontSize: 13),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          if (!isVoted) {
+                                            // Vote: ubah icon ke filled, tambah vote, tampilkan popup
+                                            karya['votes'] += 1;
+                                            isVotedList[index] = true;
+                                            // Tampilkan popup setelah setState selesai
+                                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                                              _showVotePopup();
+                                            });
+                                          } else {
+                                            // Batal vote: ubah icon ke outlined, kurangi vote, tampilkan snackbar
+                                            karya['votes'] -= 1;
+                                            isVotedList[index] = false;
+                                            // Tampilkan snackbar setelah setState selesai
+                                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                                              _showCancelVoteSnackbar();
+                                            });
+                                          }
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            isVoted
+                                                ? Icons.local_fire_department // Filled icon
+                                                : Icons.local_fire_department_outlined, // Outlined icon
+                                            size: 20,
+                                            color: Colors.orange,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            karya['votes'].toString(),
+                                            style: TextStyle(color: Colors.grey[800], fontSize: 13),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -613,7 +632,7 @@ class _EventPageState extends State<EventPage> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
-                      child: const Text('Ikuti Event', style: TextStyle(color: Colors.white)),
+                      child: const Text('Tutup', style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],

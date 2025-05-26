@@ -126,15 +126,47 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(builder: (context) => NotificationPage()),
                         );
                       },
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF1D3250)),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.notifications_none, color: Color(0xFF1D3250)),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF1D3250)),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.notifications_none, color: Color(0xFF1D3250)),
+                          ),
+                          // Badge notifikasi
+                          Positioned(
+                            right: -2,
+                            top: -2,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 184, 47, 37),
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 20,
+                                minHeight: 20,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '2',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+
 
                     const SizedBox(width: 10),
 

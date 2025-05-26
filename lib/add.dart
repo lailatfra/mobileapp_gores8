@@ -176,7 +176,7 @@ class _AddScreen extends State<AddScreen> {
         elevation: 0,
         automaticallyImplyLeading: false, // ❌ Hilangkan tombol back
         title: const Padding(
-          padding: EdgeInsets.only(left: 14), // ✅ Tambahkan padding kiri manual
+          padding: EdgeInsets.only(left: 0), // ✅ Tambahkan padding kiri manual
           child: Text(
             'Upload Karyamu',
             style: TextStyle(

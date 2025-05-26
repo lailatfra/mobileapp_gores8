@@ -13,7 +13,7 @@ Widget ulasanTile({
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundImage: NetworkImage(imageUrl),
+          backgroundImage: AssetImage(imageUrl),
         ),
         const SizedBox(width: 12),
         Expanded(

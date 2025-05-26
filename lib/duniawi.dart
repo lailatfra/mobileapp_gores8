@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart';
 import 'ulasan_widget.dart';
+import 'lukisanpemandangan.dart';
 
 class PoemDetailPage extends StatefulWidget {
   final void Function(int)? onTabChange;
@@ -417,7 +418,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
             const SizedBox(height: 10),
 
             Column(
-              children: const [
+              children: [
                 OtherPoemCard(
                   title: 'Ketenangan Jiwa',
                   subtitle: 'Lukisan Pemandangan Alam',
@@ -425,7 +426,16 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                   likeCount: 30,
                   isLiked: true,
                   imagePath: 'assets/images/ketenanganjiwa.jpg',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => KetenanganJiwa(),
+                      ),
+                    );
+                  },
                 ),
+
                 OtherPoemCard(
                   title: 'Ilmu Pedoman Hidup',
                   subtitle: 'Di kala mentari merekah\nBergegas melangkahkan ....',
@@ -453,6 +463,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
   }
 }
 
+
 class OtherPoemCard extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -460,6 +471,7 @@ class OtherPoemCard extends StatefulWidget {
   final int likeCount;
   final String imagePath;
   final bool isLiked;
+  final VoidCallback? onTap;
 
   const OtherPoemCard({
     super.key,
@@ -469,6 +481,7 @@ class OtherPoemCard extends StatefulWidget {
     required this.likeCount,
     required this.imagePath,
     required this.isLiked,
+    this.onTap,
   });
 
   @override
@@ -507,7 +520,7 @@ class _OtherPoemCardState extends State<OtherPoemCard> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () {},
+        onTap: widget.onTap,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
@@ -529,15 +542,19 @@ class _OtherPoemCardState extends State<OtherPoemCard> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
+                        GestureDetector(
+                          onTap: widget.onTap,
                           child: Text(
                             widget.title,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
+                              color: Colors.blue, // tambahkan warna supaya kelihatan bisa diklik
+                              decoration: TextDecoration.underline, // opsional, biar seperti link
                             ),
                           ),
                         ),
+
                         const Icon(Icons.chevron_right, color: Colors.blueGrey),
                       ],
                     ),
@@ -655,7 +672,7 @@ Widget _buildFirePopup({
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     child: const Text(
-                      'Ikuti Event',
+                      'Tutup',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

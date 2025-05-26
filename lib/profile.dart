@@ -285,9 +285,9 @@ class _ProfilePageState extends State<ProfileScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildTabButton("2 Karya", 0),
+                  buildTabButton("7 Karya", 0),
                   const SizedBox(width: 0),
-                  buildTabButton("1 Lencana", 1),
+                  buildTabButton("3 Lencana", 1),
                 ],
               ),
             ),

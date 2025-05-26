@@ -53,6 +53,23 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+
+  void _bukaHalamanStatus(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StatusKhususPage(), // Ganti dengan halaman status kamu
+      ),
+    );
+
+    if (result == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Status berhasil disimpan!')),
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +110,13 @@ class SettingsScreen extends StatelessWidget {
             _buildButton(context, 'Leaderboard', Icons.leaderboard, LihatSemuaLeaderboardPage()),
             _buildButton(context, 'Event', Icons.local_fire_department, const EventPage()),
             _buildTabButton(context, 'Upload Karya', Icons.cloud_upload, 2, onTabChange),
-            _buildButton(context, 'Tampilkan Status sebagai Guru', Icons.book, StatusKhususPage()),
+            _buildButtonCallback(
+              context,
+              'Tampilkan Status sebagai Guru',
+              Icons.book,
+              () => _bukaHalamanStatus(context),
+            ),
+
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
@@ -113,6 +136,32 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
+
+
+  Widget _buildButtonCallback(BuildContext context, String label, IconData icon, VoidCallback onTap) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Color.fromARGB(255, 71, 71, 71)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        leading: Icon(icon, color: Color(0xFF142C57), size: 20),
+        title: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Color(0xFF142C57),
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: Color(0xFF142C57)),
+        onTap: onTap,
+      ),
+    );
+  }
+
 
   Widget _buildButton(BuildContext context, String label, IconData icon, Widget page) {
     return Container(

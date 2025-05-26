@@ -73,10 +73,10 @@ class _StatistikPageState extends State<StatistikPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFF142C57),
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
         titleSpacing: 0,
         title: Text(
           'Statistik Data',

@@ -4,6 +4,7 @@ import 'ulasan_widget.dart';
 
 class KetenanganJiwa extends StatefulWidget {
   const KetenanganJiwa({super.key});
+  
 
   @override
   State<KetenanganJiwa> createState() => _KetenanganJiwaState();
@@ -244,7 +245,7 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                                             itemCount: ulasanList.length,
                                             itemBuilder: (context, index) {
                                               final ulasan = ulasanList[index];
-                                              return ulasanTile(
+                                              ulasanTile(
                                                 nama: ulasan['nama'],
                                                 komentar: ulasan['komentar'],
                                                 imageUrl: ulasan['imageUrl'],

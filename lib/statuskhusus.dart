@@ -31,14 +31,9 @@ class _StatusKhususPageState extends State<StatusKhususPage> {
   }
 
   void _tampilkan() {
-    // Navigate ke profil page dengan parameter showMessage
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfileScreen(showSuccessMessage: true), // Ganti dengan nama class profil Anda
-      ),
-    );
+    Navigator.pop(context, {'showMessage': true});
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -120,7 +120,7 @@ class EditProfilPageState extends State<EditProfilPage> {
                                 ],
                               ),
                               child: const Icon(
-                                Icons.change_circle,
+                                Icons.edit,
                                 color: Color(0xFF1F3556),
                                 size: 20,
                               ),
