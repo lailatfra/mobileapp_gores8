@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gores8_app/settings.dart';
-import 'karyadisukai.dart';
 import 'leaderboard.dart';
 
 class StatistikPage extends StatefulWidget {
@@ -71,19 +70,18 @@ class _StatistikPageState extends State<StatistikPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        backgroundColor: Color(0xFF142C57),
+        backgroundColor: const Color(0xFF142C57),
         elevation: 0,
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
-        //   onPressed: () => Navigator.pop(context),
-        // ),
-        titleSpacing: 0,
-        title: Text(
-          'Statistik Data',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+        automaticallyImplyLeading: false, // ❌ Hilangkan tombol back
+        title: const Padding(
+          padding: EdgeInsets.only(left: 0), // ✅ Tambahkan padding kiri manual
+          child: Text(
+            'Statistik Data',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
@@ -92,16 +90,48 @@ class _StatistikPageState extends State<StatistikPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Line Chart Section
-            Text(
-              'Jumlah Total Karya per Bulan',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Jumlah Total Karya per Bulan',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xFF142C57)),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: DropdownButton<String>(
+                    value: selectedYear,
+                    underline: const SizedBox(),
+                    icon: const Icon(Icons.keyboard_arrow_down, size: 18),
+                    style: const TextStyle(fontSize: 12, color: Colors.black),
+                    items: ['2023', '2024', '2025'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedYear = newValue!;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
+
             Container(
               height: 200,
               padding: EdgeInsets.all(16),
@@ -199,9 +229,6 @@ class _StatistikPageState extends State<StatistikPage> {
             
             SizedBox(height: 20),
             
-            // Menu Buttons
-            _buildMenuButton(context, 'Karya yang disukai', Icons.thumb_up, const FavoriteWorksPage()),
-            SizedBox(height: 8),
             _buildMenuButton(
               context,
               'Pengaturan',

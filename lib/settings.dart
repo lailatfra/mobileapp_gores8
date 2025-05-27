@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gores8_app/leaderboard.dart';
 import 'package:gores8_app/login_screen.dart';
 import 'package:gores8_app/statuskhusus.dart';
-import 'add.dart';
 import 'eventnav.dart';
 import 'karyadisukai.dart';
 import 'notification.dart';
-import 'profile.dart';
 import 'editprofile.dart';
-// import 'login_screen.dart';
 import 'users.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -62,12 +59,13 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
 
-    if (result == true) {
+    if (result != null && result is Map && result['showMessage'] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Status berhasil disimpan!')),
       );
     }
   }
+
 
 
   @override

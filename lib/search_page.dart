@@ -10,7 +10,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
-  List<Map<String, String>> filteredAnggota = [];
+  List<Map<String, dynamic>> filteredAnggota = [];
   List<int> statusList = [];
 
   int currentPage = 1;

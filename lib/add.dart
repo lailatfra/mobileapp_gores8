@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
-import 'home.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 class AddScreen extends StatefulWidget {

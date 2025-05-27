@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'anggota_data.dart';
+import 'detail_anggota.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -10,7 +11,7 @@ class UsersScreen extends StatefulWidget {
 
 class _AnggotaPageState extends State<UsersScreen> {
   
-  List<int> statusList = List.generate(9, (_) => 0);
+  List<int> statusList = [];
 
   int currentPage = 1;
   final int itemsPerPage = 15;
@@ -19,24 +20,19 @@ class _AnggotaPageState extends State<UsersScreen> {
   void initState() {
     super.initState();
 
-    // Atur status default berdasarkan nama atau logika tertentu
     statusList = anggotaList.map((anggota) {
-      if (anggota['nama']!.contains('a')) {
-        return 2; // Mengikuti (default putih)
-      } else {
-        return 0; // Ikuti (default biru)
-      }
+      return anggota['pengikut'] == true ? 0 : 2;
     }).toList();
   }
 
-
   void toggleStatus(int index) {
     int globalIndex = (currentPage - 1) * itemsPerPage + index;
-    setState(() {
-      statusList[globalIndex] = (statusList[globalIndex] == 2) ? 0 : 2;
-    });
+    if (globalIndex < statusList.length) {
+      setState(() {
+        statusList[globalIndex] = (statusList[globalIndex] == 2) ? 0 : 2;
+      });
+    }
   }
-
 
   Widget buildStatusButton(int status, int index) {
     String label = status == 2 ? 'Mengikuti' : 'Ikuti';
@@ -58,7 +54,6 @@ class _AnggotaPageState extends State<UsersScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     int totalPages = (anggotaList.length / itemsPerPage).ceil();
@@ -69,14 +64,14 @@ class _AnggotaPageState extends State<UsersScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF142C57),
+        backgroundColor: const Color(0xFF142C57),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        titleSpacing: 0, // 🔧 Kunci untuk mendekatkan judul ke leading icon
-        title: Text(
+        titleSpacing: 0,
+        title: const Text(
           'Anggota',
           style: TextStyle(
             color: Colors.white,
@@ -87,39 +82,57 @@ class _AnggotaPageState extends State<UsersScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10), // Tambahkan jarak di sini
+          const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
               itemCount: visibleItems.length,
               itemBuilder: (context, index) {
                 final anggota = visibleItems[index];
                 int globalIndex = startIndex + index;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(anggota['foto']),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              anggota['nama'],
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              anggota['kelas'],
-                              style: const TextStyle(fontSize: 12, color: Colors.grey),
-                            ),
-                          ],
+                
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailAnggotaPage(
+                          nama: anggota['nama'],
+                          kelas: anggota['kelas'],
+                          foto: anggota['foto'],
+                          defaultPengikut: anggota['pengikut'] ?? false,
                         ),
                       ),
-                      buildStatusButton(statusList[globalIndex], index),
-                    ],
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundImage: AssetImage(anggota['foto']),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                anggota['nama'],
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                anggota['kelas'],
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                        globalIndex < statusList.length 
+                          ? buildStatusButton(statusList[globalIndex], index)
+                          : buildStatusButton(2, index),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -128,7 +141,7 @@ class _AnggotaPageState extends State<UsersScreen> {
         ],
       ),
 
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: totalPages > 1 ? Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +166,7 @@ class _AnggotaPageState extends State<UsersScreen> {
 
             // Tombol sebelum, saat ini, dan sesudahnya
             for (int i = currentPage - 1; i <= currentPage + 1; i++)
-              if (i > 1 && i < totalPages)
+              if (i > 0 && i <= totalPages)
                 paginationButton('$i', selected: currentPage == i, onTap: () => setState(() => currentPage = i)),
 
             // Ellipsis sebelum halaman terakhir
@@ -164,7 +177,7 @@ class _AnggotaPageState extends State<UsersScreen> {
               ),
 
             // Tombol halaman terakhir
-            if (currentPage < totalPages)
+            if (currentPage < totalPages - 1)
               paginationButton('$totalPages', selected: currentPage == totalPages, onTap: () => setState(() => currentPage = totalPages)),
 
             IconButton(
@@ -175,7 +188,7 @@ class _AnggotaPageState extends State<UsersScreen> {
             ),
           ],
         ),
-      ),
+      ) : null,
     );
   }
 

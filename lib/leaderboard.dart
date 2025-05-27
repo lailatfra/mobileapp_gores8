@@ -14,8 +14,18 @@ class _LihatSemuaLeaderboardPageState extends State<LihatSemuaLeaderboardPage> {
   @override
   void initState() {
     super.initState();
-    leaderboardData = List.generate(67, (index) {
+    leaderboardData = List.generate(20, (index) {
       final avatars = [
+        'assets/profil/exawinandya.png',
+        'assets/profil/dinatalastie.png',
+        'assets/profil/sialatifarahmawati.png',
+        'assets/profil/gavinsantana.png',
+        'assets/profil/cassiusreno.png',
+        'assets/profil/bhaskarahadrianathala.png',
+        'assets/profil/lenoraannie.png',
+        'assets/profil/agathaluisaarsyla.png',
+        'assets/profil/gavinsantana.png',
+        'assets/profil/lidyaesandry.png',
         'assets/profil/exawinandya.png',
         'assets/profil/dinatalastie.png',
         'assets/profil/sialatifarahmawati.png',
@@ -37,7 +47,17 @@ class _LihatSemuaLeaderboardPageState extends State<LihatSemuaLeaderboardPage> {
         'Rahma Nadia',
         'Agatha Luisa Arsylia',
         'Gavin Santana',
-        'Lidya Esandry'
+        'Lidya Esandry',
+        'Zahira Putri',
+        'Keysha Anindya',
+        'Dimas Wibowo',
+        'Salma Fauziah',
+        'Rehan Mahendra',
+        'Tiara Meisya',
+        'Aulia Rahma',
+        'Ilham Satria',
+        'Salsabila Dewi',
+        'Arga Prasetyo'
       ];
       final percentages = [
         49.8,

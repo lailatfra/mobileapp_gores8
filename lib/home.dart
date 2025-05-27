@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gores8_app/duniawi.dart';
-import 'package:gores8_app/profile.dart';
 import 'event.dart';
 import 'notification.dart';
 import 'profil_exa.dart';

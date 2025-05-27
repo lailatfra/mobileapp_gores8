@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
           onTap: _onItemTapped,
           backgroundColor: const Color.fromARGB(255, 212, 212, 212),
           selectedItemColor: const Color(0xFF1D3250),
-          unselectedItemColor: const Color.fromARGB(255, 194, 194, 194),
+          unselectedItemColor: const Color.fromARGB(255, 109, 109, 109),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: const [

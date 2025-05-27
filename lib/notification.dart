@@ -116,7 +116,7 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       
       body: ListView.builder(
-        padding: EdgeInsets.only(top: 24),
+        padding: EdgeInsets.only(top: 14),
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           final notification = notifications[index];

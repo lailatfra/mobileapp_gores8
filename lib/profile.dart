@@ -48,14 +48,14 @@ class _ProfilePageState extends State<ProfileScreen> {
                   height: 160,
                   color: const Color(0xFF1F3556),
                 ),
-                Positioned(
-                  top: MediaQuery.of(context).padding.top,
-                  left: 8,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
+                // Positioned(
+                //   top: MediaQuery.of(context).padding.top,
+                //   left: 8,
+                //   child: IconButton(
+                //     icon: const Icon(Icons.arrow_back, color: Colors.white),
+                //     onPressed: () => Navigator.pop(context),
+                //   ),
+                // ),
                 Positioned(
                   top: 100, 
                   left: 0,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gores8_app/event.dart';
-// import 'package:gores8_app/add.dart';
-import 'main_screen.dart';
 import 'buat_event.dart';
 import 'duniawi.dart';
 import 'sains.dart';
@@ -174,6 +172,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'IX F',
         'votes': 380,
         'image': 'assets/images/cahayakehidupan.png',
+        'page': (),
       },
       {
         'rank': 3,
@@ -182,6 +181,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VIII C',
         'votes': 300,
         'image': 'assets/images/letupanharapan.png',
+        'page': (),
       },
       {
         'rank': 4,
@@ -190,6 +190,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VII C',
         'votes': 289,
         'image': 'assets/images/pendidikandanharapan.png',
+        'page': (),
       },
       {
         'rank': 5,
@@ -198,6 +199,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VII I',
         'votes': 250,
         'image': 'assets/images/ketenanganjiwa.jpg',
+        'page': (),
       },
       {
         'rank': 6,
@@ -206,6 +208,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VII G',
         'votes': 245,
         'image': 'assets/images/seonggokjagung.jpg',
+        'page': (),
       },
     ];
 
@@ -217,6 +220,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'IX B',
         'votes': 420,
         'image': 'assets/images/sains3.jpg',
+        'page': (),
       },
       {
         'rank': 2,
@@ -225,6 +229,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'VIII D',
         'votes': 339,
         'image': 'assets/images/sains4.jpg',
+        'page': (),
       },
       {
         'rank': 3,
@@ -233,6 +238,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'IX B',
         'votes': 230,
         'image': 'assets/images/filterair.jpg',
+        'page': (),
       },
       {
         'rank': 4,
@@ -241,6 +247,7 @@ class _EventPageState extends State<EventPage> {
         'class': 'IX D',
         'votes': 102,
         'image': 'assets/images/mobiltenagabalon.jpg',
+        'page': (),
       },
     ];
   }
