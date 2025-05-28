@@ -34,8 +34,8 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
     );
   }
 
-
-  final List<Map<String, dynamic>> ulasanList = [
+  // Make the list mutable so we can add new reviews
+  List<Map<String, dynamic>> ulasanList = [
     {
       'nama': 'Lenora Annie',
       'komentar': 'Kalimatnya mudah dibaca',
@@ -72,6 +72,27 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
       'likeCount': 2,
     },
   ];
+
+  // Function to toggle like for individual reviews
+  void toggleReviewLike(int index) {
+    setState(() {
+      ulasanList[index]['liked'] = !ulasanList[index]['liked'];
+      ulasanList[index]['likeCount'] += ulasanList[index]['liked'] ? 1 : -1;
+    });
+  }
+
+  // Function to add new review
+  void addNewReview(String komentar) {
+    setState(() {
+      ulasanList.add({
+        'nama': 'You', // Replace with actual user name
+        'komentar': komentar,
+        'imageUrl': 'assets/profil/default.png', // Replace with actual user image
+        'liked': false,
+        'likeCount': 0,
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,82 +238,87 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                             isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             builder: (context) {
-                              return DraggableScrollableSheet(
-                                initialChildSize: 0.65,
-                                minChildSize: 0.3,
-                                maxChildSize: 0.9,
-                                builder: (context, scrollController) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Ulasan',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                              return StatefulBuilder(
+                                builder: (context, setModalState) {
+                                  return DraggableScrollableSheet(
+                                    initialChildSize: 0.65,
+                                    minChildSize: 0.3,
+                                    maxChildSize: 0.9,
+                                    builder: (context, scrollController) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(16),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                                         ),
-                                        const Divider(thickness: 1, height: 20),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            controller: scrollController,
-                                            itemCount: ulasanList.length,
-                                            itemBuilder: (context, index) {
-                                              final ulasan = ulasanList[index];
-                                              ulasanTile(
-                                                nama: ulasan['nama'],
-                                                komentar: ulasan['komentar'],
-                                                imageUrl: ulasan['imageUrl'],
-                                                liked: ulasan['liked'],
-                                                likeCount: ulasan['likeCount'],
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        // Input komentar
-                                        Row(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Expanded(
-                                              child: TextField(
-                                                controller: komentarController,
-                                                decoration: InputDecoration(
-                                                  hintText: 'Ketik Ulasan',
-                                                  fillColor: Colors.grey[200],
-                                                  filled: true,
-                                                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                                  border: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide.none,
-                                                  ),
-                                                ),
+                                            const Text(
+                                              'Ulasan',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                            const SizedBox(width: 8),
-                                            CircleAvatar(
-                                              backgroundColor: const Color(0xFF1D3250),
-                                              child: IconButton(
-                                                icon: const Icon(Icons.send, color: Colors.white),
-                                                onPressed: () {
-                                                  String komentar = komentarController.text;
-                                                  if (komentar.isNotEmpty) {
-                                                    // TODO: Tambahkan logika untuk menyimpan ulasan ke database / list
-                                                    print('Komentar dikirim: $komentar');
-                                                    komentarController.clear();
-                                                  }
+                                            const Divider(thickness: 1, height: 20),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                controller: scrollController,
+                                                itemCount: ulasanList.length,
+                                                itemBuilder: (context, index) {
+                                                  final ulasan = ulasanList[index];
+                                                  return ulasanTile(
+                                                    nama: ulasan['nama'],
+                                                    komentar: ulasan['komentar'],
+                                                    imageUrl: ulasan['imageUrl'],
+                                                    liked: ulasan['liked'],
+                                                    likeCount: ulasan['likeCount'],
+                                                  );
                                                 },
                                               ),
                                             ),
+                                            const SizedBox(height: 10),
+                                            // Input komentar
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: TextField(
+                                                    controller: komentarController,
+                                                    decoration: InputDecoration(
+                                                      hintText: 'Ketik Ulasan',
+                                                      fillColor: Colors.grey[200],
+                                                      filled: true,
+                                                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide.none,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                CircleAvatar(
+                                                  backgroundColor: const Color(0xFF1D3250),
+                                                  child: IconButton(
+                                                    icon: const Icon(Icons.send, color: Colors.white),
+                                                    onPressed: () {
+                                                      String komentar = komentarController.text;
+                                                      if (komentar.isNotEmpty) {
+                                                        setModalState(() {
+                                                          addNewReview(komentar);
+                                                        });
+                                                        komentarController.clear();
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
                                 },
                               );
@@ -332,8 +358,6 @@ class _KetenanganJiwaState extends State<KetenanganJiwa> {
                 ],
               ),
             ),
-
-
 
             const SizedBox(height: 20),
             const Padding(
