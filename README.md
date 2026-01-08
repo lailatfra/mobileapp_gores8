@@ -1,8 +1,8 @@
 # Aplikasi Gores8
 
-Gores8 adalah aplikasi mobile berbasis **Flutter** yang dikembangkan untuk mendukung digitalisasi aktivitas siswa di lingkungan sekolah. Aplikasi ini berfokus pada **unggah karya siswa**, **event sekolah**, **interaksi sosial**, serta **gamifikasi** melalui leaderboard dan lencana.
+Gores8 adalah aplikasi mobile berbasis Flutter yang dikembangkan untuk mendukung digitalisasi aktivitas siswa di lingkungan sekolah. Aplikasi ini berfokus pada unggah karya siswa, event sekolah, interaksi sosial, serta gamifikasi melalui leaderboard dan lencana.
 
-Aplikasi dirancang menggunakan arsitektur **modular (GetX)** agar kode terstruktur, mudah dipelihara, dan scalable.
+Aplikasi dirancang menggunakan arsitektur modular (GetX) agar kode terstruktur, mudah dipelihara, dan scalable.
 
 ## Tujuan Aplikasi
 
@@ -121,11 +121,6 @@ Setiap fitur utama dipisahkan ke dalam module dengan struktur:
 
 * `search_page.dart` digunakan untuk mencari user atau karya
 * `notification.dart` menampilkan notifikasi interaksi dan event
-
-## Kelebihan Arsitektur
-
-* Mudah dikembangkan dan dipelihara
-* Menggunakan state management yang efisien
 
 
 link splash screen: https://drive.google.com/file/d/1WXbd4W8ZcvbwaNSIKC-cfedqDVqyHXwU/view?usp=sharing
